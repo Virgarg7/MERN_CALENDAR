@@ -39,7 +39,9 @@ export const useDate = (events, nav) => {
 
             if (i > paddingDays) {
                 daysArr.push({
-                    value: i - paddingDays,
+                    value: (i - paddingDays === 1) 
+                        ? `${dt.toLocaleDateString("en-us", { month: "short" } )} ${i - paddingDays}` 
+                        : i - paddingDays,
                     event: eventForDate(dayString),
                     isCurrentDay: i - paddingDays === day && nav === 0,
                     date: dayString,
