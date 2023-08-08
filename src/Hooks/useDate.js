@@ -19,23 +19,33 @@ export const useDate = (events, nav) => {
         const month = dt.getMonth();
         const year = dt.getFullYear();
 
+        setDateDisplay(`${dt.toLocaleDateString("en-us", { month: "long" } )} ${year}`);
+
         // (year, the next month, the last day of previous month, so basically giving the last day on the month)
         const daysInMonth = new Date(year, month + 1, 0).getDate();
         const daysInPrevMonth = new Date(year, month, 0).getDate();
+        
         const firstDayOfMonth = new Date(year, month, 1);
-
-        const dateString = firstDayOfMonth.toLocaleDateString("en-us", {
+        const firstDateString = firstDayOfMonth.toLocaleDateString("en-us", {
             weekday: "long",
             year: "numeric",
             month: "numeric",
             day: "numeric"
         })
-        setDateDisplay(`${dt.toLocaleDateString("en-us", { month: "long" } )} ${year}`);
-        const paddingDays = weekdays.indexOf(dateString.split(", ")[0]);
+        const paddingDaysPrev = weekdays.indexOf(firstDateString.split(", ")[0]);
+
+        const lastDayInMonth = new Date(year, month + 1, 0);
+        const lastDateString = lastDayInMonth.toLocaleDateString("en-us", {
+            weekday: "long",
+            year: "numeric",
+            month: "numeric",
+            day: "numeric"
+        })
+        const paddingDaysNext =  6 - (weekdays.indexOf(lastDateString.split(", ")[0]));
 
         const daysArr = []
 
-        for (let i = paddingDays - 1; i >= 0; i--) {
+        for (let i = paddingDaysPrev - 1; i >= 0; i--) {
             const dayString = `${month}/${daysInPrevMonth - i}/${year}`;
 
             daysArr.push({
@@ -57,6 +67,23 @@ export const useDate = (events, nav) => {
                 padding: false,
                 event: eventForDate(dayString),
                 isCurrentDay: i === day && nav === 0,
+                date: dayString,
+            });
+        }
+
+        const nextMonth = new Date();
+        nextMonth.setMonth(new Date().getMonth() + 1);
+
+        for (let i = 1; i <= paddingDaysNext; i++) {
+            const dayString = `${month + 2}/${i}/${year}`;
+
+            daysArr.push({
+                value: (i === 1) 
+                    ? `${nextMonth.toLocaleDateString("en-us", { month: "short" } )} ${i}` 
+                    : i,
+                padding: true,
+                event: eventForDate(dayString),
+                isCurrentDay: i === day && nav === -1,
                 date: dayString,
             });
         }
