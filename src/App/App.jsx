@@ -57,9 +57,7 @@ export const App = () => {
                             key={index}
                             day={d}
                             onClick={() => {
-                                if (d.value != "padding") {
-                                    setClicked(d.date);
-                                }
+                                setClicked(d.date);
                             }}
                         />
                     ))}

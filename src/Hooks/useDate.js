@@ -36,7 +36,7 @@ export const useDate = (events, nav) => {
         const daysArr = []
 
         for (let i = paddingDays - 1; i >= 0; i--) {
-            const dayString = `${month + 1}/${daysInPrevMonth - i}/${year}`;
+            const dayString = `${month}/${daysInPrevMonth - i}/${year}`;
 
             daysArr.push({
                 value: "padding",
