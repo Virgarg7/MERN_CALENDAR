@@ -72,7 +72,7 @@ export const useDate = (events, nav) => {
         }
 
         const nextMonth = new Date();
-        nextMonth.setMonth(new Date().getMonth() + 1);
+        nextMonth.setMonth(new Date().getMonth() + nav + 1);
 
         for (let i = 1; i <= paddingDaysNext; i++) {
             const dayString = `${month + 2}/${i}/${year}`;
