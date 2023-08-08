@@ -21,6 +21,7 @@ export const useDate = (events, nav) => {
 
         // (year, the next month, the last day of previous month, so basically giving the last day on the month)
         const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const daysInPrevMonth = new Date(year, month, 0).getDate();
         const firstDayOfMonth = new Date(year, month, 1);
 
         const dateString = firstDayOfMonth.toLocaleDateString("en-us", {
@@ -34,26 +35,28 @@ export const useDate = (events, nav) => {
 
         const daysArr = []
 
-        for (let i = 1; i <= paddingDays + daysInMonth; i++) {
-            const dayString = `${month + 1}/${i - paddingDays}/${year}`;
+        for (let i = paddingDays - 1; i >= 0; i--) {
+            const dayString = `${month + 1}/${daysInPrevMonth - i}/${year}`;
 
-            if (i > paddingDays) {
-                daysArr.push({
-                    value: (i - paddingDays === 1) 
-                        ? `${dt.toLocaleDateString("en-us", { month: "short" } )} ${i - paddingDays}` 
-                        : i - paddingDays,
-                    event: eventForDate(dayString),
-                    isCurrentDay: i - paddingDays === day && nav === 0,
-                    date: dayString,
-                });
-            } else {
-                daysArr.push({
-                    value: "padding",
-                    event: null,
-                    isCurrentDay: false,
-                    date: "",
-                });
-            }
+            daysArr.push({
+                value: "padding",
+                event: eventForDate(dayString),
+                isCurrentDay: daysInPrevMonth - i == day && nav === 0,
+                date: dayString,
+            });
+        }
+
+        for (let i = 1; i <= daysInMonth; i++) {
+            const dayString = `${month + 1}/${i}/${year}`;
+
+            daysArr.push({
+                value: (i === 1) 
+                    ? `${dt.toLocaleDateString("en-us", { month: "short" } )} ${i}` 
+                    : i,
+                event: eventForDate(dayString),
+                isCurrentDay: i === day && nav === 0,
+                date: dayString,
+            });
         }
 
         setDays(daysArr);
