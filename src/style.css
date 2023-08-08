@@ -99,6 +99,15 @@ body {
     flex-direction: column;
     justify-content: space-between;
   }
+  .schedule {
+    background-color: #ffffe0;
+  }
+  .exams {
+    background-color: #ffeeda;
+  }
+  .assignments {
+    background-color: #f0f8ff;
+  }
   #newEventModal, #deleteEventModal {
     z-index: 20;
     padding: 25px;
