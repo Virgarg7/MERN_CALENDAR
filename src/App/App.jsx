@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { CalendarHeader } from "../CalendarHeader";
 import { Day } from "../Day"
+import { NewEventModal } from "../NewEventModal";
 
 export const App = () => {
 
@@ -62,15 +63,15 @@ export const App = () => {
                     value: i - paddingDays,
                     event: eventForDate(dayString),
                     isCurrentDay: i - paddingDays === day && nav === 0,
-                    date: dayString
-                })
+                    date: dayString,
+                });
             } else {
                 daysArr.push({
                     value: "padding",
                     event: null,
                     isCurrentDay: false,
-                    date: ""
-                })
+                    date: "",
+                });
             }
         }
 
@@ -79,32 +80,45 @@ export const App = () => {
     }, [events, nav]);
 
     return(
-        <div id="container">
-            <CalendarHeader />
+        <>
+            <div id="container">
+                <CalendarHeader />
 
-            <div id="weekdays">
-                <div>Sunday</div>
-                <div>Monday</div>
-                <div>Tuesday</div>
-                <div>Wednesday</div>
-                <div>Thursday</div>
-                <div>Friday</div>
-                <div>Saturday</div>
+                <div id="weekdays">
+                    <div>Sunday</div>
+                    <div>Monday</div>
+                    <div>Tuesday</div>
+                    <div>Wednesday</div>
+                    <div>Thursday</div>
+                    <div>Friday</div>
+                    <div>Saturday</div>
+                </div>
+
+                <div id="calendar">
+                    {days.map((d, index) => (
+                        <Day
+                            key={index}
+                            day={d}
+                            onClick={() => {
+                                if (d.value != "padding") {
+                                    setClicked(d.date);
+                                }
+                            }}
+                        />
+                    ))}
+                </div>
             </div>
 
-            <div id="calendar">
-                {days.map((d, index) => (
-                    <Day
-                        key={index}
-                        day={d}
-                        onClick={() => {
-                            if (day.value != padding) {
-                                setClicked(day.date);
-                            }
-                        }}
-                    />
-                ))}
-            </div>
-        </div>
+            {
+                clicked && !eventForDate(clicked) && 
+                < NewEventModal
+                    onClose={() => setClicked(null)} 
+                    onSave={title => {
+                        setEvents([ ...events, { title, date: clicked }]);
+                        setClicked(null);
+                    }}
+                />
+            }
+        </>
     );
 };
