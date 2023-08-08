@@ -63,11 +63,17 @@ export const App = () => {
                             }}
                         />
                     ))}
-                </div>
 
                 <CurrentBoxes />
 
                 <div className="currentBox"></div>
+                <div className="currentBox"></div>
+                <div className="currentBox"></div>
+                </div>
+
+                
+
+                
 
             </div>
 
