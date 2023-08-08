@@ -63,6 +63,10 @@ export const App = () => {
                     ))}
                 </div>
 
+                <CurrentBoxes />
+
+                
+
             </div>
 
             {

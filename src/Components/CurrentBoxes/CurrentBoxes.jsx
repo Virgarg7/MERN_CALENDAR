@@ -2,10 +2,10 @@ import React from "react";
 
 export const CurrentBoxes = () => {
     return (
-        <>
-            <h2>Current Boxes:</h2>
-
-            
-        </>
+        <div id="currentBoxContainer"> 
+            <div className="currentBox"></div>
+            <div className="currentBox"></div>
+            <div className="currentBox"></div>
+        </div>
     )
 };
