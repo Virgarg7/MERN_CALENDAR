@@ -89,7 +89,7 @@ export const App = () => {
                         setEvents(events.filter(e => e.date != clicked));
                         setClicked(null);
                     }}
-                />
+                />    
             }
         </>
     );
