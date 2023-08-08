@@ -39,9 +39,10 @@ export const useDate = (events, nav) => {
             const dayString = `${month}/${daysInPrevMonth - i}/${year}`;
 
             daysArr.push({
-                value: "padding",
+                value: daysInPrevMonth - i,
+                padding: true,
                 event: eventForDate(dayString),
-                isCurrentDay: daysInPrevMonth - i == day && nav === 0,
+                isCurrentDay: daysInPrevMonth - i == day && nav === 1,
                 date: dayString,
             });
         }
@@ -53,6 +54,7 @@ export const useDate = (events, nav) => {
                 value: (i === 1) 
                     ? `${dt.toLocaleDateString("en-us", { month: "short" } )} ${i}` 
                     : i,
+                padding: false,
                 event: eventForDate(dayString),
                 isCurrentDay: i === day && nav === 0,
                 date: dayString,
