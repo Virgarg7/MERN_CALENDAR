@@ -8,7 +8,7 @@ export const useDate = (events, nav) => {
     const eventForDate = date => events.find(e => e.date === date)
 
     useEffect(() => {
-        const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thurday", "Friday", "Saturday"];
+        const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         const dt = new Date();
 
         if (nav !== 0) {
