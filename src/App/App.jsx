@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { CalendarHeader } from "../CalendarHeader";
 
 export const App = () => {
 
@@ -25,5 +26,21 @@ export const App = () => {
         localStorage.setItem("events", JSON.stringify(events))
     }, [events]);
 
-    return(<>Hello from the App Component</>)
+    return(
+        <div id="container">
+            <CalendarHeader />
+
+            <div id="weekdays">
+                <div>Sunday</div>
+                <div>Monday</div>
+                <div>Tuesday</div>
+                <div>Wednesday</div>
+                <div>Thursday</div>
+                <div>Friday</div>
+                <div>Saturday</div>
+            </div>
+
+            <div id="calendar"></div>
+        </div>
+    );
 };
