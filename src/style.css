@@ -49,7 +49,7 @@ body {
   .day {
     width: 100px;
     padding: 10px;
-    height: 100px;
+    height: 150px;
     cursor: pointer;
     box-sizing: border-box;
     background-color: white;
