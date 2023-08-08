@@ -27,7 +27,7 @@ export const App = () => {
         localStorage.setItem("events", JSON.stringify(events))
     }, [events]);
 
-    const { days, dateDisplay } = useDate(events, nav);
+    const { dt, days, dateDisplay } = useDate(events, nav);
 
     return(
         <>
@@ -64,8 +64,6 @@ export const App = () => {
                 </div>
 
                 <CurrentBoxes />
-
-                
 
             </div>
 
