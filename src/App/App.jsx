@@ -4,6 +4,7 @@ import { Day } from "../Components//Day"
 import { NewEventModal } from "../Components//NewEventModal";
 import { DeleteEventModal } from "../Components//DeleteEventModal";
 import { useDate } from "../Hooks/useDate";
+import { CurrentBoxes } from "../Components/CurrentBoxes";
 
 export const App = () => {
 
@@ -63,6 +64,11 @@ export const App = () => {
                         />
                     ))}
                 </div>
+
+                <CurrentBoxes />
+
+                <div className="currentBox"></div>
+
             </div>
 
             {
