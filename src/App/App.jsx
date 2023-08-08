@@ -35,6 +35,9 @@ export const App = () => {
                     dateDisplay={dateDisplay}
                     onNext={() => setNav(nav + 1)}
                     onBack={() => setNav(nav - 1)}
+                    goToday={() => {
+                        setNav(0);
+                    }}
                 />
 
                 <div id="weekdays">
