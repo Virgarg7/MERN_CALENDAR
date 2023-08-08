@@ -52,7 +52,7 @@ export const useDate = (events, nav) => {
                 value: daysInPrevMonth - i,
                 padding: true,
                 event: eventForDate(dayString),
-                isCurrentDay: daysInPrevMonth - i == day && nav === 1,
+                isToday: daysInPrevMonth - i == day && nav === 1,
                 date: dayString,
             });
         }
@@ -66,7 +66,7 @@ export const useDate = (events, nav) => {
                     : i,
                 padding: false,
                 event: eventForDate(dayString),
-                isCurrentDay: i === day && nav === 0,
+                isToday: i === day && nav === 0,
                 date: dayString,
             });
         }
@@ -83,7 +83,7 @@ export const useDate = (events, nav) => {
                     : i,
                 padding: true,
                 event: eventForDate(dayString),
-                isCurrentDay: i === day && nav === -1,
+                isToday: i === day && nav === -1,
                 date: dayString,
             });
         }
