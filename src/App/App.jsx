@@ -4,6 +4,7 @@ import { Day } from "../Components//Day"
 import { NewScheduleEventModal } from "../Components/EventModals/ScheduleModals/NewScheduleEventModal";
 import { DeleteScheduleEventModal } from "../Components/EventModals/ScheduleModals/DeleteScheduleEventModal";
 import { NewExamEventModal } from "../Components/EventModals/ExamModals/NewExamEventModal";
+import { NewAssignmentEventModal} from "../Components/EventModals/AssignmentModals/NewAssignmentEventModal";
 import { useDate } from "../Hooks/useDate";
 import { CurrentBoxesHeader } from "../Components/CurrentBoxesHeader";
 import { ScheduleBox } from "../Components/CurrentBoxes/ScheduleBox";
@@ -155,7 +156,7 @@ export const App = () => {
 
             {
                 assignmentBoxClicked && 
-                < NewExamEventModal
+                < NewAssignmentEventModal
                     onClose={() => setAssignmentBoxClicked(false)} 
                     onSave={(className, classType, classTime, classLocation, repeat, repeatDate) => {
                         let thisMap = new Map(JSON.parse(localStorage.schedule));
