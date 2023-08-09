@@ -1,9 +1,9 @@
 import React from "react";
 
-export const ScheduleBox = () => {
+export const ScheduleBox = ({ onClick }) => {
     return (
         <>
-            <div className="currentBox schedule"></div>
+            <div onClick={onClick} className="currentBox schedule"></div>
         </>
     );
 };

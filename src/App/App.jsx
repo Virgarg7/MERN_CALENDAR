@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { CalendarHeader } from "../Components/CalendarHeader";
 import { Day } from "../Components//Day"
-import { NewEventModal } from "../Components//NewEventModal";
-import { DeleteEventModal } from "../Components//DeleteEventModal";
+import { NewScheduleEventModal } from "../EventModals/ScheduleModals/NewScheduleEventModal";
+//import { DeleteScheduleEventModal } from "../EventModals/ScheduleModals/DeleteScheduleEventModal";
 import { useDate } from "../Hooks/useDate";
 import { CurrentBoxesHeader } from "../Components/CurrentBoxesHeader";
 import { ScheduleBox } from "../Components/ScheduleBox";
@@ -19,6 +19,7 @@ export const App = () => {
     const [nav, setNav] = useState(0);
     // clicked is the current date clicked
     const [currentDay, setCurrentDay] = useState(today);
+    const [scheduleBoxClicked, setScheduleBoxClicked] = useState(false);
     // list of hashmaps to store in local storage
     let scheduleMap = new Map();
     let examMap = new Map();
@@ -28,8 +29,6 @@ export const App = () => {
             JSON.parse(localStorage.getItem('maps')) : 
             [{map: scheduleMap, key: "schedule"}, {map: examMap, key: "exam"}, {map: assignmentMap, key: "assignment"}]
     );
-
-    //setEvents([ ...events, { map: scheduleMap, key: 1 }]);
 
     // returns an events from the date
     //const eventForDate = date => maps.find(e => e.date === date)
@@ -87,7 +86,11 @@ export const App = () => {
                 />
 
                 <div id="currentBoxContainer">             
-                    <ScheduleBox />
+                    <ScheduleBox 
+                        onClick={() => {
+                            setScheduleBoxClicked(true);
+                        }}
+                    />
                     <ExamBox />
                     <AssignmentBox />
                 </div>
@@ -95,22 +98,20 @@ export const App = () => {
             </div>
 
             {
-                /*
-                currentDay && !eventForDate(currentDay) && 
-                < NewEventModal
-                    onClose={() => setCurrentDay(null)} 
-                    onSave={title => {
+                scheduleBoxClicked && 
+                < NewScheduleEventModal
+                    onClose={() => setScheduleBoxClicked(false)} 
+                    /*onSave={title => {
                         setEvents([ ...events, { title, date: currentDay }]);
                         setCurrentDay(null);
-                    }}
+                    }}*/
                 />
-                */
             }
 
             {
                 /*
                 currentDay && eventForDate(currentDay) && 
-                <DeleteEventModal 
+                <DeleteScheduleEventModal 
                     eventText={eventForDate(currentDay).title}
                     onClose={() => setCurrentDay(null)}
                     onDelete={() => {
