@@ -151,8 +151,20 @@ export const App = () => {
                             class: className,
                             time: examTime
                         }
-                        //console.log(thisMap);
-                        thisMap.set(currentDay, examEventObject);
+                        if (thisMap.get(currentDay)) {
+                            let equal = false;
+                            thisMap.get(currentDay).forEach(exam => {
+                                if (JSON.stringify(exam) == JSON.stringify(examEventObject)) {
+                                    equal = true;
+                                }
+                            });
+                            if (equal == false) {
+                                thisMap.set(thisMap.get(currentDay).push(examEventObject));
+                            }
+                                            
+                        } else {
+                            thisMap.set(currentDay, [examEventObject]);
+                        }
                         setExamMap(thisMap);
                         setExamBoxClicked(false);
                     }}
