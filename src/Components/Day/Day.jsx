@@ -5,9 +5,9 @@ export const Day = ({ day, onClick }) => {
     return (
         <div onClick={onClick} className={className}>
             {day.value}
-            {day.eventSchedule && <div className="event">Classes</div>}
-            {day.eventExam && <div className="event">Exams</div>}
-            {day.eventAssignment && <div className="event">Assignments</div>}
+            {day.eventSchedule && <div className="eventSchedule">Classes</div>}
+            {day.eventExam && <div className="eventExam">Exams</div>}
+            {day.eventAssignment && <div className="eventAssignment">Assignments</div>}
         </div>
     );
 };
