@@ -4,7 +4,7 @@ import { Day } from "../Components//Day"
 import { NewEventModal } from "../Components//NewEventModal";
 import { DeleteEventModal } from "../Components//DeleteEventModal";
 import { useDate } from "../Hooks/useDate";
-import { CurrentBoxes } from "../Components/CurrentBoxes";
+import { CurrentBoxesHeader } from "../Components/CurrentBoxesHeader";
 
 export const App = () => {
 
@@ -74,7 +74,7 @@ export const App = () => {
                     ))}
                 </div>
 
-                <CurrentBoxes 
+                <CurrentBoxesHeader 
                     currentDayDisplay={currentDay}
                     goToday={() => {
                         setNav(0);

@@ -1,6 +1,6 @@
 import React from "react";
 
-export const CurrentBoxes = ({onNext, onBack, currentDayDisplay, goToday})  => {
+export const CurrentBoxesHeader = ({onNext, onBack, currentDayDisplay, goToday})  => {
     return (
         <>
             <div id="CurrentBoxHeader">
