@@ -1,9 +1,9 @@
 import React from "react";
 
-export const CurrentBoxes = ()  => {
+export const CurrentBoxes = ({currentDayDisplay})  => {
     return (
         <>
-            <div id="currentDayDisplay">Current Day:</div>
+            <div id="currentDayDisplay">Current Day: {currentDayDisplay}</div>
 
             <div id="currentBoxContainer">             
                 <div className="currentBox schedule"></div>

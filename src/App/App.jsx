@@ -11,7 +11,7 @@ export const App = () => {
     // nav 0 is current month (render current month)
     const [nav, setNav] = useState(0);
     // clicked is the current date clicked
-    const [clicked, setClicked] = useState();
+    const [currentDay, setCurrentDay] = useState(`${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()}`);
     // list of events to store in local storage
     const [events, setEvents] = useState(
         localStorage.getItem('events') ? 
@@ -27,7 +27,7 @@ export const App = () => {
         localStorage.setItem("events", JSON.stringify(events))
     }, [events]);
 
-    const { dt, days, dateDisplay } = useDate(events, nav);
+    const { days, dateDisplay } = useDate(events, nav);
 
     return(
         <>
@@ -57,37 +57,43 @@ export const App = () => {
                             key={index}
                             day={d}
                             onClick={() => {
-                                setClicked(d.date);
+                                setCurrentDay(d.date);
                             }}
                         />
                     ))}
                 </div>
 
-                <CurrentBoxes />
+                <CurrentBoxes 
+                    currentDayDisplay={currentDay}
+                />
 
             </div>
 
             {
-                clicked && !eventForDate(clicked) && 
+                /*
+                currentDay && !eventForDate(currentDay) && 
                 < NewEventModal
-                    onClose={() => setClicked(null)} 
+                    onClose={() => setCurrentDay(null)} 
                     onSave={title => {
-                        setEvents([ ...events, { title, date: clicked }]);
-                        setClicked(null);
+                        setEvents([ ...events, { title, date: currentDay }]);
+                        setCurrentDay(null);
                     }}
                 />
+                */
             }
 
             {
-                clicked && eventForDate(clicked) && 
+                /*
+                currentDay && eventForDate(currentDay) && 
                 <DeleteEventModal 
-                    eventText={eventForDate(clicked).title}
-                    onClose={() => setClicked(null)}
+                    eventText={eventForDate(currentDay).title}
+                    onClose={() => setCurrentDay(null)}
                     onDelete={() => {
-                        setEvents(events.filter(e => e.date != clicked));
-                        setClicked(null);
+                        setEvents(events.filter(e => e.date != currentDay));
+                        setCurrentDay(null);
                     }}
-                />    
+                />   
+                */ 
             }
         </>
     );
