@@ -177,9 +177,26 @@ export const App = () => {
                     onClose={() => setAssignmentBoxClicked(false)} 
                     onSave={(assignmentName, className, deadline) => {
                         let thisMap = new Map(JSON.parse(localStorage.assignment));
-                        //console.log(thisMap);
-                        //thisMap.set(currentDay, className);
-                        //setAssignmentMap(thisMap);
+                        let assignmentEventObject = {
+                            name: assignmentName,
+                            class: className,
+                            time: deadline
+                        }
+                        if (thisMap.get(currentDay)) {
+                            let equal = false;
+                            thisMap.get(currentDay).forEach(assignment => {
+                                if (JSON.stringify(assignment) == JSON.stringify(assignmentEventObject)) {
+                                    equal = true;
+                                }
+                            });
+                            if (equal == false) {
+                                thisMap.set(thisMap.get(currentDay).push(assignmentEventObject));
+                            }
+                                            
+                        } else {
+                            thisMap.set(currentDay, [assignmentEventObject]);
+                        }
+                        setAssignmentMap(thisMap);
                         setAssignmentBoxClicked(false);
                     }}
                 />
