@@ -17,17 +17,23 @@ export const App = () => {
 
     // nav 0 is current month (render current month)
     const [nav, setNav] = useState(0);
-    // clicked is the current date clicked
     const [currentDay, setCurrentDay] = useState(today);
     const [scheduleBoxClicked, setScheduleBoxClicked] = useState(false);
     // list of hashmaps to store in local storage
-    let scheduleMap = new Map();
-    let examMap = new Map();
-    let assignmentMap = new Map();
-    const [maps, setMaps] = useState(
-        localStorage.getItem('maps') ? 
-            JSON.parse(localStorage.getItem('maps')) : 
-            [{map: scheduleMap, key: "schedule"}, {map: examMap, key: "exam"}, {map: assignmentMap, key: "assignment"}]
+    const [scheduleMap, setScheduleMap] = useState(
+        localStorage.getItem('schedule') ? 
+            new Map(JSON.parse(localStorage.schedule)) : 
+            new Map()
+    );
+    const [examMap, setExamMap] = useState(
+        localStorage.getItem('exam') ? 
+            new Map(JSON.parse(localStorage.exam)) : 
+            new Map()
+    );
+    const [assignmentMap, setAssignmentMap] = useState(
+        localStorage.getItem('assignment') ? 
+            new Map(JSON.parse(localStorage.assignment)) : 
+            new Map()
     );
 
     // returns an events from the date
@@ -35,10 +41,18 @@ export const App = () => {
 
     // updates local storage with string of events
     useEffect(() => {
-        localStorage.setItem("maps", JSON.stringify(maps))
-    }, [maps]);
+        localStorage.schedule = JSON.stringify(Array.from(scheduleMap))
+    }, [scheduleMap]);
 
-    const { days, dateDisplay } = useDate(maps, nav);
+    useEffect(() => {
+        localStorage.exam = JSON.stringify(Array.from(examMap))
+    }, [examMap]);
+
+    useEffect(() => {
+        localStorage.assignment = JSON.stringify(Array.from(assignmentMap))
+    }, [assignmentMap]);
+
+    const { days, dateDisplay } = useDate(nav);
 
     return(
         <>
@@ -101,8 +115,11 @@ export const App = () => {
                 scheduleBoxClicked && 
                 < NewScheduleEventModal
                     onClose={() => setScheduleBoxClicked(false)} 
-                    onSave={(className, classType, classLocation, repeat, repeatDate) => {
-                        //setEvents([ ...events, { title, date: currentDay }]);
+                    onSave={(className, classType, classTime, classLocation, repeat, repeatDate) => {
+                        let thisMap = new Map(JSON.parse(localStorage.schedule));
+                        //console.log(thisMap);
+                        //thisMap.set(currentDay, className);
+                        //setScheduleMap(thisMap);
                         setScheduleBoxClicked(false);
                     }}
                 />

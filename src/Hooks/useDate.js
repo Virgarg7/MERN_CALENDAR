@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 
-export const useDate = (events, nav) => {
+export const useDate = (nav) => {
 
     const [dateDisplay, setDateDisplay] = useState("");
     const [days, setDays] = useState([]);
 
-    const eventForDate = date => events.find(e => e.date === date)
+    //const eventForDate = date => events.find(e => e.date === date)
 
     useEffect(() => {
         const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -51,7 +51,7 @@ export const useDate = (events, nav) => {
             daysArr.push({
                 value: daysInPrevMonth - i,
                 padding: true,
-                event: eventForDate(dayString),
+                //event: eventForDate(dayString),
                 isToday: daysInPrevMonth - i == day && nav === 1,
                 date: dayString,
             });
@@ -65,7 +65,7 @@ export const useDate = (events, nav) => {
                     ? `${dt.toLocaleDateString("en-us", { month: "short" } )} ${i}` 
                     : i,
                 padding: false,
-                event: eventForDate(dayString),
+                //event: eventForDate(dayString),
                 isToday: i === day && nav === 0,
                 date: dayString,
             });
@@ -82,7 +82,7 @@ export const useDate = (events, nav) => {
                     ? `${nextMonth.toLocaleDateString("en-us", { month: "short" } )} ${i}` 
                     : i,
                 padding: true,
-                event: eventForDate(dayString),
+                //event: eventForDate(dayString),
                 isToday: i === day && nav === -1,
                 date: dayString,
             });
@@ -90,7 +90,7 @@ export const useDate = (events, nav) => {
 
         setDays(daysArr);
 
-    }, [events, nav]);
+    }, [nav]);
 
     return {
         days, 
