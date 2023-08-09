@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-export const useDate = (nav, currentDay) => {
+export const useDate = (nav, currentDay, mapsChanged) => {
 
     const [dateDisplay, setDateDisplay] = useState("");
     const [days, setDays] = useState([]);
@@ -43,6 +43,10 @@ export const useDate = (nav, currentDay) => {
         })
         const paddingDaysNext =  6 - (weekdays.indexOf(lastDateString.split(", ")[0]));
 
+        let newScheduleMap = new Map(JSON.parse(localStorage.schedule));
+        let newExamMap = new Map(JSON.parse(localStorage.exam));
+        let newAssignmentMap = new Map(JSON.parse(localStorage.assignment));
+
         const daysArr = []
 
         for (let i = paddingDaysPrev - 1; i >= 0; i--) {
@@ -51,7 +55,9 @@ export const useDate = (nav, currentDay) => {
             daysArr.push({
                 value: daysInPrevMonth - i,
                 padding: true,
-                //event: eventForDate(dayString),
+                eventSchedule: newScheduleMap.has(dayString),
+                eventExam: newExamMap.has(dayString),
+                eventAssignment: newAssignmentMap.has(dayString),
                 isToday: daysInPrevMonth - i == day && nav === 1,
                 isCurrentDay: dayString == currentDay, 
                 date: dayString,
@@ -66,7 +72,9 @@ export const useDate = (nav, currentDay) => {
                     ? `${dt.toLocaleDateString("en-us", { month: "short" } )} ${i}` 
                     : i,
                 padding: false,
-                //event: eventForDate(dayString),
+                eventSchedule: newScheduleMap.has(dayString),
+                eventExam: newExamMap.has(dayString),
+                eventAssignment: newAssignmentMap.has(dayString),
                 isToday: i === day && nav === 0,
                 isCurrentDay: dayString == currentDay,
                 date: dayString,
@@ -84,7 +92,9 @@ export const useDate = (nav, currentDay) => {
                     ? `${nextMonth.toLocaleDateString("en-us", { month: "short" } )} ${i}` 
                     : i,
                 padding: true,
-                //event: eventForDate(dayString),
+                eventSchedule: newScheduleMap.has(dayString),
+                eventExam: newExamMap.has(dayString),
+                eventAssignment: newAssignmentMap.has(dayString),
                 isToday: i === day && nav === -1,
                 isCurrentDay: dayString == currentDay,
                 date: dayString,
@@ -93,7 +103,7 @@ export const useDate = (nav, currentDay) => {
 
         setDays(daysArr);
 
-    }, [nav, currentDay]);
+    }, [nav, currentDay, mapsChanged]);
 
     return {
         days, 

@@ -39,24 +39,28 @@ export const App = () => {
             new Map(JSON.parse(localStorage.assignment)) : 
             new Map()
     );
+    const [mapsChanged, setMapsChanged] = useState(false);
 
     // returns an events from the date
     //const eventForDate = date => maps.find(e => e.date === date)
 
     // updates local storage with string of events
     useEffect(() => {
-        localStorage.schedule = JSON.stringify(Array.from(scheduleMap))
+        localStorage.schedule = JSON.stringify(Array.from(scheduleMap));
+        setMapsChanged(true);
     }, [scheduleMap]);
 
     useEffect(() => {
-        localStorage.exam = JSON.stringify(Array.from(examMap))
+        localStorage.exam = JSON.stringify(Array.from(examMap));
+        setMapsChanged(true);
     }, [examMap]);
 
     useEffect(() => {
-        localStorage.assignment = JSON.stringify(Array.from(assignmentMap))
+        localStorage.assignment = JSON.stringify(Array.from(assignmentMap));
+        setMapsChanged(true);
     }, [assignmentMap]);
 
-    const { days, dateDisplay } = useDate(nav, currentDay);
+    const { days, dateDisplay } = useDate(nav, currentDay, mapsChanged);
 
     return(
         <>
@@ -132,6 +136,7 @@ export const App = () => {
                     onClose={() => setScheduleBoxClicked(false)} 
                     onSave={(className, classType, classTime, classLocation, repeat, repeatDate) => {
                         let thisMap = new Map(JSON.parse(localStorage.schedule));
+                        setMapsChanged(false);
                         let scheduleEventObject = {
                             name: className,
                             type: classType,
@@ -164,6 +169,7 @@ export const App = () => {
                     onClose={() => setExamBoxClicked(false)} 
                     onSave={(examName, className, examTime) => {
                         let thisMap = new Map(JSON.parse(localStorage.exam));
+                        setMapsChanged(false);
                         let examEventObject = {
                             name: examName,
                             class: className,
@@ -195,6 +201,7 @@ export const App = () => {
                     onClose={() => setAssignmentBoxClicked(false)} 
                     onSave={(assignmentName, className, deadline) => {
                         let thisMap = new Map(JSON.parse(localStorage.assignment));
+                        setMapsChanged(false);
                         let assignmentEventObject = {
                             name: assignmentName,
                             class: className,
