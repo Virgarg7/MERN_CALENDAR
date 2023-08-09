@@ -147,8 +147,8 @@ export const App = () => {
                     onSave={(examName, className, examTime) => {
                         let thisMap = new Map(JSON.parse(localStorage.exam));
                         //console.log(thisMap);
-                        thisMap.set(currentDay, className);
-                        setScheduleMap(thisMap);
+                        //thisMap.set(currentDay, className);
+                        //setScheduleMap(thisMap);
                         setExamBoxClicked(false);
                     }}
                 />
