@@ -1,6 +1,6 @@
 import React from "react";
 
-export const DeleteEventModal = ({ onDelete, eventText, onClose }) => {
+export const DeleteScheduleEventModal = ({ onDelete, eventText, onClose }) => {
     return (
         <>
             <div id="deleteEventModal">

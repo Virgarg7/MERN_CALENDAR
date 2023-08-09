@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { CalendarHeader } from "../Components/CalendarHeader";
 import { Day } from "../Components//Day"
-import { NewScheduleEventModal } from "../EventModals/ScheduleModals/NewScheduleEventModal";
-//import { DeleteScheduleEventModal } from "../EventModals/ScheduleModals/DeleteScheduleEventModal";
+import { NewScheduleEventModal } from "../Components/EventModals/ScheduleModals/NewScheduleEventModal";
+import { DeleteScheduleEventModal } from "../Components/EventModals/ScheduleModals/DeleteScheduleEventModal";
 import { useDate } from "../Hooks/useDate";
 import { CurrentBoxesHeader } from "../Components/CurrentBoxesHeader";
-import { ScheduleBox } from "../Components/ScheduleBox";
-import { ExamBox } from "../Components/ExamBox";
-import { AssignmentBox } from "../Components/AssignmentBox";
+import { ScheduleBox } from "../Components/CurrentBoxes/ScheduleBox";
+import { ExamBox } from "../Components/CurrentBoxes/ExamBox";
+import { AssignmentBox } from "../Components/CurrentBoxes/AssignmentBox";
 
 export const App = () => {
 
