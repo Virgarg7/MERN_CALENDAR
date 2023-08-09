@@ -8,13 +8,15 @@ import { CurrentBoxes } from "../Components/CurrentBoxes";
 
 export const App = () => {
 
-    const today = `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()}`;
+    const dtToday = new Date();
+    const today = `${dtToday.getMonth() + 1}/${dtToday.getDate()}/${dtToday.getFullYear()}`;
+    const [dayNav, setDayNav] = useState(0);
 
     // nav 0 is current month (render current month)
     const [nav, setNav] = useState(0);
     // clicked is the current date clicked
     const [currentDay, setCurrentDay] = useState(today);
-    // list of events to store in local storage
+    // list of hashmaps to store in local storage
     let scheduleMap = new Map();
     let examMap = new Map();
     let assignmentMap = new Map();
@@ -45,6 +47,7 @@ export const App = () => {
                     onBack={() => setNav(nav - 1)}
                     goToday={() => {
                         setNav(0);
+                        setDayNav(0);
                         setCurrentDay(today);
                     }}
                 />
@@ -73,6 +76,11 @@ export const App = () => {
 
                 <CurrentBoxes 
                     currentDayDisplay={currentDay}
+                    goToday={() => {
+                        setNav(0);
+                        setDayNav(0);
+                        setCurrentDay(today);
+                    }}
                 />
 
             </div>

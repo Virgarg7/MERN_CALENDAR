@@ -17,12 +17,16 @@ button {
   color: white;
 }
 
-#currentDayDisplay {
+#CurrentBoxHeader {
   padding: 10px;
   color: #d36c6c;
   font-size: 26px;
-  display: flex;
   font-family: sans-serif;
+  display: flex;
+  justify-content: space-between;
+}
+#CurrentBoxHeader button {
+  background-color:#92a1d1;
 }
   
 #header {

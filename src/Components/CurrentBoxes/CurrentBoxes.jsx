@@ -1,14 +1,20 @@
 import React from "react";
 
-export const CurrentBoxes = ({currentDayDisplay})  => {
+export const CurrentBoxes = ({onNext, onBack, currentDayDisplay, goToday})  => {
     return (
         <>
-            <div id="currentDayDisplay">{currentDayDisplay}</div>
+            <div id="CurrentBoxHeader">
+                <div id="currentDayDisplay">{currentDayDisplay}</div>
+
+                <div>
+                    <button onClick={goToday} id="todayButton">Today</button>
+                </div>
+            </div>
 
             <div id="currentBoxContainer">             
-                <div className="currentBox schedule"></div>
-                <div className="currentBox exams"></div>
-                <div className="currentBox assignments"></div>
+                    <div className="currentBox schedule"></div>
+                    <div className="currentBox exams"></div>
+                    <div className="currentBox assignments"></div>
             </div>
         </>
 
