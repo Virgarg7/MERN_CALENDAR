@@ -167,13 +167,14 @@ export const App = () => {
                 examBoxClicked && 
                 < NewExamEventModal
                     onClose={() => setExamBoxClicked(false)} 
-                    onSave={(examName, className, examTime) => {
+                    onSave={(examName, className, examTime, examLocation) => {
                         let thisMap = new Map(JSON.parse(localStorage.exam));
                         setMapsChanged(false);
                         let examEventObject = {
                             name: examName,
                             class: className,
-                            time: examTime
+                            time: examTime,
+                            location: examLocation
                         }
                         if (thisMap.get(currentDay)) {
                             let equal = false;

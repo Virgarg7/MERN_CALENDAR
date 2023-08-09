@@ -4,6 +4,7 @@ export const NewExamEventModal = ( { onSave, onClose} ) => {
     const [className, setClassName] = useState("");
     const [examName, setExamName] = useState("");
     const [examTime, setExamTime] = useState("");
+    const [examLocation, setExamLocation] = useState("");
     const [error, setError] = useState(false);
 
     return (
@@ -35,11 +36,19 @@ export const NewExamEventModal = ( { onSave, onClose} ) => {
                     placeholder="Enter Exam Time (ex. 3:00 PM)" 
                 />  
 
+                <input 
+                    className=""
+                    value={examLocation} 
+                    onChange={e => setExamLocation(e.target.value)} 
+                    id="eventTitleInput" 
+                    placeholder="Enter Exam Location (ex. Klaus 2108)" 
+                />  
+
                 <button 
                     onClick={() => {
                         if (examName && className && examTime) {
                             setError(false);
-                            onSave(examName, className, examTime);
+                            onSave(examName, className, examTime, examLocation);
                         } else {
                             setError(true);
                         }
