@@ -75,6 +75,10 @@ button {
   background-color: #e8faed;
 }
 
+.day + .today:hover {
+  background-color: #e8faed;
+}
+
 .day + .today {
   background-color:#e8f4fa;
   border: 2px solid #528AAE;
