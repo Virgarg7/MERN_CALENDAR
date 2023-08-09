@@ -5,6 +5,9 @@ import { NewEventModal } from "../Components//NewEventModal";
 import { DeleteEventModal } from "../Components//DeleteEventModal";
 import { useDate } from "../Hooks/useDate";
 import { CurrentBoxesHeader } from "../Components/CurrentBoxesHeader";
+import { ScheduleBox } from "../Components/ScheduleBox";
+import { ExamBox } from "../Components/ExamBox";
+import { AssignmentBox } from "../Components/AssignmentBox";
 
 export const App = () => {
 
@@ -82,6 +85,12 @@ export const App = () => {
                         setCurrentDay(today);
                     }}
                 />
+
+                <div id="currentBoxContainer">             
+                    <ScheduleBox />
+                    <ExamBox />
+                    <AssignmentBox />
+                </div>
 
             </div>
 
