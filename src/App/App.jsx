@@ -145,7 +145,7 @@ export const App = () => {
                 < NewExamEventModal
                     onClose={() => setExamBoxClicked(false)} 
                     onSave={(className, classType, classTime, classLocation, repeat, repeatDate) => {
-                        let thisMap = new Map(JSON.parse(localStorage.schedule));
+                        let thisMap = new Map(JSON.parse(localStorage.exam));
                         //console.log(thisMap);
                         //thisMap.set(currentDay, className);
                         //setScheduleMap(thisMap);
@@ -158,8 +158,8 @@ export const App = () => {
                 assignmentBoxClicked && 
                 < NewAssignmentEventModal
                     onClose={() => setAssignmentBoxClicked(false)} 
-                    onSave={(className, classType, classTime, classLocation, repeat, repeatDate) => {
-                        let thisMap = new Map(JSON.parse(localStorage.schedule));
+                    onSave={(assignmentName, className, deadline) => {
+                        let thisMap = new Map(JSON.parse(localStorage.assignment));
                         //console.log(thisMap);
                         //thisMap.set(currentDay, className);
                         //setScheduleMap(thisMap);
