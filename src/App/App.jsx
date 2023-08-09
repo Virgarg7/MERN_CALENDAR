@@ -132,9 +132,27 @@ export const App = () => {
                     onClose={() => setScheduleBoxClicked(false)} 
                     onSave={(className, classType, classTime, classLocation, repeat, repeatDate) => {
                         let thisMap = new Map(JSON.parse(localStorage.schedule));
-                        //console.log(thisMap);
-                        //thisMap.set(currentDay, className);
-                        //setScheduleMap(thisMap);
+                        let scheduleEventObject = {
+                            name: className,
+                            type: classType,
+                            time: classTime,
+                            location: classLocation
+                        }
+                        if (thisMap.get(currentDay)) {
+                            let equal = false;
+                            thisMap.get(currentDay).forEach(className => {
+                                if (JSON.stringify(className) == JSON.stringify(scheduleEventObject)) {
+                                    equal = true;
+                                }
+                            });
+                            if (equal == false) {
+                                thisMap.set(thisMap.get(currentDay).push(scheduleEventObject));
+                            }
+                                            
+                        } else {
+                            thisMap.set(currentDay, [scheduleEventObject]);
+                        }
+                        setScheduleMap(thisMap);
                         setScheduleBoxClicked(false);
                     }}
                 />
