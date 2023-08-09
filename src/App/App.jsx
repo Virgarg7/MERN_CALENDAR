@@ -146,9 +146,14 @@ export const App = () => {
                     onClose={() => setExamBoxClicked(false)} 
                     onSave={(examName, className, examTime) => {
                         let thisMap = new Map(JSON.parse(localStorage.exam));
+                        let examEventObject = {
+                            name: examName,
+                            class: className,
+                            time: examTime
+                        }
                         //console.log(thisMap);
-                        //thisMap.set(currentDay, className);
-                        //setScheduleMap(thisMap);
+                        thisMap.set(currentDay, examEventObject);
+                        setExamMap(thisMap);
                         setExamBoxClicked(false);
                     }}
                 />
@@ -162,7 +167,7 @@ export const App = () => {
                         let thisMap = new Map(JSON.parse(localStorage.assignment));
                         //console.log(thisMap);
                         //thisMap.set(currentDay, className);
-                        //setScheduleMap(thisMap);
+                        //setAssignmentMap(thisMap);
                         setAssignmentBoxClicked(false);
                     }}
                 />
