@@ -3,6 +3,7 @@ import { CalendarHeader } from "../Components/CalendarHeader";
 import { Day } from "../Components//Day"
 import { NewScheduleEventModal } from "../Components/EventModals/ScheduleModals/NewScheduleEventModal";
 import { DeleteScheduleEventModal } from "../Components/EventModals/ScheduleModals/DeleteScheduleEventModal";
+import { NewExamEventModal } from "../Components/EventModals/ExamModals/NewExamEventModal";
 import { useDate } from "../Hooks/useDate";
 import { CurrentBoxesHeader } from "../Components/CurrentBoxesHeader";
 import { ScheduleBox } from "../Components/CurrentBoxes/ScheduleBox";
@@ -19,6 +20,8 @@ export const App = () => {
     const [nav, setNav] = useState(0);
     const [currentDay, setCurrentDay] = useState(today);
     const [scheduleBoxClicked, setScheduleBoxClicked] = useState(false);
+    const [examBoxClicked, setExamBoxClicked] = useState(false);
+    const [assignmentBoxClicked, setAssignmentBoxClicked] = useState(false);
     // list of hashmaps to store in local storage
     const [scheduleMap, setScheduleMap] = useState(
         localStorage.getItem('schedule') ? 
@@ -99,14 +102,25 @@ export const App = () => {
                     }}
                 />
 
-                <div id="currentBoxContainer">             
+                <div id="currentBoxContainer">
+
                     <ScheduleBox 
                         onClick={() => {
                             setScheduleBoxClicked(true);
                         }}
                     />
-                    <ExamBox />
-                    <AssignmentBox />
+
+                    <ExamBox 
+                        onClick={() => {
+                            setExamBoxClicked(true);
+                        }}
+                    />
+                    
+                    <AssignmentBox 
+                        onClick={() => {
+                            setAssignmentBoxClicked(true);
+                        }}
+                    />
                 </div>
 
             </div>
@@ -121,6 +135,34 @@ export const App = () => {
                         //thisMap.set(currentDay, className);
                         //setScheduleMap(thisMap);
                         setScheduleBoxClicked(false);
+                    }}
+                />
+            }
+
+            {
+                examBoxClicked && 
+                < NewExamEventModal
+                    onClose={() => setExamBoxClicked(false)} 
+                    onSave={(className, classType, classTime, classLocation, repeat, repeatDate) => {
+                        let thisMap = new Map(JSON.parse(localStorage.schedule));
+                        //console.log(thisMap);
+                        //thisMap.set(currentDay, className);
+                        //setScheduleMap(thisMap);
+                        setExamBoxClicked(false);
+                    }}
+                />
+            }
+
+            {
+                assignmentBoxClicked && 
+                < NewExamEventModal
+                    onClose={() => setAssignmentBoxClicked(false)} 
+                    onSave={(className, classType, classTime, classLocation, repeat, repeatDate) => {
+                        let thisMap = new Map(JSON.parse(localStorage.schedule));
+                        //console.log(thisMap);
+                        //thisMap.set(currentDay, className);
+                        //setScheduleMap(thisMap);
+                        setAssignmentBoxClicked(false);
                     }}
                 />
             }

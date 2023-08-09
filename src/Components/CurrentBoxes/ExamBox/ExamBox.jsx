@@ -1,9 +1,9 @@
 import React from "react";
 
-export const ExamBox = () => {
+export const ExamBox = ({ onClick }) => {
     return (
         <>
-            <div className="currentBox exams"></div>
+            <div onClick={onClick} className="currentBox exams"></div>
         </>
     );
 };

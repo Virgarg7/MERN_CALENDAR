@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export const NewScheduleEventModal = ( { onSave, onClose} ) => {
+export const NewAssignmentEventModal = ( { onSave, onClose} ) => {
     const [className, setClassName] = useState("");
     const [classType, setClassType] = useState("");
     const [classTime, setClassTime] = useState("");
