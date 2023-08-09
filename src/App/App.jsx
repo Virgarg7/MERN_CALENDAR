@@ -8,10 +8,12 @@ import { CurrentBoxes } from "../Components/CurrentBoxes";
 
 export const App = () => {
 
+    const today = `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()}`;
+
     // nav 0 is current month (render current month)
     const [nav, setNav] = useState(0);
     // clicked is the current date clicked
-    const [currentDay, setCurrentDay] = useState(`${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()}`);
+    const [currentDay, setCurrentDay] = useState(today);
     // list of events to store in local storage
     const [events, setEvents] = useState(
         localStorage.getItem('events') ? 
@@ -38,6 +40,7 @@ export const App = () => {
                     onBack={() => setNav(nav - 1)}
                     goToday={() => {
                         setNav(0);
+                        setCurrentDay(today);
                     }}
                 />
 
