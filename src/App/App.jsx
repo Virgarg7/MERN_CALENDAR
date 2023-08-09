@@ -101,10 +101,10 @@ export const App = () => {
                 scheduleBoxClicked && 
                 < NewScheduleEventModal
                     onClose={() => setScheduleBoxClicked(false)} 
-                    /*onSave={title => {
-                        setEvents([ ...events, { title, date: currentDay }]);
-                        setCurrentDay(null);
-                    }}*/
+                    onSave={(className, classType, classLocation, repeat, repeatDate) => {
+                        //setEvents([ ...events, { title, date: currentDay }]);
+                        setScheduleBoxClicked(false);
+                    }}
                 />
             }
 
