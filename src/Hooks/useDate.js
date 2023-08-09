@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-export const useDate = (nav) => {
+export const useDate = (nav, currentDay) => {
 
     const [dateDisplay, setDateDisplay] = useState("");
     const [days, setDays] = useState([]);
@@ -53,6 +53,7 @@ export const useDate = (nav) => {
                 padding: true,
                 //event: eventForDate(dayString),
                 isToday: daysInPrevMonth - i == day && nav === 1,
+                isCurrentDay: dayString == currentDay, 
                 date: dayString,
             });
         }
@@ -67,6 +68,7 @@ export const useDate = (nav) => {
                 padding: false,
                 //event: eventForDate(dayString),
                 isToday: i === day && nav === 0,
+                isCurrentDay: dayString == currentDay,
                 date: dayString,
             });
         }
@@ -84,13 +86,14 @@ export const useDate = (nav) => {
                 padding: true,
                 //event: eventForDate(dayString),
                 isToday: i === day && nav === -1,
+                isCurrentDay: dayString == currentDay,
                 date: dayString,
             });
         }
 
         setDays(daysArr);
 
-    }, [nav]);
+    }, [nav, currentDay]);
 
     return {
         days, 

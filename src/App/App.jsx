@@ -56,7 +56,7 @@ export const App = () => {
         localStorage.assignment = JSON.stringify(Array.from(assignmentMap))
     }, [assignmentMap]);
 
-    const { days, dateDisplay } = useDate(nav);
+    const { days, dateDisplay } = useDate(nav, currentDay);
 
     return(
         <>
