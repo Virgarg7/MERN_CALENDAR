@@ -15,21 +15,26 @@ export const App = () => {
     // clicked is the current date clicked
     const [currentDay, setCurrentDay] = useState(today);
     // list of events to store in local storage
-    const [events, setEvents] = useState(
-        localStorage.getItem('events') ? 
-            JSON.parse(localStorage.getItem('events')) : 
-            []
+    let scheduleMap = new Map();
+    let examMap = new Map();
+    let assignmentMap = new Map();
+    const [maps, setMaps] = useState(
+        localStorage.getItem('maps') ? 
+            JSON.parse(localStorage.getItem('maps')) : 
+            [{map: scheduleMap, key: "schedule"}, {map: examMap, key: "exam"}, {map: assignmentMap, key: "assignment"}]
     );
 
+    //setEvents([ ...events, { map: scheduleMap, key: 1 }]);
+
     // returns an events from the date
-    const eventForDate = date => events.find(e => e.date === date)
+    //const eventForDate = date => maps.find(e => e.date === date)
 
     // updates local storage with string of events
     useEffect(() => {
-        localStorage.setItem("events", JSON.stringify(events))
-    }, [events]);
+        localStorage.setItem("maps", JSON.stringify(maps))
+    }, [maps]);
 
-    const { days, dateDisplay } = useDate(events, nav);
+    const { days, dateDisplay } = useDate(maps, nav);
 
     return(
         <>
