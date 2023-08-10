@@ -5,7 +5,7 @@ export const Assignment = ({ assignment, onClick }) => {
         <div onClick={onClick} className="assignment">
             <div>{assignment.name}</div>
             <div>{assignment.class}</div>
-            <div>{assignment.timeMeridian}</div>
+            <div>Due: {assignment.timeMeridian}</div>
             {}
         </div>
     );
