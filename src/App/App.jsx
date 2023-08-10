@@ -153,10 +153,20 @@ export const App = () => {
                     onSave={(className, classType, classTime, classLocation, repeat, repeatDate) => {
                         let thisMap = new Map(JSON.parse(localStorage.schedule));
                         setMapsChanged(false);
+                        let midDayTime = classTime.slice(-2);
+                        let timeStr = classTime.slice(0, 5);
+                        timeStr = timeStr.replace(":", "");
+                        let timeInt = parseInt(timeStr);
+                        if (midDayTime == "AM" && (timeInt > 1159 && timeInt < 1300)) {
+                            timeInt -= 1200;
+                        }
+                        if (midDayTime == "PM") {
+                            timeInt += 1200;
+                        }
                         let scheduleEventObject = {
                             name: className,
                             type: classType,
-                            time: classTime,
+                            time: timeInt,
                             location: classLocation
                         }
                         if (thisMap.get(currentDay)) {
@@ -167,7 +177,14 @@ export const App = () => {
                                 }
                             });
                             if (equal == false) {
-                                thisMap.set(thisMap.get(currentDay).push(scheduleEventObject));
+                                let arrSchedule = thisMap.get(currentDay);
+                                arrSchedule.push(scheduleEventObject);
+                                arrSchedule.sort((a, b) => {
+                                    return a.time - b.time 
+                                        || a.name.localeCompare(b.name) 
+                                            || a.type.localeCompare(b.type);
+                                });
+                                thisMap.set(currentDay, arrSchedule);
                             }
                                             
                         } else {
