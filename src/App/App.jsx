@@ -186,10 +186,20 @@ export const App = () => {
                     onSave={(examName, className, examTime, examLocation) => {
                         let thisMap = new Map(JSON.parse(localStorage.exam));
                         setMapsChanged(false);
+                        let midDayTime = examTime.slice(-2);
+                        let timeStr = examTime.slice(0, 5);
+                        timeStr = timeStr.replace(":", "");
+                        let timeInt = parseInt(timeStr);
+                        if (midDayTime == "AM" && (timeInt > 1159 && timeInt < 1300)) {
+                            timeInt -= 1200;
+                        }
+                        if (midDayTime == "PM") {
+                            timeInt += 1200;
+                        }
                         let examEventObject = {
                             name: examName,
                             class: className,
-                            time: examTime,
+                            time: timeInt,
                             location: examLocation
                         }
                         if (thisMap.get(currentDay)) {
@@ -200,7 +210,14 @@ export const App = () => {
                                 }
                             });
                             if (equal == false) {
-                                thisMap.set(thisMap.get(currentDay).push(examEventObject));
+                                let arrExams = thisMap.get(currentDay);
+                                arrExams.push(examEventObject);
+                                arrExams.sort((a, b) => {
+                                    return a.time - b.time 
+                                        || a.class.localeCompare(b.class) 
+                                            || a.name.localeCompare(b.name);
+                                });
+                                thisMap.set(currentDay, arrExams);
                             }
                                             
                         } else {
