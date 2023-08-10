@@ -9,7 +9,7 @@ import { useDate } from "../Hooks/useDate";
 import { CurrentBoxesHeader } from "../Components/CurrentBoxesHeader";
 import { ScheduleBox } from "../Components/CurrentBoxes/ScheduleBox";
 import { ExamBox } from "../Components/CurrentBoxes/ExamBox";
-import { AssignmentBox } from "../Components/CurrentBoxes/AssignmentBox";
+import { AssignmentBoxHeader } from "../Components/CurrentBoxes/AssignmentBoxHeader";
 
 export const App = () => {
 
@@ -136,12 +136,16 @@ export const App = () => {
                             setExamBoxClicked(true);
                         }}
                     />
+
+                    <div className="currentBox assignments">
+                        <AssignmentBoxHeader 
+                            onClick={() => {
+                                setAssignmentBoxClicked(true);
+                            }}
+                        />
+                    </div>
                     
-                    <AssignmentBox 
-                        onClick={() => {
-                            setAssignmentBoxClicked(true);
-                        }}
-                    />
+                    
                 </div>
 
             </div>
