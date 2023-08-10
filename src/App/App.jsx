@@ -40,6 +40,10 @@ export const App = () => {
             new Map()
     );
     const [mapsChanged, setMapsChanged] = useState(false);
+    const [assignments, setAssignments] = useState(() => {
+        let thisMap = new Map(JSON.parse(localStorage.assignment));
+        return thisMap.get(currentDay);
+    })
 
     // returns an events from the date
     //const eventForDate = date => maps.find(e => e.date === date)
@@ -75,6 +79,11 @@ export const App = () => {
             setCurrentDay(today);
         }
     }, [nav]);
+
+    useEffect(() => {
+        let assignmentCurrentMap = new Map(JSON.parse(localStorage.assignment));
+        setAssignments(assignmentCurrentMap.get(currentDay));
+    }, [currentDay]);
 
     const { days, dateDisplay } = useDate(nav, currentDay, mapsChanged);
 
@@ -144,7 +153,6 @@ export const App = () => {
                             }}
                         />
                     </div>
-                    
                     
                 </div>
 
