@@ -50,22 +50,37 @@ export const useDate = (nav, currentDay, mapsChanged) => {
         const daysArr = []
 
         for (let i = paddingDaysPrev - 1; i >= 0; i--) {
-            const dayString = `${month}/${daysInPrevMonth - i}/${year}`;
+            
+            const dayString = (month == 0)? `12/${daysInPrevMonth - i}/${year - 1}` :`${month}/${daysInPrevMonth - i}/${year}`;
         
             let leapYear = false;
-            if (year % 4 == 0) {
-                if (year % 100 == 0) {
-                    if (year % 400 == 0) {
-                        leapYear = true; 
+            if (month == 0) {
+                if ((year - 1) % 4 == 0) {
+                    if ((year - 1) % 100 == 0) {
+                        if ((year - 1) % 400 == 0) {
+                            leapYear = true; 
+                        } else {
+                            leapYear = false;
+                        }
                     } else {
-                        leapYear = false;
+                        leapYear = true;
                     }
-                } else {
-                    leapYear = true;
+                }
+            } else {
+                if (year % 4 == 0) {
+                    if (year % 100 == 0) {
+                        if (year % 400 == 0) {
+                            leapYear = true; 
+                        } else {
+                            leapYear = false;
+                        }
+                    } else {
+                        leapYear = true;
+                    }
                 }
             }
 
-            let numWeek = year % 100;
+            let numWeek = (month == 0) ? (year - 1) % 100 : year % 100;
             numWeek = numWeek + parseInt(numWeek / 4);
             numWeek += (daysInPrevMonth - i);
             let monthStr = `${new Date(year, month, 0).toLocaleDateString("en-us", { month: "long" } )}`;
@@ -229,22 +244,37 @@ export const useDate = (nav, currentDay, mapsChanged) => {
         nextMonth.setMonth(new Date().getMonth() + nav + 1);        
 
         for (let i = 1; i <= paddingDaysNext; i++) {
-            const dayString = `${month + 2}/${i}/${year}`;
+
+            const dayString = (month == 11) ? `1/${i}/${year + 1}`: `${month + 2}/${i}/${year}`;
 
             let leapYear = false;
-            if (year % 4 == 0) {
-                if (year % 100 == 0) {
-                    if (year % 400 == 0) {
-                        leapYear = true; 
+            if (month == 11) {
+                if ((year + 1) % 4 == 0) {
+                    if ((year + 1) % 100 == 0) {
+                        if ((year + 1) % 400 == 0) {
+                            leapYear = true; 
+                        } else {
+                            leapYear = false;
+                        }
                     } else {
-                        leapYear = false;
+                        leapYear = true;
                     }
-                } else {
-                    leapYear = true;
+                }
+            } else {
+                if (year % 4 == 0) {
+                    if (year % 100 == 0) {
+                        if (year % 400 == 0) {
+                            leapYear = true; 
+                        } else {
+                            leapYear = false;
+                        }
+                    } else {
+                        leapYear = true;
+                    }
                 }
             }
 
-            let numWeek = year % 100;
+            let numWeek = (month == 11) ? (year + 1) % 100 : year % 100;
             numWeek = numWeek + parseInt(numWeek / 4);
             numWeek += (i);
             let monthStr = `${new Date(year, month + 1, 1).toLocaleDateString("en-us", { month: "long" } )}`;
@@ -301,7 +331,7 @@ export const useDate = (nav, currentDay, mapsChanged) => {
             }
 
             numWeek %= 7;
-            
+
             daysArr.push({
                 value: (i === 1) 
                     ? `${nextMonth.toLocaleDateString("en-us", { month: "short" } )} ${i}` 
