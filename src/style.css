@@ -147,7 +147,7 @@ button {
 .currentBox {
   width: 245px;
   padding: 10px;
-  height: 500px;
+  height: auto;
   box-sizing: border-box;
   background-color: white;
   margin: 5px;
