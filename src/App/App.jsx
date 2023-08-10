@@ -60,6 +60,22 @@ export const App = () => {
         setMapsChanged(true);
     }, [assignmentMap]);
 
+    useEffect(() => {
+        const dt = new Date();
+
+        if (nav !== 0) {
+            dt.setMonth(new Date().getMonth() + nav);
+        }
+
+        const month = dt.getMonth();
+        const year = dt.getFullYear();
+        if (nav != 0) {
+            setCurrentDay(`${month + 1}/1/${year}`);
+        } else {
+            setCurrentDay(today);
+        }
+    }, [nav]);
+
     const { days, dateDisplay } = useDate(nav, currentDay, mapsChanged);
 
     return(
