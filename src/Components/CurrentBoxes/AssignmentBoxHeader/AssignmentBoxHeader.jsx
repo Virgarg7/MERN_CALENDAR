@@ -6,9 +6,7 @@ export const AssignmentBoxHeader = ( { onClick }) => {
             <div id="AssignmentBoxHeader">
                 <div id="assignmentDisplay">Assignments:</div>
                 <button onClick={onClick}>+</button>
-            </div>
-                
-                
+            </div>   
         </>
     );
 };

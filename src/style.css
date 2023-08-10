@@ -71,15 +71,15 @@ button {
   flex-direction: column;
   justify-content: space-between;
 }
-.assignmentEvent {
-  width: 100px;
+.assignment {
+  width: 220px;
   padding: 10px;
-  height: 150px;
+  height: 75px;
   cursor: pointer;
   box-sizing: border-box;
   background-color: white;
   margin: 5px;
-  box-shadow: 0px 0px 5px #CBD4C2;
+  box-shadow: 0px 0px 2px #CBD4C2;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

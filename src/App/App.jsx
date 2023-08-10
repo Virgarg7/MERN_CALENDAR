@@ -10,6 +10,7 @@ import { CurrentBoxesHeader } from "../Components/CurrentBoxesHeader";
 import { ScheduleBox } from "../Components/CurrentBoxes/ScheduleBox";
 import { ExamBox } from "../Components/CurrentBoxes/ExamBox";
 import { AssignmentBoxHeader } from "../Components/CurrentBoxes/AssignmentBoxHeader";
+import { Assignment } from "../Components/CurrentBoxes/Assignment";
 
 export const App = () => {
 
@@ -23,6 +24,7 @@ export const App = () => {
     const [scheduleBoxClicked, setScheduleBoxClicked] = useState(false);
     const [examBoxClicked, setExamBoxClicked] = useState(false);
     const [assignmentBoxClicked, setAssignmentBoxClicked] = useState(false);
+    const [assignmentEventBoxClicked, setAssignmentEventBoxClicked] = useState(false);
     // list of hashmaps to store in local storage
     const [scheduleMap, setScheduleMap] = useState(
         localStorage.getItem('schedule') ? 
@@ -40,10 +42,10 @@ export const App = () => {
             new Map()
     );
     const [mapsChanged, setMapsChanged] = useState(false);
-    const [assignments, setAssignments] = useState(() => {
-        let thisMap = new Map(JSON.parse(localStorage.assignment));
-        return thisMap.get(currentDay);
-    })
+    localStorage.schedule = JSON.stringify(Array.from(scheduleMap));
+    localStorage.exam = JSON.stringify(Array.from(examMap));
+    localStorage.assignment = JSON.stringify(Array.from(assignmentMap));
+    
 
     // returns an events from the date
     //const eventForDate = date => maps.find(e => e.date === date)
@@ -80,12 +82,19 @@ export const App = () => {
         }
     }, [nav]);
 
+    const [assignments, setAssignments] = useState(() => {
+        let thisMap = new Map(JSON.parse(localStorage.assignment));
+        return thisMap.get(currentDay);
+    })
+
     useEffect(() => {
         let assignmentCurrentMap = new Map(JSON.parse(localStorage.assignment));
         setAssignments(assignmentCurrentMap.get(currentDay));
-    }, [currentDay]);
+    }, [currentDay, assignmentMap]);
 
     const { days, dateDisplay } = useDate(nav, currentDay, mapsChanged);
+
+    
 
     return(
         <>
@@ -152,6 +161,15 @@ export const App = () => {
                                 setAssignmentBoxClicked(true);
                             }}
                         />
+                        {assignments && assignments.map((a, index) => (
+                            <Assignment
+                                key={index}
+                                assignment={a}
+                                onClick={() => {
+                                    setAssignmentEventBoxClicked(true);
+                                }}
+                            />
+                        ))}
                     </div>
                     
                 </div>
@@ -278,7 +296,8 @@ export const App = () => {
                         let assignmentEventObject = {
                             name: assignmentName,
                             class: className,
-                            time: timeInt
+                            time: timeInt,
+                            timeMeridian: deadline
                         }
                         if (thisMap.get(currentDay)) {
                             let equal = false;
