@@ -11,6 +11,7 @@ import { ScheduleBoxHeader } from "../Components/CurrentBoxes/ScheduleBoxHeader"
 import { ExamBoxHeader } from "../Components/CurrentBoxes/ExamBoxHeader";
 import { AssignmentBoxHeader } from "../Components/CurrentBoxes/AssignmentBoxHeader";
 import { Assignment } from "../Components/CurrentBoxes/Assignment";
+import { Exam } from "../Components/CurrentBoxes/Exam";
 
 export const App = () => {
 
@@ -25,6 +26,7 @@ export const App = () => {
     const [examBoxClicked, setExamBoxClicked] = useState(false);
     const [assignmentBoxClicked, setAssignmentBoxClicked] = useState(false);
     const [assignmentEventBoxClicked, setAssignmentEventBoxClicked] = useState(false);
+    const [examEventBoxClicked, setExamEventBoxClicked] = useState(false);
     // list of hashmaps to store in local storage
     const [scheduleMap, setScheduleMap] = useState(
         localStorage.getItem('schedule') ? 
@@ -92,6 +94,16 @@ export const App = () => {
         setAssignments(assignmentCurrentMap.get(currentDay));
     }, [currentDay, assignmentMap]);
 
+    const [exams, setExams] = useState(() => {
+        let thisMap = new Map(JSON.parse(localStorage.exam));
+        return thisMap.get(currentDay);
+    })
+
+    useEffect(() => {
+        let examCurrentMap = new Map(JSON.parse(localStorage.exam));
+        setExams(examCurrentMap.get(currentDay));
+    }, [currentDay, examMap]);
+
     const { days, dateDisplay } = useDate(nav, currentDay, mapsChanged);
 
     
@@ -157,6 +169,15 @@ export const App = () => {
                                 setExamBoxClicked(true);
                             }}
                         />
+                        {exams && exams.map((e, index) => (
+                            <Exam
+                                key={index}
+                                exam={e}
+                                onClick={() => {
+                                    setExamEventBoxClicked(true);
+                                }}
+                            />
+                        ))}
                     </div>
 
                     <div className="currentBox assignments">
@@ -251,6 +272,7 @@ export const App = () => {
                             name: examName,
                             class: className,
                             time: timeInt,
+                            timeMeridian: examTime,
                             location: examLocation
                         }
                         if (thisMap.get(currentDay)) {

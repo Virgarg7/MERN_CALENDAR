@@ -84,6 +84,19 @@ button {
   flex-direction: column;
   justify-content: space-between;
 }
+.exam {
+  width: 210px;
+  padding: 10px;
+  height: 100px;
+  cursor: pointer;
+  box-sizing: border-box;
+  background-color: white;
+  margin: 5px;
+  box-shadow: 0px 0px 2px #CBD4C2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 .day:hover {
   background-color: #e8faed;
 }
