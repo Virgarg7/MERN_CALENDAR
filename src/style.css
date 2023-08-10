@@ -87,6 +87,9 @@ button {
 .assignment:hover {
   background-color: white;
 }
+.assignment + .isCompleted {
+  background-color: #e8faed;
+}
 .exam {
   width: 210px;
   padding: 10px;

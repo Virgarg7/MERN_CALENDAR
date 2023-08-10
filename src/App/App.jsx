@@ -45,6 +45,7 @@ export const App = () => {
             new Map()
     );
     const [mapsChanged, setMapsChanged] = useState(false);
+    const [completedAssignmentObject, setCompletedAssignmentObject] = useState();
     localStorage.schedule = JSON.stringify(Array.from(scheduleMap));
     localStorage.exam = JSON.stringify(Array.from(examMap));
     localStorage.assignment = JSON.stringify(Array.from(assignmentMap));
@@ -116,8 +117,6 @@ export const App = () => {
     }, [currentDay, scheduleMap]);
 
     const { days, dateDisplay } = useDate(nav, currentDay, mapsChanged);
-
-    
 
     return(
         <>
@@ -210,9 +209,32 @@ export const App = () => {
                             <Assignment
                                 key={index}
                                 assignment={a}
+                                /*
                                 onClick={() => {
-                                    setAssignmentEventBoxClicked(true);
+                                    setCompletedAssignmentObject(a);
+                                    console.log(completedAssignmentObject);
                                 }}
+                                */
+                                onClick={event => {
+                                    switch (event.detail) {
+                                      case 1: {
+                                        setAssignmentEventBoxClicked(true);
+                                        break;
+                                      }
+                                      case 2: {
+                                        setCompletedAssignmentObject(a);
+                                        console.log(completedAssignmentObject);
+                                        break;
+                                      }
+                                      case 3: {
+                                        console.log('triple click');
+                                        break;
+                                      }
+                                      default: {
+                                        break;
+                                      }
+                                    }
+                                  }}
                             />
                         ))}
                     </div>
@@ -235,7 +257,7 @@ export const App = () => {
                         if (midDayTime == "AM" && (timeInt > 1159 && timeInt < 1300)) {
                             timeInt -= 1200;
                         }
-                        if (midDayTime == "PM") {
+                        if (midDayTime == "PM" && timeInt < 1200) {
                             timeInt += 1200;
                         }
                         let scheduleEventObject = {
@@ -287,7 +309,7 @@ export const App = () => {
                         if (midDayTime == "AM" && (timeInt > 1159 && timeInt < 1300)) {
                             timeInt -= 1200;
                         }
-                        if (midDayTime == "PM") {
+                        if (midDayTime == "PM" && timeInt < 1200) {
                             timeInt += 1200;
                         }
                         let examEventObject = {
@@ -339,7 +361,7 @@ export const App = () => {
                         if (midDayTime == "AM" && (timeInt > 1159 && timeInt < 1300)) {
                             timeInt -= 1200;
                         }
-                        if (midDayTime == "PM") {
+                        if (midDayTime == "PM" && timeInt < 1200) {
                             timeInt += 1200;
                         }
                         let assignmentEventObject = {
