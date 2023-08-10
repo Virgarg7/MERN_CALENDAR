@@ -79,12 +79,16 @@ button {
   background-color: #e8faed;
 }
 
+.day + .isWeekend:hover {
+  background-color: #e8faed;
+}
+
 .day + .today {
   background-color:#e8f4fa;
   border: 2px solid #528AAE;
 }
 .day + .isWeekend {
-  background-color:#5A5A5A;
+  background-color:#DEDEDE;
 }
 .day + .currentDay {
   background-color:#e8faed;
