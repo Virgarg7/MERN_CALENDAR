@@ -12,6 +12,7 @@ import { ExamBoxHeader } from "../Components/CurrentBoxes/ExamBoxHeader";
 import { AssignmentBoxHeader } from "../Components/CurrentBoxes/AssignmentBoxHeader";
 import { Assignment } from "../Components/CurrentBoxes/Assignment";
 import { Exam } from "../Components/CurrentBoxes/Exam";
+import { Schedule } from "../Components/CurrentBoxes/Schedule";
 
 export const App = () => {
 
@@ -104,6 +105,16 @@ export const App = () => {
         setExams(examCurrentMap.get(currentDay));
     }, [currentDay, examMap]);
 
+    const [schedules, setSchedules] = useState(() => {
+        let thisMap = new Map(JSON.parse(localStorage.schedule));
+        return thisMap.get(currentDay);
+    })
+
+    useEffect(() => {
+        let scheduleCurrentMap = new Map(JSON.parse(localStorage.schedule));
+        setSchedules(scheduleCurrentMap.get(currentDay));
+    }, [currentDay, scheduleMap]);
+
     const { days, dateDisplay } = useDate(nav, currentDay, mapsChanged);
 
     
@@ -155,12 +166,21 @@ export const App = () => {
 
                 <div id="currentBoxContainer">
 
-                    <div className="currentBox schedule">
+                    <div className="currentBox schedules">
                         <ScheduleBoxHeader 
                             onClick={() => {
                                 setScheduleBoxClicked(true);
                             }}
                         />
+                        {schedules && schedules.map((s, index) => (
+                            <Schedule
+                                key={index}
+                                schedule={s}
+                                onClick={() => {
+                                    setExamEventBoxClicked(true);
+                                }}
+                            />
+                        ))}
                     </div>
 
                     <div className="currentBox exams">
@@ -222,6 +242,7 @@ export const App = () => {
                             name: className,
                             type: classType,
                             time: timeInt,
+                            timeMeridian: classTime,
                             location: classLocation
                         }
                         if (thisMap.get(currentDay)) {
