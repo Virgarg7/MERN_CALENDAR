@@ -181,6 +181,18 @@ button {
   width: 25px;
   background-color:#92a1d1;
 }
+#ScheduleBoxHeader {
+  padding: 10px;
+  color: #d36c6c;
+  font-size: 20px;
+  font-family: sans-serif;
+  display: flex;
+  justify-content: space-between;
+}
+#ScheduleBoxHeader button {
+  width: 25px;
+  background-color:#92a1d1;
+}
 .schedule {
   background-color: #ffffe0;
 }

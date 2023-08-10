@@ -7,7 +7,7 @@ import { NewExamEventModal } from "../Components/EventModals/ExamModals/NewExamE
 import { NewAssignmentEventModal} from "../Components/EventModals/AssignmentModals/NewAssignmentEventModal";
 import { useDate } from "../Hooks/useDate";
 import { CurrentBoxesHeader } from "../Components/CurrentBoxesHeader";
-import { ScheduleBox } from "../Components/CurrentBoxes/ScheduleBox";
+import { ScheduleBoxHeader } from "../Components/CurrentBoxes/ScheduleBoxHeader";
 import { ExamBoxHeader } from "../Components/CurrentBoxes/ExamBoxHeader";
 import { AssignmentBoxHeader } from "../Components/CurrentBoxes/AssignmentBoxHeader";
 import { Assignment } from "../Components/CurrentBoxes/Assignment";
@@ -143,11 +143,13 @@ export const App = () => {
 
                 <div id="currentBoxContainer">
 
-                    <ScheduleBox 
-                        onClick={() => {
-                            setScheduleBoxClicked(true);
-                        }}
-                    />
+                    <div className="currentBox schedule">
+                        <ScheduleBoxHeader 
+                            onClick={() => {
+                                setScheduleBoxClicked(true);
+                            }}
+                        />
+                    </div>
 
                     <div className="currentBox exams">
                         <ExamBoxHeader 
