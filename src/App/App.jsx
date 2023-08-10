@@ -7,12 +7,12 @@ import { NewExamEventModal } from "../Components/EventModals/ExamModals/NewExamE
 import { NewAssignmentEventModal} from "../Components/EventModals/AssignmentModals/NewAssignmentEventModal";
 import { useDate } from "../Hooks/useDate";
 import { CurrentBoxesHeader } from "../Components/CurrentBoxesHeader";
-import { ScheduleBoxHeader } from "../Components/CurrentBoxes/ScheduleBoxHeader";
-import { ExamBoxHeader } from "../Components/CurrentBoxes/ExamBoxHeader";
-import { AssignmentBoxHeader } from "../Components/CurrentBoxes/AssignmentBoxHeader";
-import { Assignment } from "../Components/CurrentBoxes/Assignment";
-import { Exam } from "../Components/CurrentBoxes/Exam";
-import { Schedule } from "../Components/CurrentBoxes/Schedule";
+import { ScheduleBoxHeader } from "../Components/CurrentBoxes/ScheduleBox/ScheduleBoxHeader";
+import { ExamBoxHeader } from "../Components/CurrentBoxes/ExamBox/ExamBoxHeader";
+import { AssignmentBoxHeader } from "../Components/CurrentBoxes/AssignmentBox/AssignmentBoxHeader";
+import { Assignment } from "../Components/CurrentBoxes/AssignmentBox/Assignment";
+import { Exam } from "../Components/CurrentBoxes/ExamBox/Exam";
+import { Schedule } from "../Components/CurrentBoxes/ScheduleBox/Schedule";
 
 export const App = () => {
 
