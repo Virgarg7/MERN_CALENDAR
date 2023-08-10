@@ -77,12 +77,15 @@ button {
   height: 75px;
   cursor: pointer;
   box-sizing: border-box;
-  background-color: white;
+  background-color: #FFCCCB;
   margin: 5px;
   box-shadow: 0px 0px 2px #CBD4C2;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+.assignment:hover {
+  background-color: white;
 }
 .exam {
   width: 210px;
@@ -90,12 +93,15 @@ button {
   height: 100px;
   cursor: pointer;
   box-sizing: border-box;
-  background-color: white;
+  background-color: #FFCCCB;
   margin: 5px;
   box-shadow: 0px 0px 2px #CBD4C2;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+.exam:hover {
+  background-color: white;
 }
 .schedule {
   width: 210px;
@@ -103,12 +109,15 @@ button {
   height: 100px;
   cursor: pointer;
   box-sizing: border-box;
-  background-color: white;
+  background-color: #FFCCCB;
   margin: 5px;
   box-shadow: 0px 0px 2px #CBD4C2;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+.schedule:hover {
+  background-color: white;
 }
 .day:hover {
   background-color: #e8faed;

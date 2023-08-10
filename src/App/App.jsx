@@ -243,7 +243,8 @@ export const App = () => {
                             type: classType,
                             time: timeInt,
                             timeMeridian: classTime,
-                            location: classLocation
+                            location: classLocation,
+                            isCompleted: false
                         }
                         if (thisMap.get(currentDay)) {
                             let equal = false;
@@ -294,7 +295,8 @@ export const App = () => {
                             class: className,
                             time: timeInt,
                             timeMeridian: examTime,
-                            location: examLocation
+                            location: examLocation,
+                            isCompleted: false
                         }
                         if (thisMap.get(currentDay)) {
                             let equal = false;
@@ -344,7 +346,8 @@ export const App = () => {
                             name: assignmentName,
                             class: className,
                             time: timeInt,
-                            timeMeridian: deadline
+                            timeMeridian: deadline,
+                            isCompleted: false
                         }
                         if (thisMap.get(currentDay)) {
                             let equal = false;
