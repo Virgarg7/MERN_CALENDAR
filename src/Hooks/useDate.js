@@ -44,6 +44,7 @@ export const useDate = (nav, currentDay, scheduleMap, examMap, assignmentMap) =>
         const paddingDaysNext =  6 - (weekdays.indexOf(lastDateString.split(", ")[0]));
 
         let newScheduleMap = new Map(JSON.parse(localStorage.schedule));
+        
         let newExamMap = new Map(JSON.parse(localStorage.exam));
         let newAssignmentMap = new Map(JSON.parse(localStorage.assignment));
 
@@ -138,12 +139,39 @@ export const useDate = (nav, currentDay, scheduleMap, examMap, assignmentMap) =>
 
             numWeek %= 7;
 
+            let scheduleCompleted = true;
+            if (newScheduleMap.has(dayString)) {
+                newScheduleMap.get(dayString).forEach(s => {
+                    if (s.isCompleted == false) {
+                        scheduleCompleted = false;
+                    }
+                })
+            }
+
+            let examsCompleted = true;
+            if (newExamMap.has(dayString)) {
+                newExamMap.get(dayString).forEach(s => {
+                    if (s.isCompleted == false) {
+                        examsCompleted = false;
+                    }
+                })
+            }
+
+            let assignmentsCompleted = true;
+            if (newAssignmentMap.has(dayString)) {
+                newAssignmentMap.get(dayString).forEach(s => {
+                    if (s.isCompleted == false) {
+                        assignmentsCompleted = false;
+                    }
+                })
+            }
+
             daysArr.push({
                 value: daysInPrevMonth - i,
                 padding: true,
-                eventSchedule: newScheduleMap.has(dayString),
-                eventExam: newExamMap.has(dayString),
-                eventAssignment: newAssignmentMap.has(dayString),
+                eventSchedule: newScheduleMap.has(dayString) && !scheduleCompleted,
+                eventExam: newExamMap.has(dayString) && !examsCompleted,
+                eventAssignment: newAssignmentMap.has(dayString) && !assignmentsCompleted,
                 isToday: daysInPrevMonth - i == day && nav === 1,
                 isCurrentDay: dayString == currentDay,
                 isWeekend: (numWeek == 1 || numWeek == 0), 
@@ -225,14 +253,41 @@ export const useDate = (nav, currentDay, scheduleMap, examMap, assignmentMap) =>
 
             numWeek %= 7;
 
+            let scheduleCompleted = true;
+            if (newScheduleMap.has(dayString)) {
+                newScheduleMap.get(dayString).forEach(s => {
+                    if (s.isCompleted == false) {
+                        scheduleCompleted = false;
+                    }
+                })
+            }
+
+            let examsCompleted = true;
+            if (newExamMap.has(dayString)) {
+                newExamMap.get(dayString).forEach(s => {
+                    if (s.isCompleted == false) {
+                        examsCompleted = false;
+                    }
+                })
+            }
+
+            let assignmentsCompleted = true;
+            if (newAssignmentMap.has(dayString)) {
+                newAssignmentMap.get(dayString).forEach(s => {
+                    if (s.isCompleted == false) {
+                        assignmentsCompleted = false;
+                    }
+                })
+            }
+
             daysArr.push({
                 value: (i === 1) 
                     ? `${dt.toLocaleDateString("en-us", { month: "short" } )} ${i}` 
                     : i,
                 padding: false,
-                eventSchedule: newScheduleMap.has(dayString),
-                eventExam: newExamMap.has(dayString),
-                eventAssignment: newAssignmentMap.has(dayString),
+                eventSchedule: newScheduleMap.has(dayString) && !scheduleCompleted,
+                eventExam: newExamMap.has(dayString) && !examsCompleted,
+                eventAssignment: newAssignmentMap.has(dayString) && !assignmentsCompleted,
                 isToday: i === day && nav === 0,
                 isCurrentDay: dayString == currentDay,
                 isWeekend: (numWeek == 1 || numWeek == 0),
@@ -332,14 +387,41 @@ export const useDate = (nav, currentDay, scheduleMap, examMap, assignmentMap) =>
 
             numWeek %= 7;
 
+            let scheduleCompleted = true;
+            if (newScheduleMap.has(dayString)) {
+                newScheduleMap.get(dayString).forEach(s => {
+                    if (s.isCompleted == false) {
+                        scheduleCompleted = false;
+                    }
+                })
+            }
+
+            let examsCompleted = true;
+            if (newExamMap.has(dayString)) {
+                newExamMap.get(dayString).forEach(s => {
+                    if (s.isCompleted == false) {
+                        examsCompleted = false;
+                    }
+                })
+            }
+
+            let assignmentsCompleted = true;
+            if (newAssignmentMap.has(dayString)) {
+                newAssignmentMap.get(dayString).forEach(s => {
+                    if (s.isCompleted == false) {
+                        assignmentsCompleted = false;
+                    }
+                })
+            }
+
             daysArr.push({
                 value: (i === 1) 
                     ? `${nextMonth.toLocaleDateString("en-us", { month: "short" } )} ${i}` 
                     : i,
                 padding: true,
-                eventSchedule: newScheduleMap.has(dayString),
-                eventExam: newExamMap.has(dayString),
-                eventAssignment: newAssignmentMap.has(dayString),
+                eventSchedule: newScheduleMap.has(dayString) && !scheduleCompleted,
+                eventExam: newExamMap.has(dayString) && !examsCompleted,
+                eventAssignment: newAssignmentMap.has(dayString) && !assignmentsCompleted,
                 isToday: i === day && nav === -1,
                 isCurrentDay: dayString == currentDay,
                 isWeekend: (numWeek == 1 || numWeek == 0),
