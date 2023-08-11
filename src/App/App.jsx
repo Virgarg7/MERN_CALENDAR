@@ -230,7 +230,7 @@ export const App = () => {
 
                 <div id="currentBoxContainer">
 
-                    <div className="currentBox schedules">
+                    <div className="currentBox">
                         <ScheduleBoxHeader 
                             onClick={() => {
                                 setScheduleBoxClicked(true);
@@ -261,7 +261,7 @@ export const App = () => {
                         ))}
                     </div>
 
-                    <div className="currentBox exams">
+                    <div className="currentBox">
                         <ExamBoxHeader 
                             onClick={() => {
                                 setExamBoxClicked(true);
@@ -292,7 +292,7 @@ export const App = () => {
                         ))}
                     </div>
 
-                    <div className="currentBox assignments">
+                    <div className="currentBox">
                         <AssignmentBoxHeader 
                             onClick={() => {
                                 setAssignmentBoxClicked(true);
