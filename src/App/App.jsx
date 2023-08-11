@@ -21,6 +21,20 @@ import { hashMap, setHashMap } from "../util/hashFunctions"
 //let hashMap = (eventType => new Map(JSON.parse(eventType)));
 //let setHashMap = (hashMap => JSON.stringify(Array.from(hashMap)))
 
+let timeValue = (timeMeridian => {
+    let midDayTime = timeMeridian.slice(-2);
+    let timeStr = timeMeridian.slice(0, 5);
+    timeStr = timeStr.replace(":", "");
+    let timeInt = parseInt(timeStr);
+    if (midDayTime == "AM" && (timeInt > 1159 && timeInt < 1300)) {
+        timeInt -= 1200;
+    }
+    if (midDayTime == "PM" && timeInt < 1200) {
+        timeInt += 1200;
+    }
+    return timeInt;
+})
+
 export const App = () => {
 
     const dtToday = new Date();
@@ -338,20 +352,10 @@ export const App = () => {
                     onSave={(className, classType, classTime, classLocation) => {
                         let thisMap = hashMap(localStorage.schedule);
                         setMapsChanged(false);
-                        let midDayTime = classTime.slice(-2);
-                        let timeStr = classTime.slice(0, 5);
-                        timeStr = timeStr.replace(":", "");
-                        let timeInt = parseInt(timeStr);
-                        if (midDayTime == "AM" && (timeInt > 1159 && timeInt < 1300)) {
-                            timeInt -= 1200;
-                        }
-                        if (midDayTime == "PM" && timeInt < 1200) {
-                            timeInt += 1200;
-                        }
                         let scheduleEventObject = {
                             name: className,
                             type: classType,
-                            time: timeInt,
+                            time: timeValue(classTime),
                             timeMeridian: classTime,
                             location: classLocation,
                             isCompleted: false
@@ -390,20 +394,10 @@ export const App = () => {
                     onSave={(examName, className, examTime, examLocation) => {
                         let thisMap = hashMap(localStorage.exam);
                         setMapsChanged(false);
-                        let midDayTime = examTime.slice(-2);
-                        let timeStr = examTime.slice(0, 5);
-                        timeStr = timeStr.replace(":", "");
-                        let timeInt = parseInt(timeStr);
-                        if (midDayTime == "AM" && (timeInt > 1159 && timeInt < 1300)) {
-                            timeInt -= 1200;
-                        }
-                        if (midDayTime == "PM" && timeInt < 1200) {
-                            timeInt += 1200;
-                        }
                         let examEventObject = {
                             name: examName,
                             class: className,
-                            time: timeInt,
+                            time: timeValue(examTime),
                             timeMeridian: examTime,
                             location: examLocation,
                             isCompleted: false
@@ -442,20 +436,10 @@ export const App = () => {
                     onSave={(assignmentName, className, deadline) => {
                         let thisMap = hashMap(localStorage.assignment);
                         setMapsChanged(false);
-                        let midDayTime = deadline.slice(-2);
-                        let timeStr = deadline.slice(0, 5);
-                        timeStr = timeStr.replace(":", "");
-                        let timeInt = parseInt(timeStr);
-                        if (midDayTime == "AM" && (timeInt > 1159 && timeInt < 1300)) {
-                            timeInt -= 1200;
-                        }
-                        if (midDayTime == "PM" && timeInt < 1200) {
-                            timeInt += 1200;
-                        }
                         let assignmentEventObject = {
                             name: assignmentName,
                             class: className,
-                            time: timeInt,
+                            time: timeValue(deadline),
                             timeMeridian: deadline,
                             isCompleted: false
                         }
@@ -492,20 +476,10 @@ export const App = () => {
                     schedule={editScheduleObject}
                     onSave={(className, classType, classTime, classLocation, isCompletedValue) => {
                         let thisMap = hashMap(localStorage.schedule);
-                        let midDayTime = classTime.slice(-2);
-                        let timeStr = classTime.slice(0, 5);
-                        timeStr = timeStr.replace(":", "");
-                        let timeInt = parseInt(timeStr);
-                        if (midDayTime == "AM" && (timeInt > 1159 && timeInt < 1300)) {
-                            timeInt -= 1200;
-                        }
-                        if (midDayTime == "PM" && timeInt < 1200) {
-                            timeInt += 1200;
-                        }
                         let scheduleEventObject = {
                             name: className,
                             type: classType,
-                            time: timeInt,
+                            time: timeValue(classTime),
                             timeMeridian: classTime,
                             location: classLocation,
                             isCompleted: !isCompletedValue
@@ -567,20 +541,10 @@ export const App = () => {
                     exam={editExamObject}
                     onSave={(examName, className, examTime, examLocation, isCompletedValue) => {
                         let thisMap = hashMap(localStorage.exam);
-                        let midDayTime = examTime.slice(-2);
-                        let timeStr = examTime.slice(0, 5);
-                        timeStr = timeStr.replace(":", "");
-                        let timeInt = parseInt(timeStr);
-                        if (midDayTime == "AM" && (timeInt > 1159 && timeInt < 1300)) {
-                            timeInt -= 1200;
-                        }
-                        if (midDayTime == "PM" && timeInt < 1200) {
-                            timeInt += 1200;
-                        }
                         let examEventObject = {
                             name: examName,
                             class: className,
-                            time: timeInt,
+                            time: timeValue(examTime),
                             timeMeridian: examTime,
                             location: examLocation,
                             isCompleted: !isCompletedValue
@@ -642,20 +606,10 @@ export const App = () => {
                     assignment={editAssignmentObject}
                     onSave={(assignmentName, className, deadline, isCompletedValue) => {
                         let thisMap = hashMap(localStorage.assignment);
-                        let midDayTime = deadline.slice(-2);
-                        let timeStr = deadline.slice(0, 5);
-                        timeStr = timeStr.replace(":", "");
-                        let timeInt = parseInt(timeStr);
-                        if (midDayTime == "AM" && (timeInt > 1159 && timeInt < 1300)) {
-                            timeInt -= 1200;
-                        }
-                        if (midDayTime == "PM" && timeInt < 1200) {
-                            timeInt += 1200;
-                        }
                         let assignmentEventObject = {
                             name: assignmentName,
                             class: className,
-                            time: timeInt,
+                            time: timeValue(deadline),
                             timeMeridian: deadline,
                             isCompleted: !isCompletedValue
                         }
