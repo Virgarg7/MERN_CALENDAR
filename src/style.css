@@ -80,18 +80,21 @@ button {
   height: 75px;
   cursor: pointer;
   box-sizing: border-box;
-  background-color: #FFCCCB;
+  background-color: #201e1d;
+  border: 2px solid #383737;
+  border-radius: 10px;
   margin: 5px;
   box-shadow: 0px 0px 2px #CBD4C2;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  color: #e1e1e0;
 }
 .assignment:hover {
-  background-color: white;
+  background-color: #615f5f;
 }
 .assignment + .isCompleted {
-  background-color: #e8faed;
+  background-color: #615f5f;
 }
 .exam {
   width: 210px;
@@ -99,18 +102,21 @@ button {
   height: 100px;
   cursor: pointer;
   box-sizing: border-box;
-  background-color: #FFCCCB;
+  background-color: #201e1d;
+  border: 2px solid #383737;
+  border-radius: 10px;
   margin: 5px;
   box-shadow: 0px 0px 2px #CBD4C2;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  color: #e1e1e0;
 }
 .exam + .isCompleted {
-  background-color: #e8faed;
+  background-color: #615f5f;
 }
 .exam:hover {
-  background-color: white;
+  background-color: #615f5f;
 }
 .schedule {
   width: 210px;
@@ -118,18 +124,21 @@ button {
   height: 100px;
   cursor: pointer;
   box-sizing: border-box;
-  background-color: #FFCCCB;
+  background-color: #201e1d;
+  border: 2px solid #383737;
+  border-radius: 10px;
   margin: 5px;
   box-shadow: 0px 0px 2px #CBD4C2;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  color: #e1e1e0;
 }
 .schedule + .isCompleted {
-  background-color: #e8faed;
+  background-color: #615f5f;
 }
 .schedule:hover {
-  background-color: white;
+  background-color: #615f5f;
 }
 .day:hover {
   background-color: #D3494E;
@@ -190,6 +199,7 @@ button {
   color: #868585;
   background-color: #282424;
   opacity: .5;
+  border: 0px solid #383737;
   box-shadow: none !important;
 }
 #currentBoxContainer {
