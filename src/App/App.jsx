@@ -17,10 +17,6 @@ import { DeleteAssignmentEventModal } from "../Components/EventModals/Assignment
 import { DeleteScheduleEventModal } from "../Components/EventModals/ScheduleModals/DeleteScheduleEventModal";
 import { hashMap, setHashMap } from "../util/hashFunctions"
 
-
-//let hashMap = (eventType => new Map(JSON.parse(eventType)));
-//let setHashMap = (hashMap => JSON.stringify(Array.from(hashMap)))
-
 let timeValue = (timeMeridian => {
     let midDayTime = timeMeridian.slice(-2);
     let timeStr = timeMeridian.slice(0, 5);
@@ -61,6 +57,48 @@ let setDeleteMap = ((hashMap, arr, day) => {
     } else {
         hashMap.set(day, arr);
     }
+});
+
+let scheduleObj = ((className, classType, classTime, classLocation, isCompleted) => {
+    return {
+        name: className,
+        type: classType,
+        time: timeValue(classTime),
+        timeMeridian: classTime,
+        location: classLocation,
+        isCompleted: isCompleted
+    }
+});
+
+let examObj = ((examName, className, examTime, examLocation, isCompleted) => {
+    return {
+        name: examName,
+        class: className,
+        time: timeValue(examTime),
+        timeMeridian: examTime,
+        location: examLocation,
+        isCompleted: isCompleted
+    }
+});
+
+let assignmentObj = ((assignmentName, className, deadline, isCompleted) => {
+    return {
+        name: assignmentName,
+        class: className,
+        time: timeValue(deadline),
+        timeMeridian: deadline,
+        isCompleted: isCompleted
+    }
+})
+
+let pushSchedule = ((arr, eventObj, hashMap, day) => {
+    arr.push(eventObj);
+    arr.sort((a, b) => {
+        return a.time - b.time 
+            || (a.name).localeCompare(b.name) 
+                || (a.type).localeCompare(b.type);
+    });
+    hashMap.set(day, arr);
 });
 
 
@@ -381,17 +419,12 @@ export const App = () => {
                     onSave={(className, classType, classTime, classLocation) => {
                         let thisMap = hashMap(localStorage.schedule);
                         setMapsChanged(false);
-                        let scheduleEventObject = {
-                            name: className,
-                            type: classType,
-                            time: timeValue(classTime),
-                            timeMeridian: classTime,
-                            location: classLocation,
-                            isCompleted: false
-                        }
+                        let scheduleEventObject = scheduleObj(className, classType, 
+                            classTime, classLocation, false);
                         if (thisMap.get(currentDay)) {
                             if (!(eventInMap(thisMap, scheduleEventObject, currentDay))) {
                                 let arrSchedule = thisMap.get(currentDay);
+                                
                                 arrSchedule.push(scheduleEventObject);
                                 arrSchedule.sort((a, b) => {
                                     return a.time - b.time 
@@ -399,6 +432,8 @@ export const App = () => {
                                             || a.type.localeCompare(b.type);
                                 });
                                 thisMap.set(currentDay, arrSchedule);
+                                
+                                //pushSchedule(arrSchedule, scheduleBoxClicked, thisMap, currentDay);
                             }
                                             
                         } else {
@@ -417,14 +452,8 @@ export const App = () => {
                     onSave={(examName, className, examTime, examLocation) => {
                         let thisMap = hashMap(localStorage.exam);
                         setMapsChanged(false);
-                        let examEventObject = {
-                            name: examName,
-                            class: className,
-                            time: timeValue(examTime),
-                            timeMeridian: examTime,
-                            location: examLocation,
-                            isCompleted: false
-                        }
+                        let examEventObject = examObj(examName, className, 
+                            examTime, examLocation, false);
                         if (thisMap.get(currentDay)) {
                             if (!(eventInMap(thisMap, examEventObject, currentDay))) {
                                 let arrExams = thisMap.get(currentDay);
@@ -453,13 +482,8 @@ export const App = () => {
                     onSave={(assignmentName, className, deadline) => {
                         let thisMap = hashMap(localStorage.assignment);
                         setMapsChanged(false);
-                        let assignmentEventObject = {
-                            name: assignmentName,
-                            class: className,
-                            time: timeValue(deadline),
-                            timeMeridian: deadline,
-                            isCompleted: false
-                        }
+                        let assignmentEventObject = assignmentObj(assignmentName, className, 
+                            deadline, false);
                         if (thisMap.get(currentDay)) {
                             if (!(eventInMap(thisMap, assignmentEventObject, currentDay))) {
                                 let arrAssignments = thisMap.get(currentDay);
@@ -487,28 +511,16 @@ export const App = () => {
                     schedule={editScheduleObject}
                     onSave={(className, classType, classTime, classLocation, isCompletedValue) => {
                         let thisMap = hashMap(localStorage.schedule);
-                        let scheduleEventObject = {
-                            name: className,
-                            type: classType,
-                            time: timeValue(classTime),
-                            timeMeridian: classTime,
-                            location: classLocation,
-                            isCompleted: !isCompletedValue
-                        }
+                        let scheduleEventObject = scheduleObj(className, classType, 
+                            classTime, classLocation, !isCompletedValue);
                         let currScheduleArr = thisMap.get(currentDay);
                         if (JSON.stringify(editScheduleObject) != JSON.stringify(scheduleEventObject)) {
-                            let index = -1;
-                            for (let i = 0; i < currScheduleArr.length; i++) {
-                                if (JSON.stringify(currScheduleArr[i]) == JSON.stringify(editScheduleObject)) {
-                                    index = i;
-                                }
-                            }
-                            currScheduleArr.splice(index, 1);
+                            removeEvent(currScheduleArr, editScheduleObject);
                             currScheduleArr.push(scheduleEventObject);
                             currScheduleArr.sort((a, b) => {
                                 return a.time - b.time 
-                                    || a.class.localeCompare(b.class) 
-                                        || a.name.localeCompare(b.name);
+                                    || (a.name).localeCompare(b.name) 
+                                        || (a.type).localeCompare(b.type);
                             });
                             thisMap.set(currentDay, currScheduleArr);
                             setScheduleMap(thisMap);
@@ -535,23 +547,11 @@ export const App = () => {
                     exam={editExamObject}
                     onSave={(examName, className, examTime, examLocation, isCompletedValue) => {
                         let thisMap = hashMap(localStorage.exam);
-                        let examEventObject = {
-                            name: examName,
-                            class: className,
-                            time: timeValue(examTime),
-                            timeMeridian: examTime,
-                            location: examLocation,
-                            isCompleted: !isCompletedValue
-                        }
+                        let examEventObject = examObj(examName, className, 
+                            examTime, examLocation, !isCompletedValue);
                         let currExamArr = thisMap.get(currentDay);
                         if (JSON.stringify(editExamObject) != JSON.stringify(examEventObject)) {
-                            let index = -1;
-                            for (let i = 0; i < currExamArr.length; i++) {
-                                if (JSON.stringify(currExamArr[i]) == JSON.stringify(editExamObject)) {
-                                    index = i;
-                                }
-                            }
-                            currExamArr.splice(index, 1);
+                            removeEvent(currExamArr, editExamObject);
                             currExamArr.push(examEventObject);
                             currExamArr.sort((a, b) => {
                                 return a.time - b.time 
@@ -572,7 +572,6 @@ export const App = () => {
                         setExamMap(thisMap);
                         setEditExamObject(null);
                         setExamEventBoxClicked(false);
-                        
                     }}
                 />    
             }
@@ -583,22 +582,11 @@ export const App = () => {
                     assignment={editAssignmentObject}
                     onSave={(assignmentName, className, deadline, isCompletedValue) => {
                         let thisMap = hashMap(localStorage.assignment);
-                        let assignmentEventObject = {
-                            name: assignmentName,
-                            class: className,
-                            time: timeValue(deadline),
-                            timeMeridian: deadline,
-                            isCompleted: !isCompletedValue
-                        }
+                        let assignmentEventObject = assignmentObj(assignmentName, className, 
+                            deadline, !isCompletedValue);
                         let currAssignmentArr = thisMap.get(currentDay);
                         if (JSON.stringify(editAssignmentObject) != JSON.stringify(assignmentEventObject)) {
-                            let index = -1;
-                            for (let i = 0; i < currAssignmentArr.length; i++) {
-                                if (JSON.stringify(currAssignmentArr[i]) == JSON.stringify(editAssignmentObject)) {
-                                    index = i;
-                                }
-                            }
-                            currAssignmentArr.splice(index, 1);
+                            removeEvent(currAssignmentArr, editAssignmentObject);
                             currAssignmentArr.push(assignmentEventObject);
                             currAssignmentArr.sort((a, b) => {
                                 return a.time - b.time 
@@ -606,10 +594,11 @@ export const App = () => {
                                         || a.name.localeCompare(b.name);
                             });
                             thisMap.set(currentDay, currAssignmentArr);
+                            //pushEvent(currAssignmentArr, assignmentEventObject, thisMap, currentDay);
                             setAssignmentMap(thisMap);
                         }
                         setEditAssignmentObject(null);
-                        setAssignmentEventBoxClicked(false)
+                        setAssignmentEventBoxClicked(false);
                     }}
                     onDelete={() => {
                         let thisMap = hashMap(localStorage.assignment);
