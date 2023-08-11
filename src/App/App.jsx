@@ -33,7 +33,18 @@ let timeValue = (timeMeridian => {
         timeInt += 1200;
     }
     return timeInt;
-})
+});
+
+let eventInMap = ((hashMap, eventObj, day) => {
+    let equal = false;
+    hashMap.get(day).forEach(event => {
+        if (JSON.stringify(event) == JSON.stringify(eventObj)) {
+            equal = true;
+        }
+    });
+    return equal;
+});
+
 
 export const App = () => {
 
@@ -361,13 +372,7 @@ export const App = () => {
                             isCompleted: false
                         }
                         if (thisMap.get(currentDay)) {
-                            let equal = false;
-                            thisMap.get(currentDay).forEach(className => {
-                                if (JSON.stringify(className) == JSON.stringify(scheduleEventObject)) {
-                                    equal = true;
-                                }
-                            });
-                            if (equal == false) {
+                            if (!(eventInMap(thisMap, scheduleEventObject, currentDay))) {
                                 let arrSchedule = thisMap.get(currentDay);
                                 arrSchedule.push(scheduleEventObject);
                                 arrSchedule.sort((a, b) => {
@@ -403,13 +408,7 @@ export const App = () => {
                             isCompleted: false
                         }
                         if (thisMap.get(currentDay)) {
-                            let equal = false;
-                            thisMap.get(currentDay).forEach(exam => {
-                                if (JSON.stringify(exam) == JSON.stringify(examEventObject)) {
-                                    equal = true;
-                                }
-                            });
-                            if (equal == false) {
+                            if (!(eventInMap(thisMap, examEventObject, currentDay))) {
                                 let arrExams = thisMap.get(currentDay);
                                 arrExams.push(examEventObject);
                                 arrExams.sort((a, b) => {
@@ -444,13 +443,7 @@ export const App = () => {
                             isCompleted: false
                         }
                         if (thisMap.get(currentDay)) {
-                            let equal = false;
-                            thisMap.get(currentDay).forEach(assignment => {
-                                if (JSON.stringify(assignment) == JSON.stringify(assignmentEventObject)) {
-                                    equal = true;
-                                }
-                            });
-                            if (equal == false) {
+                            if (!(eventInMap(thisMap, assignmentEventObject, currentDay))) {
                                 let arrAssignments = thisMap.get(currentDay);
                                 arrAssignments.push(assignmentEventObject);
                                 arrAssignments.sort((a, b) => {
