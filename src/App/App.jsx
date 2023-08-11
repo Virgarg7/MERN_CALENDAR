@@ -26,7 +26,6 @@ export const App = () => {
     const today = `${dtToday.getMonth() + 1}/${dtToday.getDate()}/${dtToday.getFullYear()}`;
     const [dayNav, setDayNav] = useState(0);
 
-    // nav 0 is current month (render current month)
     const [nav, setNav] = useState(0);
     const [currentDay, setCurrentDay] = useState(today);
     const [scheduleBoxClicked, setScheduleBoxClicked] = useState(false);
@@ -35,7 +34,6 @@ export const App = () => {
     const [assignmentEventBoxClicked, setAssignmentEventBoxClicked] = useState(false);
     const [examEventBoxClicked, setExamEventBoxClicked] = useState(false);
     const [scheduleEventBoxClicked, setScheduleEventBoxClicked] = useState(false);
-    // list of hashmaps to store in local storage
     const [scheduleMap, setScheduleMap] = useState(
         localStorage.getItem('schedule') ? 
             hashMap(localStorage.schedule) : 
@@ -51,7 +49,6 @@ export const App = () => {
             hashMap(localStorage.assignment) : 
             new Map()
     );
-    const [mapsChanged, setMapsChanged] = useState(false);
     localStorage.schedule = setHashMap(scheduleMap);
     localStorage.exam = setHashMap(examMap);
     localStorage.assignment = setHashMap(assignmentMap);
@@ -59,17 +56,14 @@ export const App = () => {
     // updates local storage with string of events
     useEffect(() => {
         localStorage.schedule = setHashMap(scheduleMap);
-        setMapsChanged(true);
     }, [scheduleMap]);
 
     useEffect(() => {
         localStorage.exam = setHashMap(examMap);
-        setMapsChanged(true);
     }, [examMap]);
 
     useEffect(() => {
         localStorage.assignment = setHashMap(assignmentMap);
-        setMapsChanged(true);
     }, [assignmentMap]);
 
     useEffect(() => {
@@ -335,7 +329,6 @@ export const App = () => {
                 < NewScheduleEventModal
                     onClose={() => setScheduleBoxClicked(false)} 
                     onSave={(className, classType, classTime, classLocation) => {
-                        setMapsChanged(false);
                         setScheduleMap(addedHashMap(localStorage.schedule, currentDay,
                             scheduleObj(className, classType, classTime, classLocation, false)));
                         setScheduleBoxClicked(false);
@@ -348,7 +341,6 @@ export const App = () => {
                 < NewExamEventModal
                     onClose={() => setExamBoxClicked(false)} 
                     onSave={(examName, className, examTime, examLocation) => {
-                        setMapsChanged(false);
                         setExamMap(addedHashMap(localStorage.exam, currentDay, 
                             examObj(examName, className, examTime, examLocation, false)));
                         setExamBoxClicked(false);
@@ -361,7 +353,6 @@ export const App = () => {
                 < NewAssignmentEventModal
                     onClose={() => setAssignmentBoxClicked(false)} 
                     onSave={(assignmentName, className, deadline) => {
-                        setMapsChanged(false);
                         setAssignmentMap(addedHashMap(localStorage.assignment, currentDay, 
                             assignmentObj(assignmentName, className, deadline, false)));
                         setAssignmentBoxClicked(false);
