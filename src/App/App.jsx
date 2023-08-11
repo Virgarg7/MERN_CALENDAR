@@ -18,6 +18,7 @@ import { DeleteScheduleEventModal } from "../Components/EventModals/ScheduleModa
 
 
 let hashMap = (eventType => new Map(JSON.parse(eventType)));
+let setHashMap = (hashMap => JSON.stringify(Array.from(hashMap)))
 
 export const App = () => {
 
@@ -51,23 +52,23 @@ export const App = () => {
             new Map()
     );
     const [mapsChanged, setMapsChanged] = useState(false);
-    localStorage.schedule = JSON.stringify(Array.from(scheduleMap));
-    localStorage.exam = JSON.stringify(Array.from(examMap));
-    localStorage.assignment = JSON.stringify(Array.from(assignmentMap));
+    localStorage.schedule = setHashMap(scheduleMap);
+    localStorage.exam = setHashMap(examMap);
+    localStorage.assignment = setHashMap(assignmentMap);
     
     // updates local storage with string of events
     useEffect(() => {
-        localStorage.schedule = JSON.stringify(Array.from(scheduleMap));
+        localStorage.schedule = setHashMap(scheduleMap);
         setMapsChanged(true);
     }, [scheduleMap]);
 
     useEffect(() => {
-        localStorage.exam = JSON.stringify(Array.from(examMap));
+        localStorage.exam = setHashMap(examMap);
         setMapsChanged(true);
     }, [examMap]);
 
     useEffect(() => {
-        localStorage.assignment = JSON.stringify(Array.from(assignmentMap));
+        localStorage.assignment = setHashMap(assignmentMap);
         setMapsChanged(true);
     }, [assignmentMap]);
 
