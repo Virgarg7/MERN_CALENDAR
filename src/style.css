@@ -2,14 +2,14 @@ body {
   display: flex;
   margin-top: 50px;
   justify-content: center;
-  background-color: #FFFCFF;
+  background-color: #201e1d;
 }
 button {
   margin-right: 2.5px;
   margin-left: 2.5px;
   width: 75px;
   cursor: pointer;
-  box-shadow: 0px 0px 2px gray;
+  box-shadow: 0px 0px 0px gray;
   border: none;
   outline: none;
   padding: 5px;
@@ -19,26 +19,26 @@ button {
 
 #CurrentBoxHeader {
   padding: 10px;
-  color: #d36c6c;
+  color: #e1e1e0;
   font-size: 26px;
   font-family: sans-serif;
   display: flex;
   justify-content: space-between;
 }
 #CurrentBoxHeader button {
-  background-color:#92a1d1;
+  background-color:#615f5f;
 }
   
 #header {
   padding: 10px;
-  color: #d36c6c;
+  color: #e1e1e0;
   font-size: 26px;
   font-family: sans-serif;
   display: flex;
   justify-content: space-between;
 }
 #header button {
-  background-color:#92a1d1;
+  background-color:#615f5f;
 }
 #container {
   width: 770px;
@@ -46,7 +46,7 @@ button {
 #weekdays {
   width: 100%;
   display: flex;
-  color: #247BA0;
+  color: #e1e1e0;
 }
 #weekdays div {
   width: 100px;
@@ -64,12 +64,15 @@ button {
   height: 150px;
   cursor: pointer;
   box-sizing: border-box;
-  background-color: white;
+  background-color: #201e1d;
+  border: 2px solid #383737;
+  border-radius: 10px;
   margin: 5px;
-  box-shadow: 0px 0px 5px #CBD4C2;
+  box-shadow: 0px 0px 0px #CBD4C2;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  color: #e1e1e0;
 }
 .assignment {
   width: 210px;
@@ -129,31 +132,31 @@ button {
   background-color: white;
 }
 .day:hover {
-  background-color: #e8faed;
+  background-color: #D3494E;
 }
 
 .day + .today:hover {
-  background-color: #e8faed;
+  background-color: #D3494E;
 }
 
 .day + .isWeekend:hover {
-  background-color: #e8faed;
+  background-color: #D3494E;
 }
 
 .day + .today {
-  background-color:#e8f4fa;
-  border: 2px solid #528AAE;
+  background-color:#615f5f;
+  border: 2px solid #615f5f;
 }
 .day + .isWeekend {
-  background-color:#DEDEDE;
+  background-color:#2a2726;
 }
 .day + .currentDay {
-  background-color:#e8faed;
+  background-color:#D3494E;
 }
 .eventSchedule {
   font-size: 13px;
   padding: 3px;
-  background-color: #58bae4;
+  background-color: #244858;
   color: white;
   border-radius: 5px;
   max-height: 55px;
@@ -162,7 +165,7 @@ button {
 .eventExam {
   font-size: 13px;
   padding: 3px;
-  background-color: #58bae4;
+  background-color: #244858;
   color: white;
   border-radius: 5px;
   max-height: 55px;
@@ -171,14 +174,15 @@ button {
 .eventAssignment {
   font-size: 13px;
   padding: 3px;
-  background-color: #58bae4;
+  background-color: #244858;
   color: white;
   border-radius: 5px;
   max-height: 55px;
   overflow: hidden;
 }
 .padding {
-  background-color: #EEEEED;
+  color: #868585;
+  background-color: #282424;
   opacity: .5;
   box-shadow: none !important;
 }
@@ -211,7 +215,7 @@ button {
 }
 #AssignmentBoxHeader button {
   width: 25px;
-  background-color:#92a1d1;
+  background-color:#615f5f;
 }
 #ExamBoxHeader {
   padding: 10px;
@@ -223,7 +227,7 @@ button {
 }
 #ExamBoxHeader button {
   width: 25px;
-  background-color:#92a1d1;
+  background-color:#615f5f;
 }
 #ScheduleBoxHeader {
   padding: 10px;
@@ -235,7 +239,7 @@ button {
 }
 #ScheduleBoxHeader button {
   width: 25px;
-  background-color:#92a1d1;
+  background-color:#615f5f;
 }
 .schedules {
   background-color: #ffffe0;
