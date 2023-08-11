@@ -175,6 +175,8 @@ export const App = () => {
         }
     }, [completedScheduleObject]);
 
+    const [editAssignmentObject, setEditAssignmentObject] = useState();
+
     const { days, dateDisplay } = useDate(nav, currentDay, mapsChanged);
 
     return(
@@ -311,6 +313,7 @@ export const App = () => {
                                       case 2: {
                                         setAssignmentEventBoxClicked(true);
                                         setCompletedAssignmentObject(a);
+                                        setEditAssignmentObject(a);
                                         break;
                                       }
                                       case 3: {
@@ -487,11 +490,67 @@ export const App = () => {
 
             {
                 
-                assignmentEventBoxClicked && 
-                <DeleteAssignmentEventModal 
-                    onClose={() => setAssignmentEventBoxClicked(false)}
+                assignmentEventBoxClicked &&
+                <DeleteAssignmentEventModal
+                    assignment={editAssignmentObject}
+                    onSave={(assignmentName, className, deadline, isCompletedValue) => {
+                        let thisMap = new Map(JSON.parse(localStorage.assignment));
+                        let midDayTime = deadline.slice(-2);
+                        let timeStr = deadline.slice(0, 5);
+                        timeStr = timeStr.replace(":", "");
+                        let timeInt = parseInt(timeStr);
+                        if (midDayTime == "AM" && (timeInt > 1159 && timeInt < 1300)) {
+                            timeInt -= 1200;
+                        }
+                        if (midDayTime == "PM" && timeInt < 1200) {
+                            timeInt += 1200;
+                        }
+                        let assignmentEventObject = {
+                            name: assignmentName,
+                            class: className,
+                            time: timeInt,
+                            timeMeridian: deadline,
+                            isCompleted: !isCompletedValue
+                        }
+                        let currAssignmentArr = thisMap.get(currentDay);
+                        let equal = false;
+                        if (JSON.stringify(editAssignmentObject) == JSON.stringify(assignmentEventObject)) {
+                            equal = true;
+                        }
+                        if (equal == false) {
+                            let index = -1;
+                            for (let i = 0; i < currAssignmentArr.length; i++) {
+                                if (JSON.stringify(currAssignmentArr[i]) == JSON.stringify(editAssignmentObject)) {
+                                    index = i;
+                                }
+                            }
+                            currAssignmentArr.splice(index, 1);
+                            currAssignmentArr.push(assignmentEventObject);
+                            currAssignmentArr.sort((a, b) => {
+                                return a.time - b.time 
+                                    || a.class.localeCompare(b.class) 
+                                        || a.name.localeCompare(b.name);
+                            });
+                            thisMap.set(currentDay, currAssignmentArr);
+                            setAssignmentMap(thisMap);
+                        }
+                        setEditAssignmentObject(null);
+                        setAssignmentEventBoxClicked(false)
+                    }}
                     onDelete={() => {
                         //setEvents(events.filter(e => e.date != currentDay));
+                        let thisMap = new Map(JSON.parse(localStorage.assignment));
+                        let currAssignmentArr = thisMap.get(currentDay);
+                        let index = -1;
+                        for (let i = 0; i < currAssignmentArr.length; i++) {
+                            if (JSON.stringify(currAssignmentArr[i]) == JSON.stringify(editAssignmentObject)) {
+                                index = i;
+                            }
+                        }
+                        currAssignmentArr.splice(index, 1);
+                        thisMap.set(currentDay, currAssignmentArr);
+                        setAssignmentMap(thisMap);
+                        setEditAssignmentObject(null);
                         setAssignmentEventBoxClicked(false);
                     }}
                 />   

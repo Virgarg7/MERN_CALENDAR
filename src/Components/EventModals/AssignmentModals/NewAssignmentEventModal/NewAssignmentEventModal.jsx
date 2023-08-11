@@ -32,15 +32,13 @@ export const NewAssignmentEventModal = ( { onSave, onClose} ) => {
                     placeholder="Enter Class Name (ex. CS 1332)" 
                 />
 
-                <div id="AssignmentSelectContainer">
-                    <input 
-                        className={error ? "error" : ""}
-                        value={deadline} 
-                        onChange={e => setDeadline(e.target.value)} 
-                        id="eventTitleInput" 
-                        placeholder="Enter Assignment Deadline (ex. 11:59 PM)" 
-                    /> 
-                </div>
+                <input 
+                    className={error ? "error" : ""}
+                    value={deadline} 
+                    onChange={e => setDeadline(e.target.value)} 
+                    id="eventTitleInput" 
+                    placeholder="Enter Assignment Deadline (ex. 11:59 PM)" 
+                /> 
 
                  
 

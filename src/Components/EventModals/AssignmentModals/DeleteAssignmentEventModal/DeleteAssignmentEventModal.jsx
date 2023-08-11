@@ -1,16 +1,55 @@
-import React from "react";
+import React, { useState } from "react";
 
-export const DeleteAssignmentEventModal = ({ onDelete, eventText, onClose }) => {
+export const DeleteAssignmentEventModal = ({ assignment, onSave, onDelete }) => {
+    const [className, setClassName] = useState(assignment.class);
+    const [assignmentName, setAssignmentName] = useState(assignment.name);
+    const [deadline, setDeadline] = useState(assignment.timeMeridian);
+    const [isCompletedValue, setIsCompletedValue] = useState(assignment.isCompleted)
+    const [error, setError] = useState(false);
+
     return (
         <>
             <div id="deleteEventModal">
                 <h2>Edit/Delete Assignment:</h2>
 
-                <p id="eventText">{eventText}</p>
+                <input 
+                    className={error ? "error" : ""}
+                    value={assignmentName} 
+                    onChange={e => setAssignmentName(e.target.value)} 
+                    id="eventTitleInput" 
+                    placeholder="Enter Assignment Name (ex. HW4)" 
+                />
 
-                <button onClick={onClose} id="closeButton">Close</button>
+                <input 
+                    className={error ? "error" : ""}
+                    value={className} 
+                    onChange={e => setClassName(e.target.value)} 
+                    id="eventTitleInput" 
+                    placeholder="Enter Class Name (ex. CS 1332)" 
+                />
+
+                <input 
+                    className={error ? "error" : ""}
+                    value={deadline} 
+                    onChange={e => setDeadline(e.target.value)} 
+                    id="eventTitleInput" 
+                    placeholder="Enter Assignment Deadline (ex. 11:59 PM)" 
+                /> 
+
+                <button 
+                    onClick={() => {
+                        if (assignmentName && className && deadline) {
+                            setError(false);
+                            onSave(assignmentName, className, deadline, isCompletedValue);
+                        } else {
+                            setError(true);
+                        }
+                    }}
+                    id="saveButton">Save</button>
                 <button onClick={onDelete} id="deleteButton">Delete</button>
             </div>
+
+            
 
             <div id="modalBackDrop"></div>
         </>
