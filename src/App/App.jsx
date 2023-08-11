@@ -28,6 +28,7 @@ export const App = () => {
     const [assignmentBoxClicked, setAssignmentBoxClicked] = useState(false);
     const [assignmentEventBoxClicked, setAssignmentEventBoxClicked] = useState(false);
     const [examEventBoxClicked, setExamEventBoxClicked] = useState(false);
+    const [scheduleEventBoxClicked, setScheduleEventBoxClicked] = useState(false);
     // list of hashmaps to store in local storage
     const [scheduleMap, setScheduleMap] = useState(
         localStorage.getItem('schedule') ? 
@@ -45,15 +46,10 @@ export const App = () => {
             new Map()
     );
     const [mapsChanged, setMapsChanged] = useState(false);
-    const [completedAssignmentObject, setCompletedAssignmentObject] = useState();
     localStorage.schedule = JSON.stringify(Array.from(scheduleMap));
     localStorage.exam = JSON.stringify(Array.from(examMap));
     localStorage.assignment = JSON.stringify(Array.from(assignmentMap));
     
-
-    // returns an events from the date
-    //const eventForDate = date => maps.find(e => e.date === date)
-
     // updates local storage with string of events
     useEffect(() => {
         localStorage.schedule = JSON.stringify(Array.from(scheduleMap));
@@ -96,6 +92,28 @@ export const App = () => {
         setAssignments(assignmentCurrentMap.get(currentDay));
     }, [currentDay, assignmentMap]);
 
+    const [completedAssignmentObject, setCompletedAssignmentObject] = useState();
+
+    
+    useEffect(() => {
+        if (completedAssignmentObject) {
+            let assignmentCurrentMap = new Map(JSON.parse(localStorage.assignment));
+            let assignmentArr = assignmentCurrentMap.get(currentDay);
+            let indexAssignment = -1;
+            for (let i = 0; i < assignmentArr.length; i++) {
+                if (JSON.stringify(assignmentArr[i]) == JSON.stringify(completedAssignmentObject)) {
+                    indexAssignment = i;
+                }
+            }
+            completedAssignmentObject.isCompleted = (completedAssignmentObject.isCompleted == false) ? true : false;
+            
+            assignmentArr[indexAssignment] = completedAssignmentObject;
+            assignmentCurrentMap.set(currentDay, assignmentArr);
+            setAssignmentMap(assignmentCurrentMap);
+        }
+    }, [completedAssignmentObject]);
+    
+
     const [exams, setExams] = useState(() => {
         let thisMap = new Map(JSON.parse(localStorage.exam));
         return thisMap.get(currentDay);
@@ -106,6 +124,26 @@ export const App = () => {
         setExams(examCurrentMap.get(currentDay));
     }, [currentDay, examMap]);
 
+    const [completedExamObject, setCompletedExamObject] = useState();
+
+    useEffect(() => {
+        if (completedExamObject) {
+            let examCurrentMap = new Map(JSON.parse(localStorage.exam));
+            let examArr = examCurrentMap.get(currentDay);
+            let indexExam = -1;
+            for (let i = 0; i < examArr.length; i++) {
+                if (JSON.stringify(examArr[i]) == JSON.stringify(completedExamObject)) {
+                    indexExam = i;
+                }
+            }
+            completedExamObject.isCompleted = (completedExamObject.isCompleted == false) ? true : false;
+            
+            examArr[indexExam] = completedExamObject;
+            examCurrentMap.set(currentDay, examArr);
+            setExamMap(examCurrentMap);
+        }
+    }, [completedExamObject]);
+
     const [schedules, setSchedules] = useState(() => {
         let thisMap = new Map(JSON.parse(localStorage.schedule));
         return thisMap.get(currentDay);
@@ -115,6 +153,26 @@ export const App = () => {
         let scheduleCurrentMap = new Map(JSON.parse(localStorage.schedule));
         setSchedules(scheduleCurrentMap.get(currentDay));
     }, [currentDay, scheduleMap]);
+
+    const [completedScheduleObject, setCompletedScheduleObject] = useState();
+    
+    useEffect(() => {
+        if (completedScheduleObject) {
+            let scheduleCurrentMap = new Map(JSON.parse(localStorage.schedule));
+            let scheduleArr = scheduleCurrentMap.get(currentDay);
+            let indexSchedule = -1;
+            for (let i = 0; i < scheduleArr.length; i++) {
+                if (JSON.stringify(scheduleArr[i]) == JSON.stringify(completedScheduleObject)) {
+                    indexSchedule = i;
+                }
+            }
+            completedScheduleObject.isCompleted = (completedScheduleObject.isCompleted == false) ? true : false;
+            
+            scheduleArr[indexSchedule] = completedScheduleObject;
+            scheduleCurrentMap.set(currentDay, scheduleArr);
+            setScheduleMap(scheduleCurrentMap);
+        }
+    }, [completedScheduleObject]);
 
     const { days, dateDisplay } = useDate(nav, currentDay, mapsChanged);
 
@@ -175,8 +233,25 @@ export const App = () => {
                             <Schedule
                                 key={index}
                                 schedule={s}
-                                onClick={() => {
-                                    setExamEventBoxClicked(true);
+                                onClick={event => {
+                                    switch (event.detail) {
+                                      case 1: {
+                                        setCompletedScheduleObject(s);
+                                        break;
+                                      }
+                                      case 2: {
+                                        setScheduleEventBoxClicked(true);
+                                        setCompletedScheduleObject(s);
+                                        break;
+                                      }
+                                      case 3: {
+                                        console.log('triple click');
+                                        break;
+                                      }
+                                      default: {
+                                        break;
+                                      }
+                                    }
                                 }}
                             />
                         ))}
@@ -192,8 +267,25 @@ export const App = () => {
                             <Exam
                                 key={index}
                                 exam={e}
-                                onClick={() => {
-                                    setExamEventBoxClicked(true);
+                                onClick={event => {
+                                    switch (event.detail) {
+                                      case 1: {
+                                        setCompletedExamObject(e);
+                                        break;
+                                      }
+                                      case 2: {
+                                        setExamEventBoxClicked(true);
+                                        setCompletedExamObject(e);
+                                        break;
+                                      }
+                                      case 3: {
+                                        console.log('triple click');
+                                        break;
+                                      }
+                                      default: {
+                                        break;
+                                      }
+                                    }
                                 }}
                             />
                         ))}
@@ -209,21 +301,15 @@ export const App = () => {
                             <Assignment
                                 key={index}
                                 assignment={a}
-                                /*
-                                onClick={() => {
-                                    setCompletedAssignmentObject(a);
-                                    console.log(completedAssignmentObject);
-                                }}
-                                */
                                 onClick={event => {
                                     switch (event.detail) {
                                       case 1: {
-                                        setAssignmentEventBoxClicked(true);
+                                        setCompletedAssignmentObject(a);
                                         break;
                                       }
                                       case 2: {
+                                        setAssignmentEventBoxClicked(true);
                                         setCompletedAssignmentObject(a);
-                                        console.log(completedAssignmentObject);
                                         break;
                                       }
                                       case 3: {
@@ -234,7 +320,7 @@ export const App = () => {
                                         break;
                                       }
                                     }
-                                  }}
+                                }}
                             />
                         ))}
                     </div>
