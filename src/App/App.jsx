@@ -478,11 +478,7 @@ export const App = () => {
                             isCompleted: !isCompletedValue
                         }
                         let currScheduleArr = thisMap.get(currentDay);
-                        let equal = false;
-                        if (JSON.stringify(editScheduleObject) == JSON.stringify(scheduleEventObject)) {
-                            equal = true;
-                        }
-                        if (equal == false) {
+                        if (JSON.stringify(editScheduleObject) != JSON.stringify(scheduleEventObject)) {
                             let index = -1;
                             for (let i = 0; i < currScheduleArr.length; i++) {
                                 if (JSON.stringify(currScheduleArr[i]) == JSON.stringify(editScheduleObject)) {
@@ -543,11 +539,7 @@ export const App = () => {
                             isCompleted: !isCompletedValue
                         }
                         let currExamArr = thisMap.get(currentDay);
-                        let equal = false;
-                        if (JSON.stringify(editExamObject) == JSON.stringify(examEventObject)) {
-                            equal = true;
-                        }
-                        if (equal == false) {
+                        if (JSON.stringify(editExamObject) != JSON.stringify(examEventObject)) {
                             let index = -1;
                             for (let i = 0; i < currExamArr.length; i++) {
                                 if (JSON.stringify(currExamArr[i]) == JSON.stringify(editExamObject)) {
@@ -607,11 +599,7 @@ export const App = () => {
                             isCompleted: !isCompletedValue
                         }
                         let currAssignmentArr = thisMap.get(currentDay);
-                        let equal = false;
-                        if (JSON.stringify(editAssignmentObject) == JSON.stringify(assignmentEventObject)) {
-                            equal = true;
-                        }
-                        if (equal == false) {
+                        if (JSON.stringify(editAssignmentObject) != JSON.stringify(assignmentEventObject)) {
                             let index = -1;
                             for (let i = 0; i < currAssignmentArr.length; i++) {
                                 if (JSON.stringify(currAssignmentArr[i]) == JSON.stringify(editAssignmentObject)) {
