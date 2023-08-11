@@ -17,7 +17,7 @@ import { DeleteAssignmentEventModal } from "../Components/EventModals/Assignment
 import { DeleteScheduleEventModal } from "../Components/EventModals/ScheduleModals/DeleteScheduleEventModal";
 import { hashMap, setHashMap } from "../util/hashFunctions"
 import { eventInMap, removeEvent, setDeleteMap, scheduleObj, examObj, 
-    assignmentObj, pushExamOrAssignment, pushSchedule } from "../util/eventFunctions"
+    assignmentObj, pushExamOrAssignment, pushSchedule, addEvent, addedHashMap } from "../util/eventFunctions"
 
 
 export const App = () => {
@@ -335,20 +335,9 @@ export const App = () => {
                 < NewScheduleEventModal
                     onClose={() => setScheduleBoxClicked(false)} 
                     onSave={(className, classType, classTime, classLocation) => {
-                        let thisMap = hashMap(localStorage.schedule);
                         setMapsChanged(false);
-                        let scheduleEventObject = scheduleObj(className, classType, 
-                            classTime, classLocation, false);
-                        if (thisMap.get(currentDay)) {
-                            if (!(eventInMap(thisMap, scheduleEventObject, currentDay))) {
-                                let arrSchedule = thisMap.get(currentDay);
-                                pushSchedule(arrSchedule, scheduleEventObject, thisMap, currentDay);
-                            }
-                                            
-                        } else {
-                            thisMap.set(currentDay, [scheduleEventObject]);
-                        }
-                        setScheduleMap(thisMap);
+                        setScheduleMap(addedHashMap(localStorage.schedule, currentDay,
+                            scheduleObj(className, classType, classTime, classLocation, false)));
                         setScheduleBoxClicked(false);
                     }}
                 />
@@ -359,18 +348,9 @@ export const App = () => {
                 < NewExamEventModal
                     onClose={() => setExamBoxClicked(false)} 
                     onSave={(examName, className, examTime, examLocation) => {
-                        let thisMap = hashMap(localStorage.exam);
                         setMapsChanged(false);
-                        let examEventObject = examObj(examName, className, 
-                            examTime, examLocation, false);
-                        if (thisMap.get(currentDay)) {
-                            if (!(eventInMap(thisMap, examEventObject, currentDay))) {
-                                pushExamOrAssignment(thisMap.get(currentDay), examEventObject, thisMap, currentDay);
-                            }        
-                        } else {
-                            thisMap.set(currentDay, [examEventObject]);
-                        }
-                        setExamMap(thisMap);
+                        setExamMap(addedHashMap(localStorage.exam, currentDay, 
+                            examObj(examName, className, examTime, examLocation, false)));
                         setExamBoxClicked(false);
                     }}
                 />
@@ -381,19 +361,9 @@ export const App = () => {
                 < NewAssignmentEventModal
                     onClose={() => setAssignmentBoxClicked(false)} 
                     onSave={(assignmentName, className, deadline) => {
-                        let thisMap = hashMap(localStorage.assignment);
                         setMapsChanged(false);
-                        let assignmentEventObject = assignmentObj(assignmentName, className, 
-                            deadline, false);
-                        if (thisMap.get(currentDay)) {
-                            if (!(eventInMap(thisMap, assignmentEventObject, currentDay))) {
-                                pushExamOrAssignment(thisMap.get(currentDay), assignmentEventObject, thisMap, currentDay);
-                            }
-                                            
-                        } else {
-                            thisMap.set(currentDay, [assignmentEventObject]);
-                        }
-                        setAssignmentMap(thisMap);
+                        setAssignmentMap(addedHashMap(localStorage.assignment, currentDay, 
+                            assignmentObj(assignmentName, className, deadline, false)));
                         setAssignmentBoxClicked(false);
                     }}
                 />

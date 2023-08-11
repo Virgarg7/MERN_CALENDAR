@@ -1,4 +1,5 @@
 import React from "react";
+import { hashMap } from "../util/hashFunctions"
 
 export const timeValue = (timeMeridian => {
     let midDayTime = timeMeridian.slice(-2);
@@ -93,3 +94,19 @@ export const pushSchedule = ((arr, eventObj, hashMap, day) => {
     });
     hashMap.set(day, arr);
 });
+
+export const addEvent = ((hashMap, day, eventObj) => {
+    if (hashMap.get(day)) {
+        if (!(eventInMap(hashMap, eventObj, day))) {
+            pushSchedule(hashMap.get(day), eventObj, hashMap, day);
+        }              
+    } else {
+        hashMap.set(day, [eventObj]);
+    }
+});
+
+export const addedHashMap = ((storageType, day, eventObj) => {
+    let thisMap = hashMap(storageType);
+    addEvent(thisMap, day, eventObj);
+    return thisMap;
+})
