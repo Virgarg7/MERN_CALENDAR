@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { CalendarHeader } from "../Components/CalendarHeader";
 import { Day } from "../Components//Day"
 import { NewScheduleEventModal } from "../Components/EventModals/ScheduleModals/NewScheduleEventModal";
-import { DeleteScheduleEventModal } from "../Components/EventModals/ScheduleModals/DeleteScheduleEventModal";
 import { NewExamEventModal } from "../Components/EventModals/ExamModals/NewExamEventModal";
 import { NewAssignmentEventModal} from "../Components/EventModals/AssignmentModals/NewAssignmentEventModal";
 import { useDate } from "../Hooks/useDate";
@@ -13,8 +12,9 @@ import { AssignmentBoxHeader } from "../Components/CurrentBoxes/AssignmentBox/As
 import { Assignment } from "../Components/CurrentBoxes/AssignmentBox/Assignment";
 import { Exam } from "../Components/CurrentBoxes/ExamBox/Exam";
 import { Schedule } from "../Components/CurrentBoxes/ScheduleBox/Schedule";
-import { DeleteAssignmentEventModal } from "../Components/EventModals/AssignmentModals/DeleteAssignmentEventModal";
 import { DeleteExamEventModal } from "../Components/EventModals/ExamModals/DeleteExamEventModal";
+import { DeleteAssignmentEventModal } from "../Components/EventModals/AssignmentModals/DeleteAssignmentEventModal";
+import { DeleteScheduleEventModal } from "../Components/EventModals/ScheduleModals/DeleteScheduleEventModal";
 
 
 export const App = () => {
@@ -480,6 +480,81 @@ export const App = () => {
                         setAssignmentBoxClicked(false);
                     }}
                 />
+            }
+
+            {
+                scheduleEventBoxClicked &&
+                <DeleteScheduleEventModal
+                    schedule={editScheduleObject}
+                    onSave={(className, classType, classTime, classLocation, isCompletedValue) => {
+                        let thisMap = new Map(JSON.parse(localStorage.schedule));
+                        let midDayTime = classTime.slice(-2);
+                        let timeStr = classTime.slice(0, 5);
+                        timeStr = timeStr.replace(":", "");
+                        let timeInt = parseInt(timeStr);
+                        if (midDayTime == "AM" && (timeInt > 1159 && timeInt < 1300)) {
+                            timeInt -= 1200;
+                        }
+                        if (midDayTime == "PM" && timeInt < 1200) {
+                            timeInt += 1200;
+                        }
+                        let scheduleEventObject = {
+                            name: className,
+                            type: classType,
+                            time: timeInt,
+                            timeMeridian: classTime,
+                            location: classLocation,
+                            isCompleted: !isCompletedValue
+                        }
+                        let currScheduleArr = thisMap.get(currentDay);
+                        let equal = false;
+                        if (JSON.stringify(editScheduleObject) == JSON.stringify(scheduleEventObject)) {
+                            equal = true;
+                        }
+                        if (equal == false) {
+                            let index = -1;
+                            for (let i = 0; i < currScheduleArr.length; i++) {
+                                if (JSON.stringify(currScheduleArr[i]) == JSON.stringify(editScheduleObject)) {
+                                    index = i;
+                                }
+                            }
+                            currScheduleArr.splice(index, 1);
+                            currScheduleArr.push(scheduleEventObject);
+                            currScheduleArr.sort((a, b) => {
+                                return a.time - b.time 
+                                    || a.class.localeCompare(b.class) 
+                                        || a.name.localeCompare(b.name);
+                            });
+                            thisMap.set(currentDay, currScheduleArr);
+                            setScheduleMap(thisMap);
+                        }
+                        setEditScheduleObject(null);
+                        setScheduleEventBoxClicked(false)
+                    }}
+                    onDelete={() => {
+                        let thisMap = new Map(JSON.parse(localStorage.schedule));
+                        let currScheduleArr = thisMap.get(currentDay);
+                        let index = -1;
+                        for (let i = 0; i < currScheduleArr.length; i++) {
+                            if (JSON.stringify(currScheduleArr[i]) == JSON.stringify(editScheduleObject)) {
+                                index = i;
+                            }
+                        }
+                        currScheduleArr.splice(index, 1);
+                        if (currScheduleArr.length == 0) {
+                            thisMap.delete(currentDay);
+                            setScheduleMap(thisMap);
+                            setEditScheduleObject(null);
+                            setScheduleEventBoxClicked(false);
+                        } else {
+                            thisMap.set(currentDay, currScheduleArr);
+                            setScheduleMap(thisMap);
+                            setEditScheduleObject(null);
+                            setScheduleEventBoxClicked(false);
+                        }
+                        
+                    }}
+                />    
             }
 
             {
