@@ -110,3 +110,25 @@ export const addedHashMap = ((storageType, day, eventObj) => {
     addEvent(thisMap, day, eventObj);
     return thisMap;
 })
+
+export const removedHashMap = ((storageType, day, eventObj) => {
+    let thisMap = hashMap(storageType);
+    let currAssignmentArr = thisMap.get(day);
+    removeEvent(currAssignmentArr, eventObj);
+    setDeleteMap(thisMap, currAssignmentArr, day);
+    return thisMap;
+})
+
+export const editedHashMap = ((storageType, day, oldEventObj, newEventObj) => {
+    let thisMap = hashMap(storageType);
+    let currScheduleArr = thisMap.get(day);
+
+    removeEvent(currScheduleArr, oldEventObj);
+    pushSchedule(currScheduleArr, newEventObj, thisMap, day);
+    
+    return JSON.stringify(oldEventObj) != JSON.stringify(newEventObj) 
+        ? thisMap
+        : hashMap(storageType);
+})
+
+

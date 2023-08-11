@@ -16,8 +16,8 @@ import { DeleteExamEventModal } from "../Components/EventModals/ExamModals/Delet
 import { DeleteAssignmentEventModal } from "../Components/EventModals/AssignmentModals/DeleteAssignmentEventModal";
 import { DeleteScheduleEventModal } from "../Components/EventModals/ScheduleModals/DeleteScheduleEventModal";
 import { hashMap, setHashMap } from "../util/hashFunctions"
-import { eventInMap, removeEvent, setDeleteMap, scheduleObj, examObj, 
-    assignmentObj, pushExamOrAssignment, pushSchedule, addEvent, addedHashMap } from "../util/eventFunctions"
+import { removeEvent, setDeleteMap, scheduleObj, examObj, 
+    assignmentObj, pushExamOrAssignment, pushSchedule, addedHashMap, removedHashMap, editedHashMap} from "../util/eventFunctions"
 
 
 export const App = () => {
@@ -374,24 +374,16 @@ export const App = () => {
                 <DeleteScheduleEventModal
                     schedule={editScheduleObject}
                     onSave={(className, classType, classTime, classLocation, isCompletedValue) => {
-                        let thisMap = hashMap(localStorage.schedule);
-                        let scheduleEventObject = scheduleObj(className, classType, 
-                            classTime, classLocation, !isCompletedValue);
-                        let currScheduleArr = thisMap.get(currentDay);
-                        if (JSON.stringify(editScheduleObject) != JSON.stringify(scheduleEventObject)) {
-                            removeEvent(currScheduleArr, editScheduleObject);
-                            pushSchedule(currScheduleArr, scheduleEventObject, thisMap, currentDay);
-                            setScheduleMap(thisMap);
-                        }
+                        setScheduleMap(editedHashMap(localStorage.schedule, currentDay,
+                            editScheduleObject, 
+                                scheduleObj(className, classType, classTime, 
+                                    classLocation, !isCompletedValue)));
                         setEditScheduleObject(null);
                         setScheduleEventBoxClicked(false)
                     }}
                     onDelete={() => {
-                        let thisMap = hashMap(localStorage.schedule);
-                        let currScheduleArr = thisMap.get(currentDay);
-                        removeEvent(currScheduleArr, editScheduleObject);
-                        setDeleteMap(thisMap, currScheduleArr, currentDay);
-                        setScheduleMap(thisMap);
+                        setScheduleMap(removedHashMap(localStorage.schedule, currentDay, 
+                            editScheduleObject));
                         setEditScheduleObject(null);
                         setScheduleEventBoxClicked(false);
                         
@@ -404,24 +396,16 @@ export const App = () => {
                 <DeleteExamEventModal
                     exam={editExamObject}
                     onSave={(examName, className, examTime, examLocation, isCompletedValue) => {
-                        let thisMap = hashMap(localStorage.exam);
-                        let examEventObject = examObj(examName, className, 
-                            examTime, examLocation, !isCompletedValue);
-                        let currExamArr = thisMap.get(currentDay);
-                        if (JSON.stringify(editExamObject) != JSON.stringify(examEventObject)) {
-                            removeEvent(currExamArr, editExamObject);
-                            pushExamOrAssignment(currExamArr, examEventObject, thisMap, currentDay);
-                            setExamMap(thisMap);
-                        }
+                        setExamMap(editedHashMap(localStorage.exam, currentDay, 
+                            editExamObject, 
+                                examObj(examName, className, 
+                                    examTime, examLocation, !isCompletedValue)));
                         setEditExamObject(null);
                         setExamEventBoxClicked(false)
                     }}
                     onDelete={() => {
-                        let thisMap = hashMap(localStorage.exam);
-                        let currExamArr = thisMap.get(currentDay);
-                        removeEvent(currExamArr, editExamObject);
-                        setDeleteMap(thisMap, currExamArr, currentDay);
-                        setExamMap(thisMap);
+                        setExamMap(removedHashMap(localStorage.exam, currentDay, 
+                            editExamObject));
                         setEditExamObject(null);
                         setExamEventBoxClicked(false);
                     }}
@@ -433,24 +417,16 @@ export const App = () => {
                 <DeleteAssignmentEventModal
                     assignment={editAssignmentObject}
                     onSave={(assignmentName, className, deadline, isCompletedValue) => {
-                        let thisMap = hashMap(localStorage.assignment);
-                        let assignmentEventObject = assignmentObj(assignmentName, className, 
-                            deadline, !isCompletedValue);
-                        let currAssignmentArr = thisMap.get(currentDay);
-                        if (JSON.stringify(editAssignmentObject) != JSON.stringify(assignmentEventObject)) {
-                            removeEvent(currAssignmentArr, editAssignmentObject);
-                            pushExamOrAssignment(currAssignmentArr, assignmentEventObject, thisMap, currentDay);
-                            setAssignmentMap(thisMap);
-                        }
+                        setAssignmentMap(editedHashMap(localStorage.assignment, currentDay, 
+                            editAssignmentObject, 
+                                assignmentObj(assignmentName, className, 
+                                    deadline, !isCompletedValue)));
                         setEditAssignmentObject(null);
                         setAssignmentEventBoxClicked(false);
                     }}
                     onDelete={() => {
-                        let thisMap = hashMap(localStorage.assignment);
-                        let currAssignmentArr = thisMap.get(currentDay);
-                        removeEvent(currAssignmentArr, editAssignmentObject);
-                        setDeleteMap(thisMap, currAssignmentArr, currentDay);
-                        setAssignmentMap(thisMap);
+                        setAssignmentMap(removedHashMap(localStorage.assignment, currentDay,
+                            editAssignmentObject));
                         setEditAssignmentObject(null);
                         setAssignmentEventBoxClicked(false);
                     }}
