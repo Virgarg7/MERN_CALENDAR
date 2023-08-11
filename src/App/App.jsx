@@ -17,6 +17,8 @@ import { DeleteAssignmentEventModal } from "../Components/EventModals/Assignment
 import { DeleteScheduleEventModal } from "../Components/EventModals/ScheduleModals/DeleteScheduleEventModal";
 
 
+let hashMap = (eventType => new Map(JSON.parse(eventType)));
+
 export const App = () => {
 
     const dtToday = new Date();
@@ -35,17 +37,17 @@ export const App = () => {
     // list of hashmaps to store in local storage
     const [scheduleMap, setScheduleMap] = useState(
         localStorage.getItem('schedule') ? 
-            new Map(JSON.parse(localStorage.schedule)) : 
+            hashMap(localStorage.schedule) : 
             new Map()
     );
     const [examMap, setExamMap] = useState(
         localStorage.getItem('exam') ? 
-            new Map(JSON.parse(localStorage.exam)) : 
+            hashMap(localStorage.exam) : 
             new Map()
     );
     const [assignmentMap, setAssignmentMap] = useState(
         localStorage.getItem('assignment') ? 
-            new Map(JSON.parse(localStorage.assignment)) : 
+            hashMap(localStorage.assignment) : 
             new Map()
     );
     const [mapsChanged, setMapsChanged] = useState(false);
@@ -86,12 +88,12 @@ export const App = () => {
     }, [nav]);
 
     const [assignments, setAssignments] = useState(() => {
-        let thisMap = new Map(JSON.parse(localStorage.assignment));
+        let thisMap = hashMap(localStorage.assignment);
         return thisMap.get(currentDay);
     })
 
     useEffect(() => {
-        let assignmentCurrentMap = new Map(JSON.parse(localStorage.assignment));
+        let assignmentCurrentMap = hashMap(localStorage.assignment);
         setAssignments(assignmentCurrentMap.get(currentDay));
     }, [currentDay, assignmentMap]);
 
@@ -100,7 +102,7 @@ export const App = () => {
     
     useEffect(() => {
         if (completedAssignmentObject) {
-            let assignmentCurrentMap = new Map(JSON.parse(localStorage.assignment));
+            let assignmentCurrentMap = hashMap(localStorage.assignment);
             let assignmentArr = assignmentCurrentMap.get(currentDay);
             let indexAssignment = -1;
             for (let i = 0; i < assignmentArr.length; i++) {
@@ -118,12 +120,12 @@ export const App = () => {
     
 
     const [exams, setExams] = useState(() => {
-        let thisMap = new Map(JSON.parse(localStorage.exam));
+        let thisMap = hashMap(localStorage.exam);
         return thisMap.get(currentDay);
     })
 
     useEffect(() => {
-        let examCurrentMap = new Map(JSON.parse(localStorage.exam));
+        let examCurrentMap = hashMap(localStorage.exam);
         setExams(examCurrentMap.get(currentDay));
     }, [currentDay, examMap]);
 
@@ -131,7 +133,7 @@ export const App = () => {
 
     useEffect(() => {
         if (completedExamObject) {
-            let examCurrentMap = new Map(JSON.parse(localStorage.exam));
+            let examCurrentMap = hashMap(localStorage.exam);
             let examArr = examCurrentMap.get(currentDay);
             let indexExam = -1;
             for (let i = 0; i < examArr.length; i++) {
@@ -148,12 +150,12 @@ export const App = () => {
     }, [completedExamObject]);
 
     const [schedules, setSchedules] = useState(() => {
-        let thisMap = new Map(JSON.parse(localStorage.schedule));
+        let thisMap = hashMap(localStorage.schedule);
         return thisMap.get(currentDay);
     })
 
     useEffect(() => {
-        let scheduleCurrentMap = new Map(JSON.parse(localStorage.schedule));
+        let scheduleCurrentMap = hashMap(localStorage.schedule);
         setSchedules(scheduleCurrentMap.get(currentDay));
     }, [currentDay, scheduleMap]);
 
@@ -161,7 +163,7 @@ export const App = () => {
     
     useEffect(() => {
         if (completedScheduleObject) {
-            let scheduleCurrentMap = new Map(JSON.parse(localStorage.schedule));
+            let scheduleCurrentMap = hashMap(localStorage.schedule);
             let scheduleArr = scheduleCurrentMap.get(currentDay);
             let indexSchedule = -1;
             for (let i = 0; i < scheduleArr.length; i++) {
@@ -332,7 +334,7 @@ export const App = () => {
                 < NewScheduleEventModal
                     onClose={() => setScheduleBoxClicked(false)} 
                     onSave={(className, classType, classTime, classLocation) => {
-                        let thisMap = new Map(JSON.parse(localStorage.schedule));
+                        let thisMap = hashMap(localStorage.schedule);
                         setMapsChanged(false);
                         let midDayTime = classTime.slice(-2);
                         let timeStr = classTime.slice(0, 5);
@@ -384,7 +386,7 @@ export const App = () => {
                 < NewExamEventModal
                     onClose={() => setExamBoxClicked(false)} 
                     onSave={(examName, className, examTime, examLocation) => {
-                        let thisMap = new Map(JSON.parse(localStorage.exam));
+                        let thisMap = hashMap(localStorage.exam);
                         setMapsChanged(false);
                         let midDayTime = examTime.slice(-2);
                         let timeStr = examTime.slice(0, 5);
@@ -436,7 +438,7 @@ export const App = () => {
                 < NewAssignmentEventModal
                     onClose={() => setAssignmentBoxClicked(false)} 
                     onSave={(assignmentName, className, deadline) => {
-                        let thisMap = new Map(JSON.parse(localStorage.assignment));
+                        let thisMap = hashMap(localStorage.assignment);
                         setMapsChanged(false);
                         let midDayTime = deadline.slice(-2);
                         let timeStr = deadline.slice(0, 5);
@@ -487,7 +489,7 @@ export const App = () => {
                 <DeleteScheduleEventModal
                     schedule={editScheduleObject}
                     onSave={(className, classType, classTime, classLocation, isCompletedValue) => {
-                        let thisMap = new Map(JSON.parse(localStorage.schedule));
+                        let thisMap = hashMap(localStorage.schedule);
                         let midDayTime = classTime.slice(-2);
                         let timeStr = classTime.slice(0, 5);
                         timeStr = timeStr.replace(":", "");
@@ -532,7 +534,7 @@ export const App = () => {
                         setScheduleEventBoxClicked(false)
                     }}
                     onDelete={() => {
-                        let thisMap = new Map(JSON.parse(localStorage.schedule));
+                        let thisMap = hashMap(localStorage.schedule);
                         let currScheduleArr = thisMap.get(currentDay);
                         let index = -1;
                         for (let i = 0; i < currScheduleArr.length; i++) {
@@ -562,7 +564,7 @@ export const App = () => {
                 <DeleteExamEventModal
                     exam={editExamObject}
                     onSave={(examName, className, examTime, examLocation, isCompletedValue) => {
-                        let thisMap = new Map(JSON.parse(localStorage.exam));
+                        let thisMap = hashMap(localStorage.exam);
                         let midDayTime = examTime.slice(-2);
                         let timeStr = examTime.slice(0, 5);
                         timeStr = timeStr.replace(":", "");
@@ -607,7 +609,7 @@ export const App = () => {
                         setExamEventBoxClicked(false)
                     }}
                     onDelete={() => {
-                        let thisMap = new Map(JSON.parse(localStorage.exam));
+                        let thisMap = hashMap(localStorage.exam);
                         let currExamArr = thisMap.get(currentDay);
                         let index = -1;
                         for (let i = 0; i < currExamArr.length; i++) {
@@ -637,7 +639,7 @@ export const App = () => {
                 <DeleteAssignmentEventModal
                     assignment={editAssignmentObject}
                     onSave={(assignmentName, className, deadline, isCompletedValue) => {
-                        let thisMap = new Map(JSON.parse(localStorage.assignment));
+                        let thisMap = hashMap(localStorage.assignment);
                         let midDayTime = deadline.slice(-2);
                         let timeStr = deadline.slice(0, 5);
                         timeStr = timeStr.replace(":", "");
@@ -682,7 +684,7 @@ export const App = () => {
                     }}
                     onDelete={() => {
                         //setEvents(events.filter(e => e.date != currentDay));
-                        let thisMap = new Map(JSON.parse(localStorage.assignment));
+                        let thisMap = hashMap(localStorage.assignment);
                         let currAssignmentArr = thisMap.get(currentDay);
                         let index = -1;
                         for (let i = 0; i < currAssignmentArr.length; i++) {
