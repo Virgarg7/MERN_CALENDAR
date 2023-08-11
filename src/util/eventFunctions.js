@@ -73,3 +73,23 @@ export const assignmentObj = ((assignmentName, className, deadline, isCompleted)
         isCompleted: isCompleted
     }
 })
+
+export const pushExamOrAssignment = ((arr, eventObj, hashMap, day) => {
+    arr.push(eventObj);
+    arr.sort((a, b) => {
+        return a.time - b.time 
+            || a.class.localeCompare(b.class) 
+                || a.name.localeCompare(b.name);
+    });
+    hashMap.set(day, arr);
+});
+
+export const pushSchedule = ((arr, eventObj, hashMap, day) => {
+    arr.push(eventObj);
+    arr.sort((a, b) => {
+        return a.time - b.time 
+            || (a.name).localeCompare(b.name) 
+                || (a.type).localeCompare(b.type);
+    });
+    hashMap.set(day, arr);
+});

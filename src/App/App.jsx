@@ -16,17 +16,8 @@ import { DeleteExamEventModal } from "../Components/EventModals/ExamModals/Delet
 import { DeleteAssignmentEventModal } from "../Components/EventModals/AssignmentModals/DeleteAssignmentEventModal";
 import { DeleteScheduleEventModal } from "../Components/EventModals/ScheduleModals/DeleteScheduleEventModal";
 import { hashMap, setHashMap } from "../util/hashFunctions"
-import { eventInMap, removeEvent, setDeleteMap, scheduleObj, examObj, assignmentObj } from "../util/eventFunctions"
-
-let pushSchedule = ((arr, eventObj, hashMap, day) => {
-    arr.push(eventObj);
-    arr.sort((a, b) => {
-        return a.time - b.time 
-            || (a.name).localeCompare(b.name) 
-                || (a.type).localeCompare(b.type);
-    });
-    hashMap.set(day, arr);
-});
+import { eventInMap, removeEvent, setDeleteMap, scheduleObj, examObj, 
+    assignmentObj, pushExamOrAssignment, pushSchedule } from "../util/eventFunctions"
 
 
 export const App = () => {
@@ -351,16 +342,7 @@ export const App = () => {
                         if (thisMap.get(currentDay)) {
                             if (!(eventInMap(thisMap, scheduleEventObject, currentDay))) {
                                 let arrSchedule = thisMap.get(currentDay);
-                                
-                                arrSchedule.push(scheduleEventObject);
-                                arrSchedule.sort((a, b) => {
-                                    return a.time - b.time 
-                                        || a.name.localeCompare(b.name) 
-                                            || a.type.localeCompare(b.type);
-                                });
-                                thisMap.set(currentDay, arrSchedule);
-                                
-                                //pushSchedule(arrSchedule, scheduleBoxClicked, thisMap, currentDay);
+                                pushSchedule(arrSchedule, scheduleEventObject, thisMap, currentDay);
                             }
                                             
                         } else {
@@ -383,16 +365,8 @@ export const App = () => {
                             examTime, examLocation, false);
                         if (thisMap.get(currentDay)) {
                             if (!(eventInMap(thisMap, examEventObject, currentDay))) {
-                                let arrExams = thisMap.get(currentDay);
-                                arrExams.push(examEventObject);
-                                arrExams.sort((a, b) => {
-                                    return a.time - b.time 
-                                        || a.class.localeCompare(b.class) 
-                                            || a.name.localeCompare(b.name);
-                                });
-                                thisMap.set(currentDay, arrExams);
-                            }
-                                            
+                                pushExamOrAssignment(thisMap.get(currentDay), examEventObject, thisMap, currentDay);
+                            }        
                         } else {
                             thisMap.set(currentDay, [examEventObject]);
                         }
@@ -413,14 +387,7 @@ export const App = () => {
                             deadline, false);
                         if (thisMap.get(currentDay)) {
                             if (!(eventInMap(thisMap, assignmentEventObject, currentDay))) {
-                                let arrAssignments = thisMap.get(currentDay);
-                                arrAssignments.push(assignmentEventObject);
-                                arrAssignments.sort((a, b) => {
-                                    return a.time - b.time 
-                                        || a.class.localeCompare(b.class) 
-                                            || a.name.localeCompare(b.name);
-                                });
-                                thisMap.set(currentDay, arrAssignments);
+                                pushExamOrAssignment(thisMap.get(currentDay), assignmentEventObject, thisMap, currentDay);
                             }
                                             
                         } else {
@@ -443,13 +410,7 @@ export const App = () => {
                         let currScheduleArr = thisMap.get(currentDay);
                         if (JSON.stringify(editScheduleObject) != JSON.stringify(scheduleEventObject)) {
                             removeEvent(currScheduleArr, editScheduleObject);
-                            currScheduleArr.push(scheduleEventObject);
-                            currScheduleArr.sort((a, b) => {
-                                return a.time - b.time 
-                                    || (a.name).localeCompare(b.name) 
-                                        || (a.type).localeCompare(b.type);
-                            });
-                            thisMap.set(currentDay, currScheduleArr);
+                            pushSchedule(currScheduleArr, scheduleEventObject, thisMap, currentDay);
                             setScheduleMap(thisMap);
                         }
                         setEditScheduleObject(null);
@@ -479,13 +440,7 @@ export const App = () => {
                         let currExamArr = thisMap.get(currentDay);
                         if (JSON.stringify(editExamObject) != JSON.stringify(examEventObject)) {
                             removeEvent(currExamArr, editExamObject);
-                            currExamArr.push(examEventObject);
-                            currExamArr.sort((a, b) => {
-                                return a.time - b.time 
-                                    || a.class.localeCompare(b.class) 
-                                        || a.name.localeCompare(b.name);
-                            });
-                            thisMap.set(currentDay, currExamArr);
+                            pushExamOrAssignment(currExamArr, examEventObject, thisMap, currentDay);
                             setExamMap(thisMap);
                         }
                         setEditExamObject(null);
@@ -514,14 +469,7 @@ export const App = () => {
                         let currAssignmentArr = thisMap.get(currentDay);
                         if (JSON.stringify(editAssignmentObject) != JSON.stringify(assignmentEventObject)) {
                             removeEvent(currAssignmentArr, editAssignmentObject);
-                            currAssignmentArr.push(assignmentEventObject);
-                            currAssignmentArr.sort((a, b) => {
-                                return a.time - b.time 
-                                    || a.class.localeCompare(b.class) 
-                                        || a.name.localeCompare(b.name);
-                            });
-                            thisMap.set(currentDay, currAssignmentArr);
-                            //pushEvent(currAssignmentArr, assignmentEventObject, thisMap, currentDay);
+                            pushExamOrAssignment(currAssignmentArr, assignmentEventObject, thisMap, currentDay);
                             setAssignmentMap(thisMap);
                         }
                         setEditAssignmentObject(null);
