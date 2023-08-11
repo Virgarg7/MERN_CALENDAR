@@ -337,7 +337,7 @@ export const App = () => {
                 scheduleBoxClicked && 
                 < NewScheduleEventModal
                     onClose={() => setScheduleBoxClicked(false)} 
-                    onSave={(className, classType, classTime, classLocation, repeat, repeatDate) => {
+                    onSave={(className, classType, classTime, classLocation) => {
                         let thisMap = new Map(JSON.parse(localStorage.schedule));
                         setMapsChanged(false);
                         let midDayTime = classTime.slice(-2);

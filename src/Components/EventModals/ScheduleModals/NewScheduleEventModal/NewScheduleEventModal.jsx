@@ -5,9 +5,27 @@ export const NewScheduleEventModal = ( { onSave, onClose} ) => {
     const [classType, setClassType] = useState("");
     const [classTime, setClassTime] = useState("");
     const [classLocation, setClassLocation] = useState("");
-    const [repeat, setRepeat] = useState("");
-    const [repeatDate, setRepeatDate] = useState("");
+    //const [repeat, setRepeat] = useState("");
+    //const [repeatDate, setRepeatDate] = useState("");
     const [error, setError] = useState(false);
+
+    /*
+    <input 
+                    className={error ? "error" : ""}
+                    value={repeat} 
+                    onChange={e => setRepeat(e.target.value)} 
+                    id="eventTitleInput" 
+                    placeholder="Is this class weekly? (Yes or No)" 
+                />
+
+                <input 
+                    className=""
+                    value={repeatDate} 
+                    onChange={e => setRepeatDate(e.target.value)} 
+                    id="eventTitleInput" 
+                    placeholder="Enter day class ends (ex. 4/28/23)" 
+                />
+    */
 
     return (
         <>
@@ -46,28 +64,12 @@ export const NewScheduleEventModal = ( { onSave, onClose} ) => {
                     placeholder="Enter Class Location (ex. Klaus 2108)" 
                 />
 
-                <input 
-                    className={error ? "error" : ""}
-                    value={repeat} 
-                    onChange={e => setRepeat(e.target.value)} 
-                    id="eventTitleInput" 
-                    placeholder="Is this class weekly? (Yes or No)" 
-                />
-
-                <input 
-                    className=""
-                    value={repeatDate} 
-                    onChange={e => setRepeatDate(e.target.value)} 
-                    id="eventTitleInput" 
-                    placeholder="Enter day class ends (ex. 4/28/23)" 
-                />
-
                 <button 
                     onClick={() => {
                         if (className && classType && classTime 
-                            && classLocation && repeat) {
+                            && classLocation) {
                             setError(false);
-                            onSave(className, classType, classTime, classLocation, repeat, repeatDate);
+                            onSave(className, classType, classTime, classLocation);
                         } else {
                             setError(true);
                         }
