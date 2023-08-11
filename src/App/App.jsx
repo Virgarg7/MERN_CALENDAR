@@ -14,6 +14,8 @@ import { Assignment } from "../Components/CurrentBoxes/AssignmentBox/Assignment"
 import { Exam } from "../Components/CurrentBoxes/ExamBox/Exam";
 import { Schedule } from "../Components/CurrentBoxes/ScheduleBox/Schedule";
 import { DeleteAssignmentEventModal } from "../Components/EventModals/AssignmentModals/DeleteAssignmentEventModal";
+import { DeleteExamEventModal } from "../Components/EventModals/ExamModals/DeleteExamEventModal";
+
 
 export const App = () => {
 
@@ -176,6 +178,8 @@ export const App = () => {
     }, [completedScheduleObject]);
 
     const [editAssignmentObject, setEditAssignmentObject] = useState();
+    const [editExamObject, setEditExamObject] = useState();
+    const [editScheduleObject, setEditScheduleObject] = useState();
 
     const { days, dateDisplay } = useDate(nav, currentDay, scheduleMap, examMap, assignmentMap);
 
@@ -245,10 +249,7 @@ export const App = () => {
                                       case 2: {
                                         setScheduleEventBoxClicked(true);
                                         setCompletedScheduleObject(s);
-                                        break;
-                                      }
-                                      case 3: {
-                                        console.log('triple click');
+                                        setEditScheduleObject(s);
                                         break;
                                       }
                                       default: {
@@ -279,10 +280,7 @@ export const App = () => {
                                       case 2: {
                                         setExamEventBoxClicked(true);
                                         setCompletedExamObject(e);
-                                        break;
-                                      }
-                                      case 3: {
-                                        console.log('triple click');
+                                        setEditExamObject(e);
                                         break;
                                       }
                                       default: {
@@ -314,10 +312,6 @@ export const App = () => {
                                         setAssignmentEventBoxClicked(true);
                                         setCompletedAssignmentObject(a);
                                         setEditAssignmentObject(a);
-                                        break;
-                                      }
-                                      case 3: {
-                                        console.log('triple click');
                                         break;
                                       }
                                       default: {
@@ -489,7 +483,81 @@ export const App = () => {
             }
 
             {
-                
+                examEventBoxClicked &&
+                <DeleteExamEventModal
+                    exam={editExamObject}
+                    onSave={(examName, className, examTime, examLocation, isCompletedValue) => {
+                        let thisMap = new Map(JSON.parse(localStorage.exam));
+                        let midDayTime = examTime.slice(-2);
+                        let timeStr = examTime.slice(0, 5);
+                        timeStr = timeStr.replace(":", "");
+                        let timeInt = parseInt(timeStr);
+                        if (midDayTime == "AM" && (timeInt > 1159 && timeInt < 1300)) {
+                            timeInt -= 1200;
+                        }
+                        if (midDayTime == "PM" && timeInt < 1200) {
+                            timeInt += 1200;
+                        }
+                        let examEventObject = {
+                            name: examName,
+                            class: className,
+                            time: timeInt,
+                            timeMeridian: examTime,
+                            location: examLocation,
+                            isCompleted: !isCompletedValue
+                        }
+                        let currExamArr = thisMap.get(currentDay);
+                        let equal = false;
+                        if (JSON.stringify(editExamObject) == JSON.stringify(examEventObject)) {
+                            equal = true;
+                        }
+                        if (equal == false) {
+                            let index = -1;
+                            for (let i = 0; i < currExamArr.length; i++) {
+                                if (JSON.stringify(currExamArr[i]) == JSON.stringify(editExamObject)) {
+                                    index = i;
+                                }
+                            }
+                            currExamArr.splice(index, 1);
+                            currExamArr.push(examEventObject);
+                            currExamArr.sort((a, b) => {
+                                return a.time - b.time 
+                                    || a.class.localeCompare(b.class) 
+                                        || a.name.localeCompare(b.name);
+                            });
+                            thisMap.set(currentDay, currExamArr);
+                            setExamMap(thisMap);
+                        }
+                        setEditExamObject(null);
+                        setExamEventBoxClicked(false)
+                    }}
+                    onDelete={() => {
+                        let thisMap = new Map(JSON.parse(localStorage.exam));
+                        let currExamArr = thisMap.get(currentDay);
+                        let index = -1;
+                        for (let i = 0; i < currExamArr.length; i++) {
+                            if (JSON.stringify(currExamArr[i]) == JSON.stringify(editExamObject)) {
+                                index = i;
+                            }
+                        }
+                        currExamArr.splice(index, 1);
+                        if (currExamArr.length == 0) {
+                            thisMap.delete(currentDay);
+                            setExamMap(thisMap);
+                            setEditExamObject(null);
+                            setExamEventBoxClicked(false);
+                        } else {
+                            thisMap.set(currentDay, currExamArr);
+                            setExamMap(thisMap);
+                            setEditExamObject(null);
+                            setExamEventBoxClicked(false);
+                        }
+                        
+                    }}
+                />    
+            }
+
+            {
                 assignmentEventBoxClicked &&
                 <DeleteAssignmentEventModal
                     assignment={editAssignmentObject}
@@ -561,8 +629,7 @@ export const App = () => {
                         }
                         
                     }}
-                />   
-                
+                />    
             }
         </>
     );

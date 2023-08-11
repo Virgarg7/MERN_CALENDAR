@@ -4,7 +4,7 @@ export const DeleteAssignmentEventModal = ({ assignment, onSave, onDelete }) => 
     const [className, setClassName] = useState(assignment.class);
     const [assignmentName, setAssignmentName] = useState(assignment.name);
     const [deadline, setDeadline] = useState(assignment.timeMeridian);
-    const [isCompletedValue, setIsCompletedValue] = useState(assignment.isCompleted)
+    const [isCompletedValue, setIsCompletedValue] = useState(assignment.isCompleted);
     const [error, setError] = useState(false);
 
     return (
