@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-export const useDate = (nav, currentDay, mapsChanged) => {
+export const useDate = (nav, currentDay, scheduleMap, examMap, assignmentMap) => {
 
     const [dateDisplay, setDateDisplay] = useState("");
     const [days, setDays] = useState([]);
@@ -349,7 +349,7 @@ export const useDate = (nav, currentDay, mapsChanged) => {
 
         setDays(daysArr);
 
-    }, [nav, currentDay, mapsChanged]);
+    }, [nav, currentDay, scheduleMap, examMap, assignmentMap]);
 
     return {
         days, 

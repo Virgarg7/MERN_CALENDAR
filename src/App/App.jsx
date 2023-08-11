@@ -177,7 +177,7 @@ export const App = () => {
 
     const [editAssignmentObject, setEditAssignmentObject] = useState();
 
-    const { days, dateDisplay } = useDate(nav, currentDay, mapsChanged);
+    const { days, dateDisplay } = useDate(nav, currentDay, scheduleMap, examMap, assignmentMap);
 
     return(
         <>
@@ -548,10 +548,18 @@ export const App = () => {
                             }
                         }
                         currAssignmentArr.splice(index, 1);
-                        thisMap.set(currentDay, currAssignmentArr);
-                        setAssignmentMap(thisMap);
-                        setEditAssignmentObject(null);
-                        setAssignmentEventBoxClicked(false);
+                        if (currAssignmentArr.length == 0) {
+                            thisMap.delete(currentDay);
+                            setAssignmentMap(thisMap);
+                            setEditAssignmentObject(null);
+                            setAssignmentEventBoxClicked(false);
+                        } else {
+                            thisMap.set(currentDay, currAssignmentArr);
+                            setAssignmentMap(thisMap);
+                            setEditAssignmentObject(null);
+                            setAssignmentEventBoxClicked(false);
+                        }
+                        
                     }}
                 />   
                 
