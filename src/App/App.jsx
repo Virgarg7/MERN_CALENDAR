@@ -15,10 +15,11 @@ import { Schedule } from "../Components/CurrentBoxes/ScheduleBox/Schedule";
 import { DeleteExamEventModal } from "../Components/EventModals/ExamModals/DeleteExamEventModal";
 import { DeleteAssignmentEventModal } from "../Components/EventModals/AssignmentModals/DeleteAssignmentEventModal";
 import { DeleteScheduleEventModal } from "../Components/EventModals/ScheduleModals/DeleteScheduleEventModal";
+import { hashMap, setHashMap } from "../util/hashFunctions"
 
 
-let hashMap = (eventType => new Map(JSON.parse(eventType)));
-let setHashMap = (hashMap => JSON.stringify(Array.from(hashMap)))
+//let hashMap = (eventType => new Map(JSON.parse(eventType)));
+//let setHashMap = (hashMap => JSON.stringify(Array.from(hashMap)))
 
 export const App = () => {
 

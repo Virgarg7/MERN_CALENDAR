@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { hashMap } from "../util/hashFunctions"
 
 export const useDate = (nav, currentDay, scheduleMap, examMap, assignmentMap) => {
 
@@ -43,10 +44,10 @@ export const useDate = (nav, currentDay, scheduleMap, examMap, assignmentMap) =>
         })
         const paddingDaysNext =  6 - (weekdays.indexOf(lastDateString.split(", ")[0]));
 
-        let newScheduleMap = new Map(JSON.parse(localStorage.schedule));
+        let newScheduleMap = hashMap(localStorage.schedule);
         
-        let newExamMap = new Map(JSON.parse(localStorage.exam));
-        let newAssignmentMap = new Map(JSON.parse(localStorage.assignment));
+        let newExamMap = hashMap(localStorage.exam);
+        let newAssignmentMap = hashMap(localStorage.assignment);
 
         const daysArr = []
 
