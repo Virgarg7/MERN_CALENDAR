@@ -45,6 +45,24 @@ let eventInMap = ((hashMap, eventObj, day) => {
     return equal;
 });
 
+let removeEvent = ((arr, eventObj) => {
+    let index = -1;
+    for (let i = 0; i < arr.length; i++) {
+        if (JSON.stringify(arr[i]) == JSON.stringify(eventObj)) {
+            index = i;
+        }
+    }
+    arr.splice(index, 1);
+});
+
+let setDeleteMap = ((hashMap, arr, day) => {
+    if (arr.length == 0) {
+        hashMap.delete(day);
+    } else {
+        hashMap.set(day, arr);
+    }
+});
+
 
 export const App = () => {
 
@@ -501,24 +519,11 @@ export const App = () => {
                     onDelete={() => {
                         let thisMap = hashMap(localStorage.schedule);
                         let currScheduleArr = thisMap.get(currentDay);
-                        let index = -1;
-                        for (let i = 0; i < currScheduleArr.length; i++) {
-                            if (JSON.stringify(currScheduleArr[i]) == JSON.stringify(editScheduleObject)) {
-                                index = i;
-                            }
-                        }
-                        currScheduleArr.splice(index, 1);
-                        if (currScheduleArr.length == 0) {
-                            thisMap.delete(currentDay);
-                            setScheduleMap(thisMap);
-                            setEditScheduleObject(null);
-                            setScheduleEventBoxClicked(false);
-                        } else {
-                            thisMap.set(currentDay, currScheduleArr);
-                            setScheduleMap(thisMap);
-                            setEditScheduleObject(null);
-                            setScheduleEventBoxClicked(false);
-                        }
+                        removeEvent(currScheduleArr, editScheduleObject);
+                        setDeleteMap(thisMap, currScheduleArr, currentDay);
+                        setScheduleMap(thisMap);
+                        setEditScheduleObject(null);
+                        setScheduleEventBoxClicked(false);
                         
                     }}
                 />    
@@ -562,24 +567,11 @@ export const App = () => {
                     onDelete={() => {
                         let thisMap = hashMap(localStorage.exam);
                         let currExamArr = thisMap.get(currentDay);
-                        let index = -1;
-                        for (let i = 0; i < currExamArr.length; i++) {
-                            if (JSON.stringify(currExamArr[i]) == JSON.stringify(editExamObject)) {
-                                index = i;
-                            }
-                        }
-                        currExamArr.splice(index, 1);
-                        if (currExamArr.length == 0) {
-                            thisMap.delete(currentDay);
-                            setExamMap(thisMap);
-                            setEditExamObject(null);
-                            setExamEventBoxClicked(false);
-                        } else {
-                            thisMap.set(currentDay, currExamArr);
-                            setExamMap(thisMap);
-                            setEditExamObject(null);
-                            setExamEventBoxClicked(false);
-                        }
+                        removeEvent(currExamArr, editExamObject);
+                        setDeleteMap(thisMap, currExamArr, currentDay);
+                        setExamMap(thisMap);
+                        setEditExamObject(null);
+                        setExamEventBoxClicked(false);
                         
                     }}
                 />    
@@ -620,28 +612,13 @@ export const App = () => {
                         setAssignmentEventBoxClicked(false)
                     }}
                     onDelete={() => {
-                        //setEvents(events.filter(e => e.date != currentDay));
                         let thisMap = hashMap(localStorage.assignment);
                         let currAssignmentArr = thisMap.get(currentDay);
-                        let index = -1;
-                        for (let i = 0; i < currAssignmentArr.length; i++) {
-                            if (JSON.stringify(currAssignmentArr[i]) == JSON.stringify(editAssignmentObject)) {
-                                index = i;
-                            }
-                        }
-                        currAssignmentArr.splice(index, 1);
-                        if (currAssignmentArr.length == 0) {
-                            thisMap.delete(currentDay);
-                            setAssignmentMap(thisMap);
-                            setEditAssignmentObject(null);
-                            setAssignmentEventBoxClicked(false);
-                        } else {
-                            thisMap.set(currentDay, currAssignmentArr);
-                            setAssignmentMap(thisMap);
-                            setEditAssignmentObject(null);
-                            setAssignmentEventBoxClicked(false);
-                        }
-                        
+                        removeEvent(currAssignmentArr, editAssignmentObject);
+                        setDeleteMap(thisMap, currAssignmentArr, currentDay);
+                        setAssignmentMap(thisMap);
+                        setEditAssignmentObject(null);
+                        setAssignmentEventBoxClicked(false);
                     }}
                 />    
             }
