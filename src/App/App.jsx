@@ -16,8 +16,7 @@ import { DeleteExamEventModal } from "../Components/EventModals/ExamModals/Delet
 import { DeleteAssignmentEventModal } from "../Components/EventModals/AssignmentModals/DeleteAssignmentEventModal";
 import { DeleteScheduleEventModal } from "../Components/EventModals/ScheduleModals/DeleteScheduleEventModal";
 import { hashMap, setHashMap } from "../util/hashFunctions"
-import { removeEvent, setDeleteMap, scheduleObj, examObj, 
-    assignmentObj, pushExamOrAssignment, pushSchedule, addedHashMap, removedHashMap, editedHashMap} from "../util/eventFunctions"
+import { scheduleObj, examObj, assignmentObj, addedHashMap, removedHashMap, editedHashMap} from "../util/eventFunctions"
 
 
 export const App = () => {
@@ -28,12 +27,15 @@ export const App = () => {
 
     const [nav, setNav] = useState(0);
     const [currentDay, setCurrentDay] = useState(today);
+
     const [scheduleBoxClicked, setScheduleBoxClicked] = useState(false);
     const [examBoxClicked, setExamBoxClicked] = useState(false);
     const [assignmentBoxClicked, setAssignmentBoxClicked] = useState(false);
+
     const [assignmentEventBoxClicked, setAssignmentEventBoxClicked] = useState(false);
     const [examEventBoxClicked, setExamEventBoxClicked] = useState(false);
     const [scheduleEventBoxClicked, setScheduleEventBoxClicked] = useState(false);
+
     const [scheduleMap, setScheduleMap] = useState(
         localStorage.getItem('schedule') ? 
             hashMap(localStorage.schedule) : 
@@ -49,11 +51,32 @@ export const App = () => {
             hashMap(localStorage.assignment) : 
             new Map()
     );
+
     localStorage.schedule = setHashMap(scheduleMap);
     localStorage.exam = setHashMap(examMap);
     localStorage.assignment = setHashMap(assignmentMap);
     
-    // updates local storage with string of events
+    const [schedules, setSchedules] = useState(() => {
+        let thisMap = hashMap(localStorage.schedule);
+        return thisMap.get(currentDay);
+    })
+    const [exams, setExams] = useState(() => {
+        let thisMap = hashMap(localStorage.exam);
+        return thisMap.get(currentDay);
+    })
+    const [assignments, setAssignments] = useState(() => {
+        let thisMap = hashMap(localStorage.assignment);
+        return thisMap.get(currentDay);
+    });
+
+    const [completedScheduleObject, setCompletedScheduleObject] = useState();
+    const [completedExamObject, setCompletedExamObject] = useState();
+    const [completedAssignmentObject, setCompletedAssignmentObject] = useState();
+    
+    const [editScheduleObject, setEditScheduleObject] = useState();
+    const [editExamObject, setEditExamObject] = useState();
+    const [editAssignmentObject, setEditAssignmentObject] = useState();
+    
     useEffect(() => {
         localStorage.schedule = setHashMap(scheduleMap);
     }, [scheduleMap]);
@@ -68,11 +91,9 @@ export const App = () => {
 
     useEffect(() => {
         const dt = new Date();
-
         if (nav !== 0) {
             dt.setMonth(new Date().getMonth() + nav);
         }
-
         const month = dt.getMonth();
         const year = dt.getFullYear();
         if (nav != 0) {
@@ -82,19 +103,11 @@ export const App = () => {
         }
     }, [nav]);
 
-    const [assignments, setAssignments] = useState(() => {
-        let thisMap = hashMap(localStorage.assignment);
-        return thisMap.get(currentDay);
-    })
-
     useEffect(() => {
         let assignmentCurrentMap = hashMap(localStorage.assignment);
         setAssignments(assignmentCurrentMap.get(currentDay));
     }, [currentDay, assignmentMap]);
 
-    const [completedAssignmentObject, setCompletedAssignmentObject] = useState();
-
-    
     useEffect(() => {
         if (completedAssignmentObject) {
             let assignmentCurrentMap = hashMap(localStorage.assignment);
@@ -113,18 +126,10 @@ export const App = () => {
         }
     }, [completedAssignmentObject]);
     
-
-    const [exams, setExams] = useState(() => {
-        let thisMap = hashMap(localStorage.exam);
-        return thisMap.get(currentDay);
-    })
-
     useEffect(() => {
         let examCurrentMap = hashMap(localStorage.exam);
         setExams(examCurrentMap.get(currentDay));
     }, [currentDay, examMap]);
-
-    const [completedExamObject, setCompletedExamObject] = useState();
 
     useEffect(() => {
         if (completedExamObject) {
@@ -144,17 +149,10 @@ export const App = () => {
         }
     }, [completedExamObject]);
 
-    const [schedules, setSchedules] = useState(() => {
-        let thisMap = hashMap(localStorage.schedule);
-        return thisMap.get(currentDay);
-    })
-
     useEffect(() => {
         let scheduleCurrentMap = hashMap(localStorage.schedule);
         setSchedules(scheduleCurrentMap.get(currentDay));
     }, [currentDay, scheduleMap]);
-
-    const [completedScheduleObject, setCompletedScheduleObject] = useState();
     
     useEffect(() => {
         if (completedScheduleObject) {
@@ -173,10 +171,6 @@ export const App = () => {
             setScheduleMap(scheduleCurrentMap);
         }
     }, [completedScheduleObject]);
-
-    const [editAssignmentObject, setEditAssignmentObject] = useState();
-    const [editExamObject, setEditExamObject] = useState();
-    const [editScheduleObject, setEditScheduleObject] = useState();
 
     const { days, dateDisplay } = useDate(nav, currentDay, scheduleMap, examMap, assignmentMap);
 
