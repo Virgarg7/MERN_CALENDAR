@@ -13,6 +13,7 @@ import { AssignmentBoxHeader } from "../Components/CurrentBoxes/AssignmentBox/As
 import { Assignment } from "../Components/CurrentBoxes/AssignmentBox/Assignment";
 import { Exam } from "../Components/CurrentBoxes/ExamBox/Exam";
 import { Schedule } from "../Components/CurrentBoxes/ScheduleBox/Schedule";
+import { DeleteAssignmentEventModal } from "../Components/EventModals/AssignmentModals/DeleteAssignmentEventModal";
 
 export const App = () => {
 
@@ -485,17 +486,16 @@ export const App = () => {
             }
 
             {
-                /*
-                currentDay && eventForDate(currentDay) && 
-                <DeleteScheduleEventModal 
-                    eventText={eventForDate(currentDay).title}
-                    onClose={() => setCurrentDay(null)}
+                
+                assignmentEventBoxClicked && 
+                <DeleteAssignmentEventModal 
+                    onClose={() => setAssignmentEventBoxClicked(false)}
                     onDelete={() => {
-                        setEvents(events.filter(e => e.date != currentDay));
-                        setCurrentDay(null);
+                        //setEvents(events.filter(e => e.date != currentDay));
+                        setAssignmentEventBoxClicked(false);
                     }}
                 />   
-                */ 
+                
             }
         </>
     );
