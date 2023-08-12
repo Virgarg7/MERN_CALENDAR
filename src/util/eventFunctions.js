@@ -129,6 +129,16 @@ export const editedHashMap = ((storageType, day, oldEventObj, newEventObj) => {
     return JSON.stringify(oldEventObj) != JSON.stringify(newEventObj) 
         ? thisMap
         : hashMap(storageType);
-})
+});
+
+export const completedHashMap = ((storageType, completedObj, day) => {
+    let thisMap = hashMap(storageType);
+    thisMap.get(day).forEach((obj) => {
+        if (JSON.stringify(obj) == JSON.stringify(completedObj)) {
+            obj.isCompleted = (obj.isCompleted == false) ? true : false;
+        }
+    })
+    return thisMap;
+});
 
 

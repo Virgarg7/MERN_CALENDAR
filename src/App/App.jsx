@@ -4,7 +4,6 @@ import { Day } from "../Components//Day"
 import { NewScheduleEventModal } from "../Components/EventModals/ScheduleModals/NewScheduleEventModal";
 import { NewExamEventModal } from "../Components/EventModals/ExamModals/NewExamEventModal";
 import { NewAssignmentEventModal} from "../Components/EventModals/AssignmentModals/NewAssignmentEventModal";
-import { useDate } from "../Hooks/useDate";
 import { CurrentBoxesHeader } from "../Components/CurrentBoxesHeader";
 import { ScheduleBoxHeader } from "../Components/CurrentBoxes/ScheduleBox/ScheduleBoxHeader";
 import { ExamBoxHeader } from "../Components/CurrentBoxes/ExamBox/ExamBoxHeader";
@@ -15,8 +14,9 @@ import { Schedule } from "../Components/CurrentBoxes/ScheduleBox/Schedule";
 import { DeleteExamEventModal } from "../Components/EventModals/ExamModals/DeleteExamEventModal";
 import { DeleteAssignmentEventModal } from "../Components/EventModals/AssignmentModals/DeleteAssignmentEventModal";
 import { DeleteScheduleEventModal } from "../Components/EventModals/ScheduleModals/DeleteScheduleEventModal";
+import { useDate } from "../Hooks/useDate";
 import { hashMap, setHashMap } from "../util/hashFunctions"
-import { scheduleObj, examObj, assignmentObj, addedHashMap, removedHashMap, editedHashMap} from "../util/eventFunctions"
+import { scheduleObj, examObj, assignmentObj, addedHashMap, removedHashMap, editedHashMap, completedHashMap} from "../util/eventFunctions"
 
 
 export const App = () => {
@@ -78,18 +78,6 @@ export const App = () => {
     const [editAssignmentObject, setEditAssignmentObject] = useState();
     
     useEffect(() => {
-        localStorage.schedule = setHashMap(scheduleMap);
-    }, [scheduleMap]);
-
-    useEffect(() => {
-        localStorage.exam = setHashMap(examMap);
-    }, [examMap]);
-
-    useEffect(() => {
-        localStorage.assignment = setHashMap(assignmentMap);
-    }, [assignmentMap]);
-
-    useEffect(() => {
         const dt = new Date();
         if (nav !== 0) {
             dt.setMonth(new Date().getMonth() + nav);
@@ -102,75 +90,51 @@ export const App = () => {
             setCurrentDay(today);
         }
     }, [nav]);
+    
+    useEffect(() => {
+        localStorage.schedule = setHashMap(scheduleMap);
+    }, [scheduleMap]);
 
+    useEffect(() => {
+        localStorage.exam = setHashMap(examMap);
+    }, [examMap]);
+
+    useEffect(() => {
+        localStorage.assignment = setHashMap(assignmentMap);
+    }, [assignmentMap]);
+
+    useEffect(() => {
+        let scheduleCurrentMap = hashMap(localStorage.schedule);
+        setSchedules(scheduleCurrentMap.get(currentDay));
+    }, [currentDay, scheduleMap]);
+
+    useEffect(() => {
+        let examCurrentMap = hashMap(localStorage.exam);
+        setExams(examCurrentMap.get(currentDay));
+    }, [currentDay, examMap]);
+    
     useEffect(() => {
         let assignmentCurrentMap = hashMap(localStorage.assignment);
         setAssignments(assignmentCurrentMap.get(currentDay));
     }, [currentDay, assignmentMap]);
 
     useEffect(() => {
-        if (completedAssignmentObject) {
-            let assignmentCurrentMap = hashMap(localStorage.assignment);
-            let assignmentArr = assignmentCurrentMap.get(currentDay);
-            let indexAssignment = -1;
-            for (let i = 0; i < assignmentArr.length; i++) {
-                if (JSON.stringify(assignmentArr[i]) == JSON.stringify(completedAssignmentObject)) {
-                    indexAssignment = i;
-                }
-            }
-            completedAssignmentObject.isCompleted = (completedAssignmentObject.isCompleted == false) ? true : false;
-            
-            assignmentArr[indexAssignment] = completedAssignmentObject;
-            assignmentCurrentMap.set(currentDay, assignmentArr);
-            setAssignmentMap(assignmentCurrentMap);
+        if (completedScheduleObject) {
+            setScheduleMap(completedHashMap(localStorage.schedule, completedScheduleObject, currentDay));
         }
-    }, [completedAssignmentObject]);
-    
-    useEffect(() => {
-        let examCurrentMap = hashMap(localStorage.exam);
-        setExams(examCurrentMap.get(currentDay));
-    }, [currentDay, examMap]);
+    }, [completedScheduleObject]);
 
     useEffect(() => {
         if (completedExamObject) {
-            let examCurrentMap = hashMap(localStorage.exam);
-            let examArr = examCurrentMap.get(currentDay);
-            let indexExam = -1;
-            for (let i = 0; i < examArr.length; i++) {
-                if (JSON.stringify(examArr[i]) == JSON.stringify(completedExamObject)) {
-                    indexExam = i;
-                }
-            }
-            completedExamObject.isCompleted = (completedExamObject.isCompleted == false) ? true : false;
-            
-            examArr[indexExam] = completedExamObject;
-            examCurrentMap.set(currentDay, examArr);
-            setExamMap(examCurrentMap);
+            setExamMap(completedHashMap(localStorage.exam, completedExamObject, currentDay));
         }
     }, [completedExamObject]);
 
     useEffect(() => {
-        let scheduleCurrentMap = hashMap(localStorage.schedule);
-        setSchedules(scheduleCurrentMap.get(currentDay));
-    }, [currentDay, scheduleMap]);
-    
-    useEffect(() => {
-        if (completedScheduleObject) {
-            let scheduleCurrentMap = hashMap(localStorage.schedule);
-            let scheduleArr = scheduleCurrentMap.get(currentDay);
-            let indexSchedule = -1;
-            for (let i = 0; i < scheduleArr.length; i++) {
-                if (JSON.stringify(scheduleArr[i]) == JSON.stringify(completedScheduleObject)) {
-                    indexSchedule = i;
-                }
-            }
-            completedScheduleObject.isCompleted = (completedScheduleObject.isCompleted == false) ? true : false;
-            
-            scheduleArr[indexSchedule] = completedScheduleObject;
-            scheduleCurrentMap.set(currentDay, scheduleArr);
-            setScheduleMap(scheduleCurrentMap);
+        if (completedAssignmentObject) {
+            setAssignmentMap(completedHashMap(localStorage.assignment, completedAssignmentObject, currentDay));
         }
-    }, [completedScheduleObject]);
+    }, [completedAssignmentObject]);
 
     const { days, dateDisplay } = useDate(nav, currentDay, scheduleMap, examMap, assignmentMap);
 
