@@ -1,0 +1,22 @@
+{
+  "name": "productivity-calendar",
+  "version": "1.0.0",
+  "description": "API for productivity calendar",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anushnandyala/Productivity-Calendar-App.git"
+  },
+  "author": "Anush Nandyala",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/anushnandyala/Productivity-Calendar-App/issues"
+  },
+  "homepage": "https://github.com/anushnandyala/Productivity-Calendar-App#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
