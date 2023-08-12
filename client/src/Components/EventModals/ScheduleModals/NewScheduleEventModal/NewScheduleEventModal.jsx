@@ -57,7 +57,7 @@ export const NewScheduleEventModal = ( { onSave, onClose} ) => {
                 />  
 
                 <input 
-                    className={error ? "error" : ""}
+                    className=""
                     value={classLocation} 
                     onChange={e => setClassLocation(e.target.value)} 
                     id="eventTitleInput" 
@@ -66,8 +66,7 @@ export const NewScheduleEventModal = ( { onSave, onClose} ) => {
 
                 <button 
                     onClick={() => {
-                        if (className && classType && classTime 
-                            && classLocation) {
+                        if (className && classType && classTime) {
                             setError(false);
                             onSave(className, classType, classTime, classLocation);
                         } else {
