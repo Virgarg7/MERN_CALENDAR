@@ -49,8 +49,6 @@ export const DeleteAssignmentEventModal = ({ assignment, onSave, onClose }) => {
                 <button onClick={onClose} id="deleteButton">Cancel</button>
             </div>
 
-            
-
             <div id="modalBackDrop"></div>
         </>
     )

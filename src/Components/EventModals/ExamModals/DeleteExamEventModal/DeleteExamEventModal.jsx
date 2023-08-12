@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export const DeleteExamEventModal = ({ exam, onSave, onDelete }) => {
+export const DeleteExamEventModal = ({ exam, onSave, onClose }) => {
     const [className, setClassName] = useState(exam.class);
     const [examName, setExamName] = useState(exam.name);
     const [examTime, setExamTime] = useState(exam.timeMeridian);
@@ -56,7 +56,7 @@ export const DeleteExamEventModal = ({ exam, onSave, onDelete }) => {
                     }}
                     id="saveButton">Save</button>
 
-                <button onClick={onDelete} id="deleteButton">Delete</button>     
+                <button onClick={onClose} id="deleteButton">Cancel</button>    
             </div>
 
             <div id="modalBackDrop"></div>

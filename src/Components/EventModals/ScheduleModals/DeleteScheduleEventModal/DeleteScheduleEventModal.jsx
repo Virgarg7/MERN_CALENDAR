@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export const DeleteScheduleEventModal = ({ schedule, onSave, onDelete }) => {
+export const DeleteScheduleEventModal = ({ schedule, onSave, onClose }) => {
     const [className, setClassName] = useState(schedule.name);
     const [classType, setClassType] = useState(schedule.type);
     const [classTime, setClassTime] = useState(schedule.timeMeridian);
@@ -58,7 +58,7 @@ export const DeleteScheduleEventModal = ({ schedule, onSave, onDelete }) => {
                     }}
                     id="saveButton">Save</button>
 
-                <button onClick={onDelete} id="deleteButton">Delete</button>
+                <button onClick={onClose} id="deleteButton">Cancel</button>
             </div>
 
             <div id="modalBackDrop"></div>

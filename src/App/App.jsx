@@ -195,22 +195,19 @@ export const App = () => {
                             <Schedule
                                 key={index}
                                 schedule={s}
-                                onSave={event => {
-                                    switch (event.detail) {
-                                      case 1: {
-                                        setCompletedScheduleObject(s);
-                                        break;
-                                      }
-                                      case 2: {
-                                        setScheduleEventBoxClicked(true);
-                                        setCompletedScheduleObject(s);
-                                        setEditScheduleObject(s);
-                                        break;
-                                      }
-                                      default: {
-                                        break;
-                                      }
-                                    }
+                                onClick={() => {
+                                    setCompletedScheduleObject(s);
+                                }}
+                                onSave={() => {
+                                    setScheduleEventBoxClicked(true);
+                                    setEditScheduleObject(s);
+                                }}
+                                onDelete={() => {
+                                    setEditScheduleObject(s);
+                                    setScheduleMap(removedHashMap(localStorage.schedule, currentDay,
+                                        editScheduleObject));
+                                    setEditScheduleObject(null);
+                                    setScheduleEventBoxClicked(false);
                                 }}
                             />
                         ))}
@@ -226,22 +223,19 @@ export const App = () => {
                             <Exam
                                 key={index}
                                 exam={e}
-                                onClick={event => {
-                                    switch (event.detail) {
-                                      case 1: {
-                                        setCompletedExamObject(e);
-                                        break;
-                                      }
-                                      case 2: {
-                                        setExamEventBoxClicked(true);
-                                        setCompletedExamObject(e);
-                                        setEditExamObject(e);
-                                        break;
-                                      }
-                                      default: {
-                                        break;
-                                      }
-                                    }
+                                onClick={() => {
+                                    setCompletedExamObject(e);
+                                }}
+                                onSave={() => {
+                                    setExamEventBoxClicked(true);
+                                    setEditExamObject(e);
+                                }}
+                                onDelete={() => {
+                                    setEditExamObject(e);
+                                    setExamMap(removedHashMap(localStorage.exam, currentDay,
+                                        editExamObject));
+                                    setEditExamObject(null);
+                                    setExamEventBoxClicked(false);
                                 }}
                             />
                         ))}
@@ -327,9 +321,7 @@ export const App = () => {
                         setEditScheduleObject(null);
                         setScheduleEventBoxClicked(false)
                     }}
-                    onDelete={() => {
-                        setScheduleMap(removedHashMap(localStorage.schedule, currentDay, 
-                            editScheduleObject));
+                    onClose={() => {
                         setEditScheduleObject(null);
                         setScheduleEventBoxClicked(false);
                         
@@ -349,9 +341,7 @@ export const App = () => {
                         setEditExamObject(null);
                         setExamEventBoxClicked(false)
                     }}
-                    onDelete={() => {
-                        setExamMap(removedHashMap(localStorage.exam, currentDay, 
-                            editExamObject));
+                    onClose={() => {
                         setEditExamObject(null);
                         setExamEventBoxClicked(false);
                     }}
