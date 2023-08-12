@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { hashMap } from "../util/hashFunctions";
-import { isLeapYear, eventsCompleted } from "../util/dateFunctions";
+import { isLeapYear, eventsCompleted, dayOfDate } from "../util/dateFunctions";
 
 export const useDate = (nav, currentDay, scheduleMap, examMap, assignmentMap) => {
 
@@ -21,7 +21,6 @@ export const useDate = (nav, currentDay, scheduleMap, examMap, assignmentMap) =>
 
         setDateDisplay(`${dt.toLocaleDateString("en-us", { month: "long" } )} ${year}`);
 
-        // (year, the next month, the last day of previous month, so basically giving the last day on the month)
         const daysInMonth = new Date(year, month + 1, 0).getDate();
         const daysInPrevMonth = new Date(year, month, 0).getDate();
         
@@ -54,66 +53,12 @@ export const useDate = (nav, currentDay, scheduleMap, examMap, assignmentMap) =>
             const dayString = (month == 0) 
                 ? `12/${daysInPrevMonth - i}/${year - 1}` 
                 :`${month}/${daysInPrevMonth - i}/${year}`;
-        
-            let leapYear = (month == 0) ? isLeapYear(year - 1) : isLeapYear(year);
-
-            let numWeek = (month == 0) ? (year - 1) % 100 : year % 100;
-            numWeek = numWeek + parseInt(numWeek / 4);
-            numWeek += (daysInPrevMonth - i);
-            let monthStr = `${new Date(year, month, 0).toLocaleDateString("en-us", { month: "long" } )}`;
-
-            switch (monthStr) {
-                case "January":
-                    if (leapYear == true) {
-                        numWeek += 0;
-                    } else {
-                        numWeek += 1;
-                    }
-                    break;
-                case "February":
-                    if (leapYear == true) {
-                        numWeek += 3;
-                    } else {
-                        numWeek += 4;
-                    }
-                    break;
-                case "March":
-                    numWeek += 4;
-                    break;
-                case "April":
-                    numWeek += 0;
-                    break;
-                case "May":
-                    numWeek += 2;
-                    break;
-                case "June":
-                    numWeek += 5;
-                    break;
-                case "July":
-                    numWeek += 0;
-                    break;
-                case "August":
-                    numWeek += 3;
-                    break;
-                case "September":
-                    numWeek += 6;
-                    break;
-                case "October":
-                    numWeek += 1;
-                    break;
-                case "November":
-                    numWeek += 4;
-                    break;
-                case "December":
-                    numWeek += 6;
-                    break;
-            }
-
-            if (year >= 2000) {
-                numWeek -= 1;
-            }
-
-            numWeek %= 7;
+            
+            let numWeek = (month == 0) 
+                ? dayOfDate(year - 1, daysInPrevMonth - i, 
+                    `${new Date(year, month, 0).toLocaleDateString("en-us", { month: "long" } )}`)
+                : dayOfDate(year, daysInPrevMonth - i, 
+                    `${new Date(year, month, 0).toLocaleDateString("en-us", { month: "long" } )}`);
 
             daysArr.push({
                 value: daysInPrevMonth - i,
@@ -129,67 +74,11 @@ export const useDate = (nav, currentDay, scheduleMap, examMap, assignmentMap) =>
         }
 
         for (let i = 1; i <= daysInMonth; i++) {
+
             const dayString = `${month + 1}/${i}/${year}`;
 
-            let leapYear = isLeapYear(year);
-
-            let numWeek = year % 100;
-            numWeek = numWeek + parseInt(numWeek / 4);
-            numWeek += (i);
-            let monthStr = `${dt.toLocaleDateString("en-us", { month: "long" } )}`;
-
-            switch (monthStr) {
-                case "January":
-                    if (leapYear == true) {
-                        numWeek += 0;
-                    } else {
-                        numWeek += 1;
-                    }
-                    break;
-                case "February":
-                    if (leapYear == true) {
-                        numWeek += 3;
-                    } else {
-                        numWeek += 4;
-                    }
-                    break;
-                case "March":
-                    numWeek += 4;
-                    break;
-                case "April":
-                    numWeek += 0;
-                    break;
-                case "May":
-                    numWeek += 2;
-                    break;
-                case "June":
-                    numWeek += 5;
-                    break;
-                case "July":
-                    numWeek += 0;
-                    break;
-                case "August":
-                    numWeek += 3;
-                    break;
-                case "September":
-                    numWeek += 6;
-                    break;
-                case "October":
-                    numWeek += 1;
-                    break;
-                case "November":
-                    numWeek += 4;
-                    break;
-                case "December":
-                    numWeek += 6;
-                    break;
-            }
-
-            if (year >= 2000) {
-                numWeek -= 1;
-            }
-
-            numWeek %= 7;
+            let numWeek = dayOfDate(year, i, 
+                `${dt.toLocaleDateString("en-us", { month: "long" } )}`)
 
             daysArr.push({
                 value: (i === 1) 
@@ -213,117 +102,11 @@ export const useDate = (nav, currentDay, scheduleMap, examMap, assignmentMap) =>
 
             const dayString = (month == 11) ? `1/${i}/${year + 1}`: `${month + 2}/${i}/${year}`;
 
-            let leapYear = false;
-            if (month == 11) {
-                if ((year + 1) % 4 == 0) {
-                    if ((year + 1) % 100 == 0) {
-                        if ((year + 1) % 400 == 0) {
-                            leapYear = true; 
-                        } else {
-                            leapYear = false;
-                        }
-                    } else {
-                        leapYear = true;
-                    }
-                }
-            } else {
-                if (year % 4 == 0) {
-                    if (year % 100 == 0) {
-                        if (year % 400 == 0) {
-                            leapYear = true; 
-                        } else {
-                            leapYear = false;
-                        }
-                    } else {
-                        leapYear = true;
-                    }
-                }
-            }
-
-            let numWeek = (month == 11) ? (year + 1) % 100 : year % 100;
-            numWeek = numWeek + parseInt(numWeek / 4);
-            numWeek += (i);
-            let monthStr = `${new Date(year, month + 1, 1).toLocaleDateString("en-us", { month: "long" } )}`;
-
-            switch (monthStr) {
-                case "January":
-                    if (leapYear == true) {
-                        numWeek += 0;
-                    } else {
-                        numWeek += 1;
-                    }
-                    break;
-                case "February":
-                    if (leapYear == true) {
-                        numWeek += 3;
-                    } else {
-                        numWeek += 4;
-                    }
-                    break;
-                case "March":
-                    numWeek += 4;
-                    break;
-                case "April":
-                    numWeek += 0;
-                    break;
-                case "May":
-                    numWeek += 2;
-                    break;
-                case "June":
-                    numWeek += 5;
-                    break;
-                case "July":
-                    numWeek += 0;
-                    break;
-                case "August":
-                    numWeek += 3;
-                    break;
-                case "September":
-                    numWeek += 6;
-                    break;
-                case "October":
-                    numWeek += 1;
-                    break;
-                case "November":
-                    numWeek += 4;
-                    break;
-                case "December":
-                    numWeek += 6;
-                    break;
-            }
-
-            if (year >= 2000) {
-                numWeek -= 1;
-            }
-
-            numWeek %= 7;
-
-            let scheduleCompleted = true;
-            if (newScheduleMap.has(dayString)) {
-                newScheduleMap.get(dayString).forEach(s => {
-                    if (s.isCompleted == false) {
-                        scheduleCompleted = false;
-                    }
-                })
-            }
-
-            let examsCompleted = true;
-            if (newExamMap.has(dayString)) {
-                newExamMap.get(dayString).forEach(s => {
-                    if (s.isCompleted == false) {
-                        examsCompleted = false;
-                    }
-                })
-            }
-
-            let assignmentsCompleted = true;
-            if (newAssignmentMap.has(dayString)) {
-                newAssignmentMap.get(dayString).forEach(s => {
-                    if (s.isCompleted == false) {
-                        assignmentsCompleted = false;
-                    }
-                })
-            }
+            let numWeek = (month == 11) 
+                ? dayOfDate(year + 1, i, 
+                    `${new Date(year, month + 1, 1).toLocaleDateString("en-us", { month: "long" } )}`)
+                : dayOfDate(year, i, 
+                    `${new Date(year, month + 1, 1).toLocaleDateString("en-us", { month: "long" } )}`);
 
             daysArr.push({
                 value: (i === 1) 
