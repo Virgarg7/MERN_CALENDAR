@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { hashMap } from "../util/hashFunctions"
+import { hashMap } from "../util/hashFunctions";
+import { isLeapYear, eventsCompleted } from "../util/dateFunctions";
 
 export const useDate = (nav, currentDay, scheduleMap, examMap, assignmentMap) => {
 
     const [dateDisplay, setDateDisplay] = useState("");
     const [days, setDays] = useState([]);
-
-    //const eventForDate = date => events.find(e => e.date === date)
 
     useEffect(() => {
         const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -45,7 +44,6 @@ export const useDate = (nav, currentDay, scheduleMap, examMap, assignmentMap) =>
         const paddingDaysNext =  6 - (weekdays.indexOf(lastDateString.split(", ")[0]));
 
         let newScheduleMap = hashMap(localStorage.schedule);
-        
         let newExamMap = hashMap(localStorage.exam);
         let newAssignmentMap = hashMap(localStorage.assignment);
 
@@ -53,34 +51,11 @@ export const useDate = (nav, currentDay, scheduleMap, examMap, assignmentMap) =>
 
         for (let i = paddingDaysPrev - 1; i >= 0; i--) {
             
-            const dayString = (month == 0)? `12/${daysInPrevMonth - i}/${year - 1}` :`${month}/${daysInPrevMonth - i}/${year}`;
+            const dayString = (month == 0) 
+                ? `12/${daysInPrevMonth - i}/${year - 1}` 
+                :`${month}/${daysInPrevMonth - i}/${year}`;
         
-            let leapYear = false;
-            if (month == 0) {
-                if ((year - 1) % 4 == 0) {
-                    if ((year - 1) % 100 == 0) {
-                        if ((year - 1) % 400 == 0) {
-                            leapYear = true; 
-                        } else {
-                            leapYear = false;
-                        }
-                    } else {
-                        leapYear = true;
-                    }
-                }
-            } else {
-                if (year % 4 == 0) {
-                    if (year % 100 == 0) {
-                        if (year % 400 == 0) {
-                            leapYear = true; 
-                        } else {
-                            leapYear = false;
-                        }
-                    } else {
-                        leapYear = true;
-                    }
-                }
-            }
+            let leapYear = (month == 0) ? isLeapYear(year - 1) : isLeapYear(year);
 
             let numWeek = (month == 0) ? (year - 1) % 100 : year % 100;
             numWeek = numWeek + parseInt(numWeek / 4);
@@ -140,39 +115,12 @@ export const useDate = (nav, currentDay, scheduleMap, examMap, assignmentMap) =>
 
             numWeek %= 7;
 
-            let scheduleCompleted = true;
-            if (newScheduleMap.has(dayString)) {
-                newScheduleMap.get(dayString).forEach(s => {
-                    if (s.isCompleted == false) {
-                        scheduleCompleted = false;
-                    }
-                })
-            }
-
-            let examsCompleted = true;
-            if (newExamMap.has(dayString)) {
-                newExamMap.get(dayString).forEach(s => {
-                    if (s.isCompleted == false) {
-                        examsCompleted = false;
-                    }
-                })
-            }
-
-            let assignmentsCompleted = true;
-            if (newAssignmentMap.has(dayString)) {
-                newAssignmentMap.get(dayString).forEach(s => {
-                    if (s.isCompleted == false) {
-                        assignmentsCompleted = false;
-                    }
-                })
-            }
-
             daysArr.push({
                 value: daysInPrevMonth - i,
                 padding: true,
-                eventSchedule: newScheduleMap.has(dayString) && !scheduleCompleted,
-                eventExam: newExamMap.has(dayString) && !examsCompleted,
-                eventAssignment: newAssignmentMap.has(dayString) && !assignmentsCompleted,
+                eventSchedule: newScheduleMap.has(dayString) && !eventsCompleted(newScheduleMap, dayString),
+                eventExam: newExamMap.has(dayString) && !eventsCompleted(newExamMap, dayString),
+                eventAssignment: newAssignmentMap.has(dayString) && !eventsCompleted(newAssignmentMap, dayString),
                 isToday: daysInPrevMonth - i == day && nav === 1,
                 isCurrentDay: dayString == currentDay,
                 isWeekend: (numWeek == 1 || numWeek == 0), 
@@ -183,18 +131,7 @@ export const useDate = (nav, currentDay, scheduleMap, examMap, assignmentMap) =>
         for (let i = 1; i <= daysInMonth; i++) {
             const dayString = `${month + 1}/${i}/${year}`;
 
-            let leapYear = false;
-            if (year % 4 == 0) {
-                if (year % 100 == 0) {
-                    if (year % 400 == 0) {
-                        leapYear = true; 
-                    } else {
-                        leapYear = false;
-                    }
-                } else {
-                    leapYear = true;
-                }
-            }
+            let leapYear = isLeapYear(year);
 
             let numWeek = year % 100;
             numWeek = numWeek + parseInt(numWeek / 4);
@@ -254,41 +191,14 @@ export const useDate = (nav, currentDay, scheduleMap, examMap, assignmentMap) =>
 
             numWeek %= 7;
 
-            let scheduleCompleted = true;
-            if (newScheduleMap.has(dayString)) {
-                newScheduleMap.get(dayString).forEach(s => {
-                    if (s.isCompleted == false) {
-                        scheduleCompleted = false;
-                    }
-                })
-            }
-
-            let examsCompleted = true;
-            if (newExamMap.has(dayString)) {
-                newExamMap.get(dayString).forEach(s => {
-                    if (s.isCompleted == false) {
-                        examsCompleted = false;
-                    }
-                })
-            }
-
-            let assignmentsCompleted = true;
-            if (newAssignmentMap.has(dayString)) {
-                newAssignmentMap.get(dayString).forEach(s => {
-                    if (s.isCompleted == false) {
-                        assignmentsCompleted = false;
-                    }
-                })
-            }
-
             daysArr.push({
                 value: (i === 1) 
                     ? `${dt.toLocaleDateString("en-us", { month: "short" } )} ${i}` 
                     : i,
                 padding: false,
-                eventSchedule: newScheduleMap.has(dayString) && !scheduleCompleted,
-                eventExam: newExamMap.has(dayString) && !examsCompleted,
-                eventAssignment: newAssignmentMap.has(dayString) && !assignmentsCompleted,
+                eventSchedule: newScheduleMap.has(dayString) && !eventsCompleted(newScheduleMap, dayString),
+                eventExam: newExamMap.has(dayString) && !eventsCompleted(newExamMap, dayString),
+                eventAssignment: newAssignmentMap.has(dayString) && !eventsCompleted(newAssignmentMap, dayString),
                 isToday: i === day && nav === 0,
                 isCurrentDay: dayString == currentDay,
                 isWeekend: (numWeek == 1 || numWeek == 0),
@@ -420,9 +330,9 @@ export const useDate = (nav, currentDay, scheduleMap, examMap, assignmentMap) =>
                     ? `${nextMonth.toLocaleDateString("en-us", { month: "short" } )} ${i}` 
                     : i,
                 padding: true,
-                eventSchedule: newScheduleMap.has(dayString) && !scheduleCompleted,
-                eventExam: newExamMap.has(dayString) && !examsCompleted,
-                eventAssignment: newAssignmentMap.has(dayString) && !assignmentsCompleted,
+                eventSchedule: newScheduleMap.has(dayString) && !eventsCompleted(newScheduleMap, dayString),
+                eventExam: newExamMap.has(dayString) && !eventsCompleted(newExamMap, dayString),
+                eventAssignment: newAssignmentMap.has(dayString) && !eventsCompleted(newAssignmentMap, dayString),
                 isToday: i === day && nav === -1,
                 isCurrentDay: dayString == currentDay,
                 isWeekend: (numWeek == 1 || numWeek == 0),
