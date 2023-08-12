@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { hashMap } from "../util/hashFunctions";
-import { isLeapYear, eventsCompleted, dayOfDate } from "../util/dateFunctions";
+import { eventsCompleted, dayOfDate } from "../util/dateFunctions";
 
 export const useDate = (nav, currentDay, scheduleMap, examMap, assignmentMap) => {
 
