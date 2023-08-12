@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export const DeleteAssignmentEventModal = ({ assignment, onSave, onDelete }) => {
+export const DeleteAssignmentEventModal = ({ assignment, onSave, onClose }) => {
     const [className, setClassName] = useState(assignment.class);
     const [assignmentName, setAssignmentName] = useState(assignment.name);
     const [deadline, setDeadline] = useState(assignment.timeMeridian);
@@ -46,7 +46,7 @@ export const DeleteAssignmentEventModal = ({ assignment, onSave, onDelete }) => 
                         }
                     }}
                     id="saveButton">Save</button>
-                <button onClick={onDelete} id="deleteButton">Delete</button>
+                <button onClick={onClose} id="deleteButton">Cancel</button>
             </div>
 
             

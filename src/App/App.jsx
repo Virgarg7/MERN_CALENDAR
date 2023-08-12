@@ -195,7 +195,7 @@ export const App = () => {
                             <Schedule
                                 key={index}
                                 schedule={s}
-                                onClick={event => {
+                                onSave={event => {
                                     switch (event.detail) {
                                       case 1: {
                                         setCompletedScheduleObject(s);
@@ -257,22 +257,19 @@ export const App = () => {
                             <Assignment
                                 key={index}
                                 assignment={a}
-                                onClick={event => {
-                                    switch (event.detail) {
-                                      case 1: {
-                                        setCompletedAssignmentObject(a);
-                                        break;
-                                      }
-                                      case 2: {
-                                        setAssignmentEventBoxClicked(true);
-                                        setCompletedAssignmentObject(a);
-                                        setEditAssignmentObject(a);
-                                        break;
-                                      }
-                                      default: {
-                                        break;
-                                      }
-                                    }
+                                onClick={() => {
+                                    setCompletedAssignmentObject(a);
+                                }}
+                                onSave={() => {
+                                    setAssignmentEventBoxClicked(true);
+                                    setEditAssignmentObject(a);
+                                }}
+                                onDelete={() => {
+                                    setEditAssignmentObject(a);
+                                    setAssignmentMap(removedHashMap(localStorage.assignment, currentDay,
+                                        editAssignmentObject));
+                                    setEditAssignmentObject(null);
+                                    setAssignmentEventBoxClicked(false);
                                 }}
                             />
                         ))}
@@ -326,7 +323,7 @@ export const App = () => {
                         setScheduleMap(editedHashMap(localStorage.schedule, currentDay,
                             editScheduleObject, 
                                 scheduleObj(className, classType, classTime, 
-                                    classLocation, !isCompletedValue)));
+                                    classLocation, isCompletedValue)));
                         setEditScheduleObject(null);
                         setScheduleEventBoxClicked(false)
                     }}
@@ -348,7 +345,7 @@ export const App = () => {
                         setExamMap(editedHashMap(localStorage.exam, currentDay, 
                             editExamObject, 
                                 examObj(examName, className, 
-                                    examTime, examLocation, !isCompletedValue)));
+                                    examTime, examLocation, isCompletedValue)));
                         setEditExamObject(null);
                         setExamEventBoxClicked(false)
                     }}
@@ -369,13 +366,11 @@ export const App = () => {
                         setAssignmentMap(editedHashMap(localStorage.assignment, currentDay, 
                             editAssignmentObject, 
                                 assignmentObj(assignmentName, className, 
-                                    deadline, !isCompletedValue)));
+                                    deadline, isCompletedValue)));
                         setEditAssignmentObject(null);
                         setAssignmentEventBoxClicked(false);
                     }}
-                    onDelete={() => {
-                        setAssignmentMap(removedHashMap(localStorage.assignment, currentDay,
-                            editAssignmentObject));
+                    onClose={() => {
                         setEditAssignmentObject(null);
                         setAssignmentEventBoxClicked(false);
                     }}
