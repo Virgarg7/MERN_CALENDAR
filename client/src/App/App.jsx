@@ -17,6 +17,7 @@ import { DeleteScheduleEventModal } from "../Components/EventModals/ScheduleModa
 import { useDate } from "../Hooks/useDate";
 import { hashMap, setHashMap } from "../util/hashFunctions"
 import { scheduleObj, examObj, assignmentObj, addedHashMap, removedHashMap, editedHashMap, completedHashMap} from "../util/eventFunctions"
+import { getAllTasks } from "../services/UserServices"
 
 
 export const App = () => {
