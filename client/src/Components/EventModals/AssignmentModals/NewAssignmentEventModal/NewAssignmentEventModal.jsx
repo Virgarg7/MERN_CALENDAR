@@ -40,8 +40,6 @@ export const NewAssignmentEventModal = ( { onSave, onClose} ) => {
                     placeholder="Enter Assignment Deadline (ex. 11:59 PM)" 
                 /> 
 
-                 
-
                 <button 
                     onClick={() => {
                         if (assignmentName && className && deadline) {
