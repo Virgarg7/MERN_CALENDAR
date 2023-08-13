@@ -1,6 +1,5 @@
-export async function getAllTasks() {
-    const response = await fetch('/api/tasks');
-    console.log(response);
+export async function getAllEvents() {
+    const response = await fetch('/api/events');
     return await response.json();
 }
 

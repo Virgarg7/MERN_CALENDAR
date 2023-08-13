@@ -3,7 +3,7 @@
     "info": {
         "description": "This is a simple example NodeJS API project to demonstrate Swagger Documentation",
         "version": "1.0.0",
-        "title": "Tasks API",
+        "title": "Events API",
         "contact": {
             "email": "abc@gmail.com"
         },
@@ -16,10 +16,10 @@
     "host": "localhost:3080",
     "basePath": "/api",
     "paths" : {
-        "/tasks" : {
+        "/events" : {
             "get" : {
-                "summary" : "Get all the tasks",
-                "description": "Get all the tasks",
+                "summary" : "Get all the events",
+                "description": "Get all the events",
                 "produces": ["application/json"],
                 "parameters": [],
                 "responses": {
@@ -41,24 +41,24 @@
                 }
             }
         },
-        "/task" : {
+        "/event" : {
             "post" : {
-                "summary" : "Save the task",
-                "description": "Save the task",
+                "summary" : "Save the event",
+                "description": "Save the event",
                 "produces": ["application/json"],
                 "consumes": ["application/json"],
                 "parameters": [
                     {
                         "in": "body",
                         "name": "body",
-                        "description": "task object",
+                        "description": "event object",
                         "required": true,
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "task" : {
+                                "event" : {
                                     "type": "object",
-                                    "$ref": "#/definitions/Task"
+                                    "$ref": "#/definitions/Event"
                                 } 
                             }
                         }
@@ -172,13 +172,16 @@
                 "_id": {
                      "type": "integer"
                 },
-                "name": {
+                "currdaystr": {
                     "type": "string"
                 },
-                "description": {
+                "schedules": {
                     "type": "string"
                 },
-                "createdBy": {
+                "exams": {
+                    "type": "string"
+                },
+                "assignments": {
                     "type": "string"
                 },
                 "createdAt": {
@@ -186,24 +189,24 @@
                 },
                 "updatedAt": {
                     "type": "string"
-                },
-                "updatedBy": {
-                    "type": "string"
                 }
             }
         },
-        "Task": {
+        "Event": {
             "type": "object",
             "properties": {
-                "task": {
+                "event": {
                     "type": {
-                        "name": {
+                        "currdaystr": {
                             "type": "string"
                         },
-                        "description": {
+                        "schedules": {
                             "type": "string"
                         },
-                        "createdBy": {
+                        "exams": {
+                            "type": "string"
+                        },
+                        "assignments": {
                             "type": "string"
                         }
                     }

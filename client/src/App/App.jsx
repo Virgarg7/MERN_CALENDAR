@@ -17,10 +17,16 @@ import { DeleteScheduleEventModal } from "../Components/EventModals/ScheduleModa
 import { useDate } from "../Hooks/useDate";
 import { hashMap, setHashMap } from "../util/hashFunctions"
 import { scheduleObj, examObj, assignmentObj, addedHashMap, removedHashMap, editedHashMap, completedHashMap} from "../util/eventFunctions"
-import { getAllTasks } from "../services/UserServices"
+import { getAllEvents } from "../services/UserServices"
 
 
 export const App = () => {
+
+    getAllEvents().then(events => {
+        events.forEach(event => {
+            console.log(event.currdaystr);
+        });
+      });
 
     const dtToday = new Date();
     const today = `${dtToday.getMonth() + 1}/${dtToday.getDate()}/${dtToday.getFullYear()}`;

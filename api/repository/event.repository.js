@@ -2,7 +2,7 @@ const { connect } = require('../config/db.config');
 const logger = require('../logger/api.logger');
 
 
-class TaskRepository {
+class EventRepository {
 
     db = {};
 
@@ -14,23 +14,21 @@ class TaskRepository {
         });
     }
 
-    async getTasks() {
-        
+    async getEvents() {
         try {
-            const tasks = await this.db.tasks.findAll();
-            console.log('tasks:::', tasks);
-            return tasks;
+            const events = await this.db.events.findAll();
+            console.log('events:::', events);
+            return events;
         } catch (err) {
             console.log(err);
             return [];
         }
     }
 
-    async createTask(task) {
+    async createEvent(event) {
         let data = {};
         try {
-            task.createdate = new Date().toISOString();
-            data = await this.db.tasks.create(task);
+            data = await this.db.events.create(event);
         } catch(err) {
             logger.error('Error::' + err);
         }
@@ -69,4 +67,4 @@ class TaskRepository {
 
 }
 
-module.exports = new TaskRepository();
+module.exports = new EventRepository();

@@ -8,7 +8,7 @@ const swaggerDocument = require('./swagger.json');
 const customCss = fs.readFileSync((process.cwd()+"/swagger.css"), 'utf8')
 
 
-const taskController = require('./controller/task.controller')
+const eventController = require('./controller/event.controller')
 
 
 
@@ -19,21 +19,21 @@ app.use(bodyParser.json());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, {customCss}));
 
 
-app.get('/api/tasks', (req, res) => {
-    taskController.getTasks().then(data => res.json(data));
+app.get('/api/events', (req, res) => {
+    eventController.getEvents().then(data => res.json(data));
 });
 
-app.post('/api/task', (req, res) => {
+app.post('/api/event', (req, res) => {
     console.log(req.body);
-    taskController.createTask(req.body.task).then(data => res.json(data));
+    eventController.createEvent(req.body.event).then(data => res.json(data));
 });
 
 app.put('/api/task', (req, res) => {
-    taskController.updateTask(req.body.task).then(data => res.json(data));
+    eventController.updateTask(req.body.task).then(data => res.json(data));
 });
 
 app.delete('/api/task/:id', (req, res) => {
-    taskController.deleteTask(req.params.id).then(data => res.json(data));
+    eventController.deleteTask(req.params.id).then(data => res.json(data));
 });
 
 app.get('/', (req, res) => {
