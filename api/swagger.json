@@ -83,10 +83,10 @@
                 }
             }
         },
-        "/task/" : {
+        "/event/" : {
             "put" : {
-                "summary" : "Update the tasks",
-                "description": "Update the tasks",
+                "summary" : "Update the events",
+                "description": "Update the events",
                 "produces": ["application/json"],
                 "parameters": [
                     {
@@ -131,7 +131,7 @@
                 }
             }
         },
-        "/task/{id}" : {
+        "/eventdel" : {
             "delete" : {
                 "summary" : "Delete the task",
                 "description": "Delete the task",
@@ -143,6 +143,21 @@
                         "description": "task id that needs to be deleted",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "task object",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "task" : {
+                                    "type": "object",
+                                    "$ref": "#/definitions/Task"
+                                } 
+                            }
+                        }
                     }
                 ],
                 "responses": {

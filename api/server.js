@@ -28,12 +28,12 @@ app.post('/api/event', (req, res) => {
     eventController.createEvent(req.body.event).then(data => res.json(data));
 });
 
-app.put('/api/task', (req, res) => {
-    eventController.updateTask(req.body.task).then(data => res.json(data));
+app.put('/api/event', (req, res) => {
+    eventController.updateEvent(req.body.event).then(data => res.json(data));
 });
 
-app.delete('/api/task/:id', (req, res) => {
-    eventController.deleteTask(req.params.id).then(data => res.json(data));
+app.delete('/api/eventdel', (req, res) => {
+    eventController.deleteEvent(req.params.event).then(data => res.json(data));
 });
 
 app.get('/', (req, res) => {

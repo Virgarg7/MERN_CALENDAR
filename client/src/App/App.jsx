@@ -17,16 +17,34 @@ import { DeleteScheduleEventModal } from "../Components/EventModals/ScheduleModa
 import { useDate } from "../Hooks/useDate";
 import { hashMap, setHashMap } from "../util/hashFunctions"
 import { scheduleObj, examObj, assignmentObj, addedHashMap, removedHashMap, editedHashMap, completedHashMap} from "../util/eventFunctions"
-import { getAllEvents } from "../services/UserServices"
+import { getAllEvents, createEvent, editEvent, deleteEvent } from "../services/UserServices"
 
 
 export const App = () => {
 
+    /*
+    console.log(editEvent(
+        {
+            "currdaystr": "8/12/23",
+            "schedules": "2"
+        }
+    ))
+
+    
+    console.log(createEvent(
+          {
+            "currdaystr": "app",
+          }
+      ));
+
+      
+    
     getAllEvents().then(events => {
         events.forEach(event => {
-            console.log(event.currdaystr);
+            console.log(event.schedules);
         });
-      });
+    });
+    */
 
     const dtToday = new Date();
     const today = `${dtToday.getMonth() + 1}/${dtToday.getDate()}/${dtToday.getFullYear()}`;

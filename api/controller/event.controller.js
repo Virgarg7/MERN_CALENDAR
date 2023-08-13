@@ -9,18 +9,18 @@ class TodoController {
     }
 
     async createEvent(event) {
-        logger.info('Controller: createTask', event);
+        logger.info('Controller: createEvent', event);
         return await eventService.createEvent(event);
     }
 
-    async updateTask(task) {
-        logger.info('Controller: updateTask', task);
-        return await eventService.updateTask(task);
+    async updateEvent(event) {
+        logger.info('Controller: updateEvent', event);
+        return await eventService.updateEvent(event);
     }
 
-    async deleteTask(taskId) {
-        logger.info('Controller: deleteTask', taskId);
-        return await eventService.deleteTask(taskId);
+    async deleteEvent(event) {
+        logger.info('Controller: deleteEvent', event);
+        return await eventService.deleteEvent(event);
     }
 }
 module.exports = new TodoController();

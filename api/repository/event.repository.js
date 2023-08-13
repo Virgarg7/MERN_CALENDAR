@@ -35,13 +35,12 @@ class EventRepository {
         return data;
     }
 
-    async updateTask(task) {
+    async updateEvent(event) {
         let data = {};
         try {
-            task.updateddate = new Date().toISOString();
-            data = await this.db.tasks.update({...task}, {
+            data = await this.db.events.update({...event}, {
                 where: {
-                    id: task.id
+                    currdaystr: event.currdaystr
                 }
             });
         } catch(err) {
@@ -50,12 +49,12 @@ class EventRepository {
         return data;
     }
 
-    async deleteTask(taskId) {
+    async deleteEvent(event) {
         let data = {};
         try {
-            data = await this.db.tasks.destroy({
+            data = await this.db.events.destroy({
                 where: {
-                    id: taskId
+                    currdaystr: event.currdaystr
                 }
             });
         } catch(err) {

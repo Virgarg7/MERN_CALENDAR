@@ -3,25 +3,29 @@ export async function getAllEvents() {
     return await response.json();
 }
 
-export async function createTask(data) {
-    const response = await fetch(`/api/task`, {
+export async function createEvent(data) {
+    const response = await fetch(`/api/event`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({task: data})
+        body: JSON.stringify({event: data})
     })
     return await response.json();
 }
 
-export async function deleteTask(taskId) {
-    const response = await fetch(`/api/task/${taskId}`, {method: 'DELETE'})
+export async function deleteEvent(data) {
+    const response = await fetch(`/api/eventdel`, {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({event: data})
+    })
     return await response.json();
 }
 
-export async function editTask(data) {
-    const response = await fetch(`/api/task`, {
+export async function editEvent(data) {
+    const response = await fetch(`/api/event`, {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({task: data})
+        body: JSON.stringify({event: data})
     })
     return await response.json();
 }

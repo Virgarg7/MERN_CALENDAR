@@ -12,12 +12,12 @@ class EventService {
         return await eventRepository.createEvent(event);
     }
 
-    async updateTask(task) {
-        return await eventRepository.updateTask(task);
+    async updateEvent(event) {
+        return await eventRepository.updateEvent(event);
     }
 
-    async deleteTask(taskId) {
-        return await eventRepository.deleteTask(taskId);
+    async deleteEvent(event) {
+        return await eventRepository.deleteEvent(event);
     }
 
 }
