@@ -15,12 +15,13 @@ import { DeleteExamEventModal } from "../Components/EventModals/ExamModals/Delet
 import { DeleteAssignmentEventModal } from "../Components/EventModals/AssignmentModals/DeleteAssignmentEventModal";
 import { DeleteScheduleEventModal } from "../Components/EventModals/ScheduleModals/DeleteScheduleEventModal";
 import { useDate } from "../Hooks/useDate";
-import { hashMap, setHashMap } from "../util/hashFunctions"
+import { hashMap, setHashMap, returnAssignments } from "../util/hashFunctions"
 import { scheduleObj, examObj, assignmentObj, addedHashMap, removedHashMap, editedHashMap, completedHashMap} from "../util/eventFunctions"
 import { getAllEvents, createEvent, editEvent, deleteEvent } from "../services/UserServices"
 
 
 export const App = () => {
+
 
     /*
     console.log(editEvent(
@@ -41,7 +42,7 @@ export const App = () => {
     
     getAllEvents().then(events => {
         events.forEach(event => {
-            console.log(event.schedules);
+            console.log(event.assignments);
         });
     });
     */
@@ -61,6 +62,8 @@ export const App = () => {
     const [examEventBoxClicked, setExamEventBoxClicked] = useState(false);
     const [scheduleEventBoxClicked, setScheduleEventBoxClicked] = useState(false);
 
+    //console.log(returnAssignments(currentDay));
+
     const [scheduleMap, setScheduleMap] = useState(
         localStorage.getItem('schedule') ? 
             hashMap(localStorage.schedule) : 
@@ -77,6 +80,27 @@ export const App = () => {
             new Map()
     );
 
+    const [events, setEvents] = useState([]);
+
+      useEffect(() => {
+        getAllEvents().then(events => {
+            //console.log(events)
+            setEvents(events)
+          });
+      }, [currentDay]);
+
+     const [newAssignment, setNewAssignment] = useState();
+
+     useEffect(() => {
+        events.forEach((event) => {
+            if (event.currdaystr == currentDay) {
+                setNewAssignment(event.assignments);
+            }
+        })
+      }, [events]);
+
+      console.log(newAssignment);
+   
     localStorage.schedule = setHashMap(scheduleMap);
     localStorage.exam = setHashMap(examMap);
     localStorage.assignment = setHashMap(assignmentMap);
