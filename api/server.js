@@ -33,7 +33,7 @@ app.put('/api/event', (req, res) => {
 });
 
 app.delete('/api/eventdel', (req, res) => {
-    eventController.deleteEvent(req.params.event).then(data => res.json(data));
+    eventController.deleteEvent(req.body.event).then(data => res.json(data));
 });
 
 app.get('/', (req, res) => {

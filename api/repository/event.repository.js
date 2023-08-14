@@ -61,7 +61,6 @@ class EventRepository {
             logger.error('Error::' + err);
         }
         return data;
-        return {status: `${data.deletedCount > 0 ? true : false}`};
     }
 
 }
