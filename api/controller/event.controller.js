@@ -4,8 +4,13 @@ const logger = require('../logger/api.logger');
 class TodoController {
 
     async getEvents() {
-        logger.info('Controller: getEvents')
+        logger.info('Controller: getEvents');
         return await eventService.getEvents();
+    }
+
+    async getEvent(dayStr) {
+        logger.info('Controller: getEvent', dayStr);
+        return await eventService.getEvent(dayStr);
     }
 
     async createEvent(event) {

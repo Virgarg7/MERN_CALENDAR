@@ -25,6 +25,21 @@ class EventRepository {
         }
     }
 
+    async getEvent(dayStr) {
+        try {
+            const events = await this.db.events.findAll({
+                where: {
+                    currdaystr: dayStr
+                }
+            });
+            console.log('events:::', event);
+            return events;
+        } catch (err) {
+            console.log(err);
+            return [];
+        }
+    }
+
     async createEvent(event) {
         let data = {};
         try {

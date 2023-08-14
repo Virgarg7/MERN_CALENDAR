@@ -8,6 +8,10 @@ class EventService {
         return await eventRepository.getEvents();
     }
 
+    async getEvent(dayStr) {
+        return await eventRepository.getEvent(dayStr);
+    }
+
     async createEvent(event) {
         return await eventRepository.createEvent(event);
     }

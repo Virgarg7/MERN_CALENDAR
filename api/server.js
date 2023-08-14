@@ -23,6 +23,10 @@ app.get('/api/events', (req, res) => {
     eventController.getEvents().then(data => res.json(data));
 });
 
+app.get('/api/getevent/:currdaystr', (req, res) => {
+    eventController.getEvent(req.params.currdaystr).then(data => res.json(data));
+});
+
 app.post('/api/event', (req, res) => {
     console.log(req.body);
     eventController.createEvent(req.body.event).then(data => res.json(data));
